@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/06 19:56:43 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/06 20:00:33 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void			ft_exit(t_structs *s, char *errormsg, int status);
 // ~~ signal.c
 void			sig_int(int sig);
 void			sig_quit(int sig);
-
 // ~~ parsing.c
 void			parsing(t_structs *s, char *line);
 int				is_wrong_char(char *line);
