@@ -6,7 +6,7 @@
 #    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/10/11 13:38:44 by pthomas          ###   ########lyon.fr    #
+#    Updated: 2021/10/11 13:42:20 by pthomas          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,10 +31,6 @@ SRCS		=	main.c			\
 				exit.c			\
 				signals.c		\
 				parsing.c		\
-				paths.c			\
-				pipex.c			\
-				redirections.c	\
-				builtins.c		\
 
 #~~~~ Objects ~~~~#
 

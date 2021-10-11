@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/11 13:35:07 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/11 14:50:57 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*get_file(char *line)
 
 	start = line;
 	quote = 0;
-	while (*line && (*line != ' ' || (*line == ' ' && quote)))
+	while (*line && ((*line != ' ' && *line != '<' && *line != '>' && *line != '|') || quote))
 	{
 		if ((*line == '"' || *line == '\'') && quote == 0)
 			quote = *line;
@@ -93,8 +93,18 @@ void	fill_cmd_struct(t_structs *s, char *line)
 			// else
 			// {
 			line++;
+			if (*line == '>')
+				line++;
 			skip_spaces(&line);
 			tmp = get_file(line);
+			if (!tmp[0])
+			{
+				write(2, "minishell: syntax error near unexpected token `", 48);
+				write(2, line, 1);
+				write(2, "'\n", 3);
+				free(tmp);
+				return ;
+			}
 			s->cmds[i].fd_in = open(tmp, O_RDONLY);
 			if (s->cmds[i].fd_in == -1)
 				ft_exit(s, "open", EXIT_FAILURE);
@@ -104,17 +114,22 @@ void	fill_cmd_struct(t_structs *s, char *line)
 		}
 		else if (*line == '>')
 		{
-			printf("%zu | %d\n", i, s->cmds[i].fd_out);
 			if (s->cmds[i].fd_out > -1 && close(s->cmds[i].fd_out) == -1)
-			{
 				ft_exit(s, "open", EXIT_FAILURE);
-			}
 			if (*(line + 1) == '>')
 			{
 				line += 2;
 				skip_spaces(&line);
 				tmp = get_file(line);
-				s->cmds[i].fd_out = open(tmp, O_CREAT | O_RDWR);
+				if (!tmp[0])
+				{
+					write(2, "minishell: syntax error near unexpected token `", 48);
+					write(2, line, 1);
+					write(2, "'\n", 3);
+					free(tmp);
+					return ;
+				}
+				s->cmds[i].fd_out = open(tmp, O_CREAT | O_RDWR, 0644);
 				if (s->cmds[i].fd_out == -1)
 					ft_exit(s, "open", EXIT_FAILURE);
 			}
@@ -123,7 +138,15 @@ void	fill_cmd_struct(t_structs *s, char *line)
 				line++;
 				skip_spaces(&line);
 				tmp = get_file(line);
-				s->cmds[i].fd_out = open(tmp, O_CREAT | O_RDWR | O_TRUNC);
+				if (!tmp[0])
+				{
+					write(2, "minishell: syntax error near unexpected token `", 48);
+					write(2, line, 1);
+					write(2, "'\n", 3);
+					free(tmp);
+					return ;
+				}
+				s->cmds[i].fd_out = open(tmp, O_CREAT | O_RDWR | O_TRUNC, 0644);
 				if (s->cmds[i].fd_out == -1)
 					ft_exit(s, "open", EXIT_FAILURE);
 			}
@@ -138,7 +161,6 @@ void	fill_cmd_struct(t_structs *s, char *line)
 		else if (*line)
 		{
 			tmp = get_cmd(line);
-			// ft_strjoin_f1(s->cmds[i].cmd[0], tmp);
 			line += ft_strlen(tmp);
 			free(tmp);
 		}
@@ -147,13 +169,15 @@ void	fill_cmd_struct(t_structs *s, char *line)
 
 //~~ Verifie les erreurs de syntax
 
-int	check_syntax_errors(char *line)
+int	check_syntax_errors(char *line, char *charset)
 {
 	char	quote;
 	char	last_char;
+	char	*tmp;
 
 	quote = 0;
 	last_char = 0;
+	tmp = 0;
 	skip_spaces(&line);
 	if (*line == '|')
 	{
@@ -162,30 +186,22 @@ int	check_syntax_errors(char *line)
 	}
 	while (*line)
 	{
+		if (*line != ' ')
+			last_char = *line;
 		if ((*line == '"' || *line == '\'') && quote == 0)
 			quote = *line;
 		else if (*line == quote)
 			quote = 0;
-		else if (*line == '|' && *(line + 1) == '|')
+		else if (ft_strchr(charset, *line) && *(line + 1) == *line && (*(line + 2) == *line || *line == '|'))
 		{
-			write(2, "minishell: syntax error near unexpected token `|'\n", 51);
+			write(2, "1minishell: syntax error near unexpected token `", 48);
+			write(2, line, 1);
+			write(2, "'\n", 3);
 			return (1);
 		}
-		else if (*line == '<' && *(line + 1) == '<' && *(line + 2) == '<')
-		{
-			write(2, "minishell: syntax error near unexpected token `<<'\n", 52);
-			return (1);
-		}
-		else if (*line == '>' && *(line + 1) == '>' && *(line + 2) == '>')
-		{
-			write(2, "minishell: syntax error near unexpected token `>>'\n", 52);
-			return (1);
-		}
-		if (*line != ' ')
-			last_char = *line;
 		line++;
 	}
-	if (last_char == '|' || last_char == '<' || last_char == '>')
+	if (ft_strchr(charset, last_char))
 	{
 		write(2, "minishell: syntax error near unexpected token `newline'\n", 57);
 		return (1);
@@ -230,6 +246,7 @@ void	init_cmds_struct(t_structs *s, char *line)
 	{
 		s->cmds[i].fd_in = -1;
 		s->cmds[i].cmd = NULL;
+		s->cmds[i].cmd = NULL;
 		s->cmds[i].path = NULL;
 		s->cmds[i].fd_out = -1;
 		s->cmds[i].pid = -1;
@@ -241,7 +258,7 @@ void	init_cmds_struct(t_structs *s, char *line)
 
 void	parsing(t_structs *s, char *line)
 {
-	if (check_syntax_errors(line))
+	if (!(*line) || check_syntax_errors(line, "<>|"))
 		return ;
 	init_cmds_struct(s, line);
 	replace_env_variables(s);
