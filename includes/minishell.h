@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/11 15:05:20 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/11 15:46:08 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,12 @@ void			replace_env_variables(t_structs *s);
 // ~~ parsing_utils.c
 void			init_cmds_struct(t_structs *s, char *line);
 size_t			nb_of_pipes(char *line);
-char			*get_file(char *line);
-char			*get_cmd(char *line);
 void			skip_spaces(char **line);
+// ~~ parsing_utils2.c
+int				get_command(t_structs *s, char **line, int i);
+int				get_outfile(t_structs *s, char **line, int i);
+int				get_infile(t_structs *s, char **line, int i);
+char			*get_args(char *line);
+char			*get_file(char *line);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 15:41:41 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/11 15:42:46 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/11 15:45:49 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*get_file(char *line)
 	return (ft_substr(start, 0, line - start));
 }
 
-char	*get_cmd(char *line)
+char	*get_args(char *line)
 {
 	char	*start;
 	char	quote;
@@ -115,7 +115,7 @@ int	get_command(t_structs *s, char **line, int i)
 	char	*tmp;
 
 	tmp = NULL;
-	tmp = get_cmd((*line));
+	tmp = get_args((*line));
 	if (!s->cmds[i].cmd)
 	{
 		s->cmds[i].cmd = malloc(sizeof(char *) * 2);
