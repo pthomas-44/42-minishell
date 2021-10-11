@@ -6,7 +6,7 @@
 #    By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/10/11 13:48:52 by mberne           ###   ########lyon.fr    #
+#    Updated: 2021/10/11 13:50:49 by mberne           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ PATH_OBJS	=	objs
 PATH_LIBFT	=	libft
 
 #~~~~ Sources ~~~~#
-
+ 
 SRCS		=	main.c			\
 				exit.c			\
 				signals.c		\

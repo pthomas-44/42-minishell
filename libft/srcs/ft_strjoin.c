@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 00:39:29 by pthomas           #+#    #+#             */
-/*   Updated: 2021/03/04 10:56:58 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/11 12:44:46 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ char	*ft_strjoin_f0(const char *s1, const char *s2)
 	i = 0;
 	j = 0;
 	if (!s1)
-		return ((char *)s2);
+		return (ft_strdup(s2));
 	if (!s2)
-		return ((char *)s1);
+		return (ft_strdup(s1));
 	l = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!l)
 		return (NULL);
@@ -45,9 +45,9 @@ char	*ft_strjoin_f1(const char *s1, const char *s2)
 	i = 0;
 	j = 0;
 	if (!s1)
-		return ((char *)s2);
+		return (ft_strdup(s2));
 	if (!s2)
-		return ((char *)s1);
+		return (ft_strdup(s1));
 	l = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!l)
 		return (NULL);
@@ -70,9 +70,9 @@ char	*ft_strjoin_f2(const char *s1, const char *s2)
 	i = 0;
 	j = 0;
 	if (!s1)
-		return ((char *)s2);
+		return (ft_strdup(s2));
 	if (!s2)
-		return ((char *)s1);
+		return (ft_strdup(s1));
 	l = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!l)
 		return (NULL);
@@ -95,9 +95,9 @@ char	*ft_strjoin_f3(const char *s1, const char *s2)
 	i = 0;
 	j = 0;
 	if (!s1)
-		return ((char *)s2);
+		return (ft_strdup(s2));
 	if (!s2)
-		return ((char *)s1);
+		return (ft_strdup(s1));
 	l = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!l)
 		return (NULL);

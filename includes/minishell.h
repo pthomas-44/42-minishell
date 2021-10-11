@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/11 13:45:00 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/11 13:50:43 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,17 @@ typedef struct s_cmd
 	pid_t		pid;
 }				t_cmd;
 
+typedef struct s_env
+{
+	char		*name;
+	char		*value;
+}				t_env;
+
 typedef struct s_structs
 {
 	t_cmd		*cmds;
 	size_t		cmds_size;
-	char		**env;
+	t_env		**env;
 }				t_structs;
 
 /*** ~~ PROTOTYPES ~~ ***/
@@ -71,7 +77,6 @@ void			sig_quit(int sig);
 // ~~ parsing.c
 void			parsing(t_structs *s, char *line);
 int				check_unclosed_quotes(char *line);
-void			fill_cmd_struct(t_structs *s, t_cmd *cmd, char *line);
 void			replace_env_variables(t_structs *s);
 // ~~ paths.c
 void			find_cmd_paths(t_structs *s, char **env);
