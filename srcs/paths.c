@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/11 11:19:26 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/11 11:48:51 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	find_cmd_paths(t_structs *s, char **env)
 		}
 		i++;
 	}
-	paths = ft_split(path + 5, ':');
 	free(path);
 	if (!paths)
 		ft_exit(s, "malloc", EXIT_FAILURE);
