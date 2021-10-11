@@ -6,7 +6,7 @@
 #    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/10/06 19:56:39 by pthomas          ###   ########lyon.fr    #
+#    Updated: 2021/10/07 12:24:43 by pthomas          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ PATH_LIBFT	=	libft
 #~~~~ Sources ~~~~#
 
 SRCS		=	main.c \
+				exit.c \
 				signals.c \
 				parsing.c
 

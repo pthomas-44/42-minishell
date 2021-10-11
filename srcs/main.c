@@ -6,24 +6,11 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:23:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/06 19:55:27 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/11 11:24:11 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	ft_exit(t_structs *s, char *errormsg, int status)
-{
-	if (status != EXIT_SUCCESS)
-		perror(errormsg);
-	else if (status == EXIT_SUCCESS)
-		write(1, "exit\n", 5);
-	else if (status == EXIT_MISSING)
-		write(1, errormsg, ft_strlen(errormsg));
-	free(s->cmds);
-	rl_clear_history();
-	exit(status);
-}
 
 //~~ La loop qui affiche le prompt et envoie l'entrée standard dans le parsing
 
@@ -53,10 +40,11 @@ void	prompt_loop(t_structs *s)
 
 //~~ Initialisation de la structure de controle
 
-void	init_struct(t_structs *s)
+void	init_control_struct(t_structs *s, char **env)
 {
 	ft_bzero(s, sizeof(t_structs));
 	s->cmds = NULL;
+	s->env = env;
 }
 
 int	main(int ac, char **av, char **env)
@@ -64,10 +52,9 @@ int	main(int ac, char **av, char **env)
 	t_structs	s;
 
 	(void)av;
-	(void)env;
 	if (ac != 1)
 		ft_exit(&s, "error: too many arguments\n", EXIT_MISSING);
-	init_struct(&s);
+	init_control_struct(&s, env);
 	prompt_loop(&s);
 	ft_exit(&s, "", 0);
 	return (0);
