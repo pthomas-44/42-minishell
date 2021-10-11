@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 13:00:45 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/11 11:48:53 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/11 13:49:31 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,35 +35,35 @@ pid_t	launch_command(t_structs *s, int in, int out, int i)
 	return (pid);
 }
 
-void	pipex(t_structs *s)
-{
-	int			pipefd[2];
-	int			in;
-	int			i;
+// void	pipex(t_structs *s)
+// {
+// 	int			pipefd[2];
+// 	int			in;
+// 	int			i;
 
-	in = s->fdin;
-	i = 0;
-	while (i < s->num_cmd - 1)
-	{
-		if (pipe(pipefd) == -1)
-			ft_exit(s, "pipe", EXIT_FAILURE);
-		s->cmds[i].pid = launch_command(s, in, pipefd[1], i);
-		in = pipefd[0];
-		i++;
-	}
-	s->cmds[i].pid = launch_command(s, in, s->fdout, i);
-	i = 0;
-	while (i < s->num_cmd)
-	{
-		if (waitpid(s->cmds[i].pid, NULL, WUNTRACED) == -1)
-			ft_exit(s, "waitpid", EXIT_FAILURE);
-		i++;
-	}
-}
+// 	in = s->fd_in;
+// 	i = 0;
+// 	while (i < s->cmds_size - 1)
+// 	{
+// 		if (pipe(pipefd) == -1)
+// 			ft_exit(s, "pipe", EXIT_FAILURE);
+// 		s->cmds[i].pid = launch_command(s, in, pipefd[1], i);
+// 		in = pipefd[0];
+// 		i++;
+// 	}
+// 	s->cmds[i].pid = launch_command(s, in, s->fd_out, i);
+// 	i = 0;
+// 	while (i < s->cmds_size)
+// 	{
+// 		if (waitpid(s->cmds[i].pid, NULL, WUNTRACED) == -1)
+// 			ft_exit(s, "waitpid", EXIT_FAILURE);
+// 		i++;
+// 	}
+// }
 
 // int pipe_fd[2]
 
-// while (i < s->num_cmd - 1)
+// while (i < s->cmds_size - 1)
 // {
 // 	if (cmd[i].fd_in > 0)
 // 		dup2(cmd[i].fd_in, STDIN);

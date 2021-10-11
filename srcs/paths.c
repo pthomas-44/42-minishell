@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/11 11:48:51 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/11 13:48:15 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	find_good_path(t_structs *s, char **paths)
 	char	*tmp_path;
 
 	i = -1;
-	while (++i < s->num_cmd)
+	while (++i < s->cmds_size)
 	{
 		j = -1;
 		while (paths[++j])
@@ -51,7 +51,7 @@ void	set_paths(t_structs *s, char **paths)
 		paths[i] = ft_strjoin_f1(paths[i], "/");
 		if (!paths[i])
 		{
-			// free_tab(paths, 0);
+			free_tab(paths, 0);
 			ft_exit(s, "malloc", EXIT_FAILURE);
 		}
 		i++;
@@ -75,6 +75,7 @@ void	find_cmd_paths(t_structs *s, char **env)
 		}
 		i++;
 	}
+	paths = ft_split(path + 5, ':');
 	free(path);
 	if (!paths)
 		ft_exit(s, "malloc", EXIT_FAILURE);

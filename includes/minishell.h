@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/11 11:25:05 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/11 13:45:00 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,18 @@ void			parsing(t_structs *s, char *line);
 int				check_unclosed_quotes(char *line);
 void			fill_cmd_struct(t_structs *s, t_cmd *cmd, char *line);
 void			replace_env_variables(t_structs *s);
+// ~~ paths.c
+void			find_cmd_paths(t_structs *s, char **env);
+void			set_paths(t_structs *s, char **paths);
+void			find_good_path(t_structs *s, char **paths);
+// ~~ pipex.c
+void			pipex(t_structs *s);
+pid_t			launch_command(t_structs *s, int in, int out, int i);
+// ~~ builtins.c
+void			ft_echo(t_structs *s, int option, int out);
+// ~~ pwd.c
+void			ft_pwd(t_structs *s, int out);
+int				set_oldpwd(t_structs *s);
+void			set_pwd(t_structs *s, int index_pwd);
 
 #endif

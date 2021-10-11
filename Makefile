@@ -6,7 +6,7 @@
 #    By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/10/11 11:57:31 by mberne           ###   ########lyon.fr    #
+#    Updated: 2021/10/11 13:48:52 by mberne           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,8 +33,8 @@ SRCS		=	main.c			\
 				parsing.c		\
 				paths.c			\
 				pipex.c			\
-				redirections.c	\
 				builtins.c		\
+				pwd.c			\
 
 #~~~~ Objects ~~~~#
 
