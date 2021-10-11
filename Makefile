@@ -6,7 +6,7 @@
 #    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/10/11 13:42:20 by pthomas          ###   ########lyon.fr    #
+#    Updated: 2021/10/11 15:04:11 by pthomas          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRCS		=	main.c			\
 				exit.c			\
 				signals.c		\
 				parsing.c		\
+				parsing_utils.c	\
 
 #~~~~ Objects ~~~~#
 
