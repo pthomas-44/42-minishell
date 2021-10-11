@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/11 15:46:08 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/11 15:46:38 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void			sig_int(int sig);
 void			sig_quit(int sig);
 // ~~ parsing.c
 void			parsing(t_structs *s, char *line);
-int				check_unclosed_quotes(char *line);
+int				check_syntax_errors(char *line, char *charset);
 void			replace_env_variables(t_structs *s);
 // ~~ parsing_utils.c
 void			init_cmds_struct(t_structs *s, char *line);
