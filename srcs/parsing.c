@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/11 11:32:16 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/11 11:49:03 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	fill_cmd_struct(t_structs *s, t_cmd *cmds, char *line)
 		skip_spaces(&line);
 		if (*line == '<')
 		{
-			if (cmds[i].fd_in && close(cmds[i].fd_in) == -1)
+			if (cmds[i].fd_in > -1 && close(cmds[i].fd_in) == -1)
 				ft_exit(s, "open", EXIT_FAILURE);
 			// if (*(line + 1) == '<')
 			// {
@@ -107,7 +107,7 @@ void	fill_cmd_struct(t_structs *s, t_cmd *cmds, char *line)
 		}
 		else if (*line == '>')
 		{
-			if (cmds[i].fd_out && close(cmds[i].fd_out) == -1)
+			if (cmds[i].fd_out > -1 && close(cmds[i].fd_out) == -1)
 				ft_exit(s, "open", EXIT_FAILURE);
 			if (*(line + 1) == '>')
 			{
@@ -136,7 +136,6 @@ void	fill_cmd_struct(t_structs *s, t_cmd *cmds, char *line)
 			line += ft_strlen(tmp);
 			free(tmp);
 		}
-		printf("%s\n", line);
 	}
 }
 
@@ -236,7 +235,8 @@ void	parsing(t_structs *s, char *line)
 	if (check_unclosed_quotes(line) || check_empty_pipes(line))
 		return ;
 	replace_env_variables(s);
-	fill_cmd_struct(s, s->cmds, line);
+	// fill_cmd_struct(s, s->cmds, line);
+	printf("%s\n", line);
 	//execution
 	free(s->cmds);
 }
