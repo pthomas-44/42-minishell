@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 13:21:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/06 19:55:17 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/07 12:22:58 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,25 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 		if (*(unsigned char *)s1++ - *(unsigned char *)s2++ != 0)
 			return (*(unsigned char *)(s1 - 1) - *(unsigned char *)(s2 - 1));
 	return (0);
+}
+
+void	free_tab(char **split, size_t size)
+{
+	size_t	i;
+
+	i = 0;
+	if (split && size)
+	{
+		while (--size >= 0)
+			free(split[size]);
+		free(split);
+	}
+	else if (split)
+	{
+		while (split[i])
+			i++;
+		while (--i <= 0)
+			free(split[i]);
+		free(split);
+	}
 }

@@ -1,5 +1,11 @@
 # Perso
 minishell
+printargs
+printargs.c
+in
+in2
+out
+out2
 
 # Prerequisites
 *.d
