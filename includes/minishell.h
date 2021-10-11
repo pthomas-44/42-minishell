@@ -6,7 +6,11 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/10/11 13:50:43 by mberne           ###   ########lyon.fr   */
+=======
+/*   Updated: 2021/10/11 13:55:17 by pthomas          ###   ########lyon.fr   */
+>>>>>>> 2eaaacd39156b9d3f1068e0da5e96a62d30d71a2
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +56,7 @@ typedef struct s_env
 {
 	char		*name;
 	char		*value;
+	void		*next;
 }				t_env;
 
 typedef struct s_structs
