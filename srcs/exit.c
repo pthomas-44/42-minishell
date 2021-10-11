@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:24:04 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/11 11:44:08 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/11 12:47:43 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,14 @@ void	free_cmds_struct(t_structs *s)
 	size_t	i;
 
 	i = 0;
-	while (i < s->cmds_size)
+	while (s->cmds && i < s->cmds_size)
 	{
 		free_tab(s->cmds[i].cmd, 0);
 		free(s->cmds[i].path);
 		i++;
 	}
 	free(s->cmds);
+	s->cmds = NULL;
 }
 
 //~~ Affiche les message d'erreur et free la memoire allouee
