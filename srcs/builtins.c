@@ -6,47 +6,53 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/11 13:55:43 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/13 10:31:21 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_echo(t_structs *s, int option, int out)
+void	ft_echo(t_cmd current)
 {
-	int	i;
+	size_t	i;
+	int		option;
 
-	if (!option)
-		i = 1;
-	else
-		i = 2;
-	while (s->cmds[2].cmd[i])
+	i = 1;
+	option = 0;
+	if (!ft_strncmp(current.cmd[1], "-n", 3))
 	{
-		write(out, s->cmds[2].cmd[i], ft_strlen(s->cmds[2].cmd[i]));
+		i = 2;
+		option = 1;
+	}
+	while (current.cmd[i])
+	{
+		write(current.fd_out, current.cmd[i], ft_strlen(current.cmd[i]));
+		write(current.fd_out, " ", 1);
 		i++;
 	}
 	if (!option)
-		write(out, "\n", 1);
+		write(current.fd_out, "\n", 1);
 }
 
-void	ft_cd(t_structs *s, char *path)
+void	ft_pwd(t_cmd current)
 {
-	if (chdir(path) == -1)
-		ft_exit(s, "chdir", EXIT_FAILURE);
-	// changer le dolpwd et le pwd
+	char	cwd[MAXPATHLEN];
+
+	getcwd(cwd, MAXPATHLEN);
+	write(current.fd_out, cwd, ft_strlen(cwd));
+	write(current.fd_out, "\n", 1);
 }
 
-void	ft_export(t_structs *s)
+void	ft_env(t_structs *s, t_cmd current)
 {
-	(void)s;
-}
+	t_env	*env;
 
-void	ft_unset(t_structs *s)
-{
-	(void)s;
-}
-
-void	ft_env(t_structs *s)
-{
-	(void)s;
+	env = *s->env;
+	while (env)
+	{
+		write(current.fd_out, env->name, ft_strlen(env->name));
+		write(current.fd_out, env->value, ft_strlen(env->value));
+		write(current.fd_out, "\n", 1);
+		env = env->next;
+	}
 }

@@ -6,7 +6,7 @@
 #    By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/10/11 13:50:49 by mberne           ###   ########lyon.fr    #
+#    Updated: 2021/10/13 10:34:47 by mberne           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,14 +27,16 @@ PATH_LIBFT	=	libft
 
 #~~~~ Sources ~~~~#
  
-SRCS		=	main.c			\
-				exit.c			\
-				signals.c		\
-				parsing.c		\
-				paths.c			\
-				pipex.c			\
-				builtins.c		\
-				pwd.c			\
+SRCS		=	main.c				\
+				exit.c				\
+				signals.c			\
+				parsing.c			\
+				paths.c				\
+				pipex.c				\
+				builtins.c			\
+				builtin_cd.c		\
+				builtin_export.c	\
+				builtin_unset.c		\
 
 #~~~~ Objects ~~~~#
 
