@@ -6,7 +6,7 @@
 #    By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/10/13 10:34:47 by mberne           ###   ########lyon.fr    #
+#    Updated: 2021/10/13 10:45:01 by mberne           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRCS		=	main.c				\
 				exit.c				\
 				signals.c			\
 				parsing.c			\
+				parsing_utils.c		\
 				paths.c				\
 				pipex.c				\
 				builtins.c			\
