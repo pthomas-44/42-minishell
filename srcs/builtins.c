@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/13 10:31:21 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/13 15:41:10 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_echo(t_cmd current)
 
 	i = 1;
 	option = 0;
-	if (!ft_strncmp(current.cmd[1], "-n", 3))
+	if (!ft_strcmp(current.cmd[1], "-n"))
 	{
 		i = 2;
 		option = 1;
@@ -50,9 +50,12 @@ void	ft_env(t_structs *s, t_cmd current)
 	env = *s->env;
 	while (env)
 	{
-		write(current.fd_out, env->name, ft_strlen(env->name));
-		write(current.fd_out, env->value, ft_strlen(env->value));
-		write(current.fd_out, "\n", 1);
+		if (env->value)
+		{
+			write(current.fd_out, env->name, ft_strlen(env->name));
+			write(current.fd_out, env->value, ft_strlen(env->value));
+			write(current.fd_out, "\n", 1);
+		}
 		env = env->next;
 	}
 }

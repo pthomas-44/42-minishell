@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 13:00:45 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/13 10:39:03 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/13 13:29:05 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	pipex(t_structs *s)
 {
 	int			pipefd[2];
 	int			in;
-	int			i;
+	size_t		i;
 
 	i = 0;
 	in = s->cmds[i].fd_in;

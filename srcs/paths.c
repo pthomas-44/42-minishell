@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/13 10:45:20 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/13 15:41:25 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	find_cmd_paths(t_structs *s)
 	tmp = *s->env;
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp->name, "PATH", 5))
+		if (!ft_strcmp(tmp->name, "PATH"))
 			break ;
 		tmp = tmp->next;
 	}

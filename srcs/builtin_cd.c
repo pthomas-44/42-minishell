@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/13 10:30:19 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/13 15:40:50 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ t_env	*set_oldpwd(t_structs *s)
 	pwd = *s->env;
 	while (pwd)
 	{
-		if (!ft_strncmp(pwd->name, "PWD", 4))
+		if (!ft_strcmp(pwd->name, "PWD"))
 		{
 			old_pwd = pwd;
 			while (old_pwd)
 			{
-				if (!ft_strncmp(old_pwd->name, "OLDPWD", 7))
+				if (!ft_strcmp(old_pwd->name, "OLDPWD"))
 				{
 					// old_pwd->value = NULL; ??
 					old_pwd->value = ft_strdup(pwd->value);
