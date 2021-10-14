@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/13 16:57:23 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/14 13:56:35 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 
 # define EXIT_MISSING 2
 # define PROMPT "minishell $> "
+# define HEREDOC_PROMPT "> "
 
 /*** ~~ STRUCTURES ~~ ***/
 
@@ -74,7 +75,11 @@ void			ft_exit(t_structs *s, char *errormsg, int status);
 // ~~ exit.c
 void			free_cmds_struct(t_structs *s);
 void			ft_exit(t_structs *s, char *errormsg, int status);
-
+// ~~ env_list.c
+void			env_init(t_structs *s, char **env);
+void			env_new(t_structs *s);
+void			env_del(t_structs *s);
+void			env_clear(t_structs *s);
 // ~~ signal.c
 void			sig_int(int sig);
 void			sig_quit(int sig);
@@ -82,16 +87,22 @@ void			sig_quit(int sig);
 void			parsing(t_structs *s, char *line);
 int				check_syntax_errors(char *line, char *charset);
 void			replace_env_variables(t_structs *s);
-// ~~ parsing_utils.c
+int				fill_cmd_struct(t_structs *s, char *line);
+int				heredoc_handler(t_structs *s, char *stop, int i);
+// ~~ parsing_utils1.c
 void			init_cmds_struct(t_structs *s, char *line);
 size_t			nb_of_pipes(char *line);
 void			skip_spaces(char **line);
+int				check_successive_operators(char **line, char *charset);
+int				syntax_loop(char *line, char *charset,
+					char *quote, char *last_char);
 // ~~ parsing_utils2.c
+// ~~ parsing_utils3.c
 int				get_command(t_structs *s, char **line, int i);
 int				get_outfile(t_structs *s, char **line, int i);
 int				get_infile(t_structs *s, char **line, int i);
-char			*get_args(char *line);
-char			*get_file(char *line);
+char			*get_args(char *line, bool is_file);
+char			*heredoc_loop(char *stop);
 // ~~ paths.c
 void			find_cmd_paths(t_structs *s);
 void			set_paths(t_structs *s, char **paths);

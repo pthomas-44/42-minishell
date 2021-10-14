@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+         #
+#    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/10/13 13:33:31 by mberne           ###   ########lyon.fr    #
+#    Updated: 2021/10/14 13:58:34 by pthomas          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,16 +29,18 @@ PATH_LIBFT	=	libft
  
 SRCS		=	main.c				\
 				exit.c				\
+				env_list.c			\
 				signals.c			\
 				parsing.c			\
-				parsing_utils.c		\
+				parsing_utils1.c	\
 				parsing_utils2.c	\
+				parsing_utils3.c	\
 				paths.c				\
 				pipex.c				\
 				builtins.c			\
 				builtin_cd.c		\
 				builtin_export.c	\
-				builtin_unset.c		\
+				builtin_unset.c
 
 #~~~~ Objects ~~~~#
 
