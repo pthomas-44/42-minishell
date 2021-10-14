@@ -6,21 +6,64 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/13 16:57:16 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/14 14:01:17 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	print_export(t_structs *s)
+void	index_list(t_structs *s)
 {
 	(void)s;
 }
 
+void	print_export(t_structs *s)
+{
+	size_t	i;
+	t_env	*current;
+
+	index_list(s);
+	i = 0;
+	while (i < s->env_size)
+	{
+		current = *s->env;
+		while (current)
+		{
+			if (i = current->index)
+			{
+				// write "declare -x "
+				// write name
+				// write "=""
+				// write value + 1
+				// write ""\n"
+				break ;
+			}
+			current = current->next;
+		}
+		i++;
+	}
+}
+
 void	create_env_variable(t_structs *s, char *current)
 {
-	(void)s;
-	(void)current;
+	t_env	*new;
+
+	new = malloc(sizeof(t_env));
+	if (!new)
+		ft_exit(s, "malloc", EXIT_FAILURE);
+	// new->name = ;
+	// new->value = ;
+	new->index = s->env_size + 1;
+	s->env_size++;
+	new->next = NULL;
+	if (!(*s->env))
+		*s->env = new;
+	else
+	{
+		while ((*s->env)->next)
+			*s->env = (*s->env)->next;
+		*s->env = new;
+	}
 }
 
 void	update_env_variable(char *current, t_env *env)
