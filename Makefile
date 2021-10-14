@@ -3,14 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+         #
+#    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2021/10/14 13:52:08 by pthomas          ###   ########lyon.fr    #
-=======
-#    Updated: 2021/10/13 13:33:31 by mberne           ###   ########lyon.fr    #
->>>>>>> 415341597c5a6736a63e154b7e08efbee0e97029
+#    Updated: 2021/10/14 13:58:34 by pthomas          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +40,7 @@ SRCS		=	main.c				\
 				builtins.c			\
 				builtin_cd.c		\
 				builtin_export.c	\
-				builtin_unset.c		
+				builtin_unset.c
 
 #~~~~ Objects ~~~~#
 
