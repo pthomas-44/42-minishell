@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/11 13:41:48 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/13 15:41:25 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	find_good_path(t_structs *s, char **paths)
 {
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
 	char	*tmp_path;
 
 	i = -1;
@@ -35,6 +35,7 @@ void	find_good_path(t_structs *s, char **paths)
 					free(tmp_path);
 					ft_exit(s, "malloc", EXIT_FAILURE);
 				}
+				break ;
 			}
 			free(tmp_path);
 		}
@@ -43,7 +44,7 @@ void	find_good_path(t_structs *s, char **paths)
 
 void	set_paths(t_structs *s, char **paths)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (paths[i])
@@ -51,31 +52,26 @@ void	set_paths(t_structs *s, char **paths)
 		paths[i] = ft_strjoin_f1(paths[i], "/");
 		if (!paths[i])
 		{
-			// free_tab(paths, 0);
+			free_tab(paths, 0);
 			ft_exit(s, "malloc", EXIT_FAILURE);
 		}
 		i++;
 	}
 }
 
-void	find_cmd_paths(t_structs *s, char **env)
+void	find_cmd_paths(t_structs *s)
 {
-	int		i;
-	char	*path;
 	char	**paths;
+	t_env	*tmp;
 
-	i = 0;
-	while (env[i])
+	tmp = *s->env;
+	while (tmp)
 	{
-		if (!ft_strncmp(env[i], "PATH=", 5))
-		{
-			path = ft_strdup(env[i]);
-			if (!path)
-				ft_exit(s, "malloc", EXIT_FAILURE);
-		}
-		i++;
+		if (!ft_strcmp(tmp->name, "PATH"))
+			break ;
+		tmp = tmp->next;
 	}
-	free(path);
+	paths = ft_split(tmp->value, ':');
 	if (!paths)
 		ft_exit(s, "malloc", EXIT_FAILURE);
 	set_paths(s, paths);
