@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/14 14:25:25 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/14 14:25:59 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ void			free_cmds_struct(t_structs *s);
 void			ft_exit(t_structs *s, char *errormsg, int status);
 // ~~ env_list.c
 void			env_init(t_structs *s, char **env);
-void			env_new(t_structs *s);
-void			env_del(t_structs *s);
+void			env_new(t_structs *s, char *var);
+void			env_del(t_structs *s, t_env *elem);
 void			env_clear(t_structs *s);
 // ~~ signal.c
 void			sig_int(int sig);
