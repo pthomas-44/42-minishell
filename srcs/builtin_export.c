@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/14 14:01:17 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/14 14:24:54 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,29 @@ void	index_list(t_structs *s)
 	(void)s;
 }
 
-void	print_export(t_structs *s)
+void	print_export(t_structs *s, t_cmd current)
 {
 	size_t	i;
-	t_env	*current;
+	t_env	*env;
 
 	index_list(s);
 	i = 0;
 	while (i < s->env_size)
 	{
-		current = *s->env;
-		while (current)
+		env = *s->env;
+		while (env)
 		{
-			if (i = current->index)
+			if (i == env->index)
 			{
-				// write "declare -x "
-				// write name
-				// write "=""
-				// write value + 1
-				// write ""\n"
+				write(current.fd_out, "declare -x ", 11);
+				write(current.fd_out, env->name, ft_strlen(env->name));
+				write(current.fd_out, "=\"", 2);
+				write(current.fd_out, env->value + 1,
+					ft_strlen(env->value) - 1);
+				write(current.fd_out, "\"\n", 2);
 				break ;
 			}
-			current = current->next;
+			env = env->next;
 		}
 		i++;
 	}
@@ -105,5 +106,5 @@ void	ft_export(t_structs *s, t_cmd current)
 		}
 	}
 	else
-		print_export(s);
+		print_export(s, current);
 }

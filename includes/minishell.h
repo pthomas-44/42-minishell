@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/14 13:56:35 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/14 14:25:25 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,8 @@ void			set_pwd(t_structs *s, t_env *pwd);
 void			ft_export(t_structs *s, t_cmd current);
 void			update_env_variable(char *current, t_env *env);
 void			create_env_variable(t_structs *s, char *current);
-void			print_export(t_structs *s);
+void			print_export(t_structs *s, t_cmd current);
+void			index_list(t_structs *s);
 // ~~ builtin_unset.c
 void			ft_unset(t_structs *s, t_cmd current);
 
