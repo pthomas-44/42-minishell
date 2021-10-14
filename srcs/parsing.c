@@ -6,14 +6,37 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/11 15:43:01 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/14 13:42:00 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-
 //~~ Remplis la structure t_cmd avec les donnees de line
+
+int	heredoc_handler(t_structs *s, char *stop, int i)
+{
+	int		pipe_fd[2];
+	char	*content;
+
+	content = heredoc_loop(stop);
+	if (!content)
+		return (-1);
+	pipe(pipe_fd);
+	if (pipe_fd[0] == -1 || pipe_fd[1] == -1)
+	{
+		perror("pipe");
+		return (-1);
+	}
+	write(pipe_fd[STDOUT_FILENO], content, ft_strlen(content));
+	if (close(pipe_fd[STDIN_FILENO]) == -1)
+	{
+		perror("close");
+		return (-1);
+	}
+	s->cmds[i].fd_in = pipe_fd[1];
+	return (0);
+}
 
 int	fill_cmd_struct(t_structs *s, char *line)
 {
@@ -30,13 +53,12 @@ int	fill_cmd_struct(t_structs *s, char *line)
 		else if (*line == '|')
 		{
 			line++;
-			printf("%s\n", s->cmds[i].cmd[0]);
 			i++;
 		}
 		else if (*line && get_command(s, &line, i) == -1)
 			return (-1);
 	}
-	printf("%s\n", s->cmds[i].cmd[0]);
+	//split_quotes
 	return (0);
 }
 
@@ -46,31 +68,6 @@ void	replace_env_variables(t_structs *s)
 {
 	(void)s;
 	return ;
-}
-
-int	syntax_loop(char *line, char *charset, char *quote, char *last_char)
-{
-	*quote = 0;
-	*last_char = 0;
-	while (*line)
-	{
-		if (*line != ' ')
-			*last_char = *line;
-		if ((*line == '"' || *line == '\'') && *quote == 0)
-			*quote = *line;
-		else if (*line == *quote)
-			*quote = 0;
-		else if (ft_strchr(charset, *line) && *quote == 0
-			&& *(line + 1) == *line && (*(line + 2) == *line || *line == '|'))
-		{
-			write(2, "1minishell: syntax error near unexpected token `", 48);
-			write(2, line, 1);
-			write(2, "'\n", 3);
-			return (1);
-		}
-		line++;
-	}
-	return (0);
 }
 
 //~~ Verifie les erreurs de syntax
@@ -86,15 +83,15 @@ int	check_syntax_errors(char *line, char *charset)
 		write(2, "minishell: syntax error near unexpected token `|'\n", 51);
 		return (1);
 	}
-	if (syntax_loop(line, charset, &quote, &last_char))
+	if (*line && syntax_loop(line, charset, &quote, &last_char))
 		return (1);
-	if (ft_strchr(charset, last_char))
+	if (*line && ft_strchr(charset, last_char))
 	{
 		write(2, "minishell: syntax error near \
 unexpected token `newline'\n", 57);
 		return (1);
 	}
-	if (quote)
+	if (*line && quote)
 	{
 		write(2, "minishell: unclosed quotes\n", 28);
 		return (1);

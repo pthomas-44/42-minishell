@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 16:00:37 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/07 12:23:18 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/12 18:02:05 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ int			ft_to_upper(int c);
 int			ft_to_lower(int c);
 int			ft_framing(int min, int nb, int max);
 float		ft_framingf(float min, float nb, float max);
-
 // ~~ ft_strmodif.c
 size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t		ft_strlcat(char *dst, const char *src, size_t dstsize);
@@ -103,7 +102,10 @@ char		*ft_strjoin_f0(char const *s1, char const *s2);
 char		*ft_strjoin_f1(const char *s1, const char *s2);
 char		*ft_strjoin_f2(const char *s1, const char *s2);
 char		*ft_strjoin_f3(const char *s1, const char *s2);
+// ~~ ft_split.c
 char		**ft_split(char const *s, char c);
+// ~~ ft_split_quotes.c
+char		**ft_split_quotes(char const *s, char c);
 // ~~ ft_strput.c
 void		ft_putchar_fd(char c, int fd);
 void		ft_putstr_fd(char *s, int fd);

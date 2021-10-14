@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/11 15:46:38 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/14 13:50:42 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <signal.h>
 # include <sys/types.h>
 # include <sys/select.h>
+# include <sys/param.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <dirent.h>
@@ -36,6 +37,7 @@
 
 # define EXIT_MISSING 2
 # define PROMPT "minishell $> "
+# define HEREDOC_PROMPT "> "
 
 /*** ~~ STRUCTURES ~~ ***/
 
@@ -52,6 +54,7 @@ typedef struct s_env
 {
 	char		*name;
 	char		*value;
+	size_t		index;
 	void		*next;
 }				t_env;
 
@@ -60,6 +63,7 @@ typedef struct s_structs
 	t_cmd		*cmds;
 	size_t		cmds_size;
 	t_env		**env;
+	size_t		env_size;
 }				t_structs;
 
 /*** ~~ PROTOTYPES ~~ ***/
@@ -71,7 +75,11 @@ void			ft_exit(t_structs *s, char *errormsg, int status);
 // ~~ exit.c
 void			free_cmds_struct(t_structs *s);
 void			ft_exit(t_structs *s, char *errormsg, int status);
-
+// ~~ env_list.c
+void			env_init(t_structs *s, char **env);
+void			env_new(t_structs *s);
+void			env_del(t_structs *s);
+void			env_clear(t_structs *s);
 // ~~ signal.c
 void			sig_int(int sig);
 void			sig_quit(int sig);
@@ -79,15 +87,43 @@ void			sig_quit(int sig);
 void			parsing(t_structs *s, char *line);
 int				check_syntax_errors(char *line, char *charset);
 void			replace_env_variables(t_structs *s);
-// ~~ parsing_utils.c
+int				fill_cmd_struct(t_structs *s, char *line);
+int				heredoc_handler(t_structs *s, char *stop, int i);
+// ~~ parsing_utils1.c
 void			init_cmds_struct(t_structs *s, char *line);
 size_t			nb_of_pipes(char *line);
 void			skip_spaces(char **line);
+int				check_successive_operators(char **line, char *charset);
+int				syntax_loop(char *line, char *charset,
+					char *quote, char *last_char);
 // ~~ parsing_utils2.c
+// ~~ parsing_utils3.c
 int				get_command(t_structs *s, char **line, int i);
 int				get_outfile(t_structs *s, char **line, int i);
 int				get_infile(t_structs *s, char **line, int i);
-char			*get_args(char *line);
-char			*get_file(char *line);
+char			*get_args(char *line, bool is_file);
+char			*heredoc_loop(char *stop);
+// ~~ paths.c
+void			find_cmd_paths(t_structs *s);
+void			set_paths(t_structs *s, char **paths);
+void			find_good_path(t_structs *s, char **paths);
+// ~~ pipex.c
+void			pipex(t_structs *s);
+void			launch_command(t_structs *s, int in, int out, int i);
+// ~~ builtins.c
+void			ft_echo(t_cmd current);
+void			ft_pwd(t_cmd current);
+void			ft_env(t_structs *s, t_cmd current);
+// ~~ builtin_cd.c
+void			ft_cd(t_structs *s, t_cmd current);
+t_env			*set_oldpwd(t_structs *s);
+void			set_pwd(t_structs *s, t_env *pwd);
+// ~~ builtin_export.c
+void			ft_export(t_structs *s, t_cmd current);
+void			update_env_variable(char *current, t_env *env);
+void			create_env_variable(t_structs *s, char *current);
+void			print_export(t_structs *s);
+// ~~ builtin_unset.c
+void			ft_unset(t_structs *s, t_cmd current);
 
 #endif
