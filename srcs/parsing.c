@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 11:42:51 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 12:05:39 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,10 @@ int	fill_cmd_struct(t_structs *s, char *line)
 		else if (*line == '|')
 		{
 			line++;
+			if (s->cmds[i].fd_in == -1)
+				s->cmds[i].fd_in = 0;
+			if (s->cmds[i].fd_out == -1)
+				s->cmds[i].fd_in = 1;
 			i++;
 		}
 		else if (*line && get_command(s, &line, i) == -1)
@@ -64,10 +68,24 @@ int	fill_cmd_struct(t_structs *s, char *line)
 
 //~~ Remplace les variables d'environnement pas leurs valeurs
 
-void	replace_env_variables(t_structs *s)
+char	*replace_env_variables(t_structs *s, char *line)
 {
 	(void)s;
-	return ;
+	(void)line;
+	// char	*value;
+	// size_t	i;
+
+	// i = 0;
+	// while (line && line[i])
+	// {
+	// 	if (line[i] == '$' && line[i + 1] != ' ')
+	// 	{
+	// 		value = find_value(&line[i + 1]);
+			
+	// 	}
+	// 	line++;
+	// }
+	return (line);
 }
 
 //~~ Verifie les erreurs de syntax
@@ -109,7 +127,9 @@ void	parsing(t_structs *s, char *line)
 	if (!(*line) || check_syntax_errors(line, "<>|"))
 		return ;
 	init_cmds_struct(s, line);
-	replace_env_variables(s);
+	line = replace_env_variables(s, line);
+	if (!line)
+		return ;
 	if (fill_cmd_struct(s, line) == -1)
 	{
 		free_cmds_struct(s);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 11:13:44 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 12:06:21 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void			ft_exit(t_structs *s, char *errormsg, int status);
 void			free_cmds_struct(t_structs *s);
 void			ft_exit(t_structs *s, char *errormsg, int status);
 // ~~ env_list.c
-void			env_init(t_structs *s, char **env);
 void			env_new(t_structs *s, char *var);
 void			env_del(t_structs *s, t_env *elem);
 void			env_clear(t_structs *s);
@@ -86,7 +85,7 @@ void			sig_quit(int sig);
 // ~~ parsing.c
 void			parsing(t_structs *s, char *line);
 int				check_syntax_errors(char *line, char *charset);
-void			replace_env_variables(t_structs *s);
+char			*replace_env_variables(t_structs *s, char *line);
 int				fill_cmd_struct(t_structs *s, char *line);
 int				heredoc_handler(t_structs *s, char *stop, int i);
 // ~~ parsing_utils1.c
