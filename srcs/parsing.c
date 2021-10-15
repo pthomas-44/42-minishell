@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 17:45:45 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 17:46:16 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	check_syntax_errors(char *line, char *charset)
 	}
 	if (*line && syntax_loop(line, charset, &quote, &last_char))
 		return (1);
-	if (*line && ft_strchr(charset, last_char)) // pipe de fin ?
+	if (*line && ft_strchr(charset, last_char))
 	{
 		write(2, "minishell: syntax error near \
 unexpected token `newline'\n", 57);
