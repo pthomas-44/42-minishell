@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:23:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 10:23:04 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 11:08:33 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,27 +38,13 @@ void	prompt_loop(t_structs *s)
 	ft_exit(s, "", EXIT_SUCCESS);
 }
 
-void	print_env(t_structs *s)
-{
-	t_env	*current;
-
-	current = *s->env;
-	while (current->next)
-	{
-		printf("|%s|%s|\n", current->name, current->value);
-		current = current->next;
-	}
-}
-
 //~~ Initialisation de la structure de controle
 
 void	init_control_struct(t_structs *s, char **env)
 {
-	(void)env;
 	ft_bzero(s, sizeof(t_structs));
 	s->cmds = NULL;
 	env_init(s, env);
-	print_env(s);
 }
 
 int	main(int ac, char **av, char **env)
