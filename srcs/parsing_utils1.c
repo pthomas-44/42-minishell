@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:54:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 17:50:48 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 19:45:41 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	init_cmds_struct(t_structs *s, char *line)
 		s->cmds[i].cmd = NULL;
 		s->cmds[i].path = NULL;
 		s->cmds[i].fd_out = 1;
-		s->cmds[i].pid = -1;
 		i++;
 	}
 }

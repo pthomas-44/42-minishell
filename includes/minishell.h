@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 18:21:41 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 19:45:22 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ typedef struct s_cmd
 	char		**cmd;
 	char		*path;
 	int			fd_out;
-	pid_t		pid;
 }				t_cmd;
 
 typedef struct s_env
