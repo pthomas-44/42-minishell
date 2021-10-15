@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 12:56:40 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 13:01:43 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,6 @@ int	fill_cmd_struct(t_structs *s, char *line)
 		else if (*line == '|')
 		{
 			line++;
-			if (s->cmds[i].fd_in == -1)
-				s->cmds[i].fd_in = 0;
-			if (s->cmds[i].fd_out == -1)
-				s->cmds[i].fd_out = 1;
 			i++;
 		}
 		else if (*line && get_command(s, &line, i) == -1)
@@ -66,6 +62,25 @@ int	fill_cmd_struct(t_structs *s, char *line)
 	return (0);
 }
 
+// char	*replace_var()
+
+// char	*find_value(t_structs *s, char *line)
+// {
+// 	t_env	*current;
+// 	size_t	i;
+
+// 	i = 0;
+// 	while (line[i] && line[i] != ' ' && line[i] != '"')
+// 		i++;
+// 	line[i] = 0;
+// 	current = *s->env;
+// 	while (ft_strcmp(current->name, line))
+// 		current = current->next;
+// 	if (ft_strcmp(current->name, line))
+// 		return ("");
+// 	else
+// 		return (current->value);
+// }
 //~~ Remplace les variables d'environnement pas leurs valeurs
 
 char	*replace_env_variables(t_structs *s, char *line)
@@ -74,16 +89,21 @@ char	*replace_env_variables(t_structs *s, char *line)
 	(void)line;
 	// char	*value;
 	// size_t	i;
+	// char	quote;
 
 	// i = 0;
 	// while (line && line[i])
 	// {
-	// 	if (line[i] == '$' && line[i + 1] != ' ')
+	// 	if ((line[i] == '"' || line[i] == '\'') && quote == 0)
+	// 		quote = line[i];
+	// 	else if (line[i] == quote)
+	// 		quote = 0;
+	// 	if (line[i] == '$' && line[i + 1] != ' ' && quote != '\'')
 	// 	{
-	// 		value = find_value(&line[i + 1]);
-			
+	// 		value = find_value(s, &line[i + 1]);
+	// 		line = replace_var(line, i);
 	// 	}
-	// 	line++;
+	// 	i++;
 	// }
 	return (line);
 }

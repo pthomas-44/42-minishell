@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 15:41:41 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 11:32:02 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 12:59:06 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	get_infile(t_structs *s, char **line, int i)
 {
 	char	*tmp[2];
 
-	if (s->cmds[i].fd_in > -1 && close(s->cmds[i].fd_in) == -1)
+	if (s->cmds[i].fd_in > 0 && close(s->cmds[i].fd_in) == -1)
 	{
 		perror("close");
 		return (-1);
@@ -84,7 +84,7 @@ int	get_outfile(t_structs *s, char **line, int i)
 {
 	char	*tmp[2];
 
-	if (s->cmds[i].fd_out > -1 && close(s->cmds[i].fd_out) == -1)
+	if (s->cmds[i].fd_out > 1 && close(s->cmds[i].fd_out) == -1)
 	{
 		perror("close");
 		return (-1);
