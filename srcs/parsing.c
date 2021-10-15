@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 12:08:06 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 12:56:40 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	fill_cmd_struct(t_structs *s, char *line)
 			if (s->cmds[i].fd_in == -1)
 				s->cmds[i].fd_in = 0;
 			if (s->cmds[i].fd_out == -1)
-				s->cmds[i].fd_in = 1;
+				s->cmds[i].fd_out = 1;
 			i++;
 		}
 		else if (*line && get_command(s, &line, i) == -1)
