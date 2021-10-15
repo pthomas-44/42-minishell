@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 17:08:35 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 18:06:52 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ t_env			*find_var(t_structs *s, char *line);
 char			*replace_var(char *line, size_t i, t_env *var);
 void			remove_quotes(char ***cmd);
 char			*remove_char(char *str, size_t i);
+int				get_infile_sequel(t_structs *s,
+					char ***line, int i, char **tmp);
 // ~~ parsing_utils3.c
 int				get_command(t_structs *s, char **line, int i);
 int				get_outfile(t_structs *s, char **line, int i);

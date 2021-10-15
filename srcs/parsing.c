@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 17:46:16 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 17:59:47 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	heredoc_handler(t_structs *s, char *stop, int i)
 	if (pipe_fd[0] == -1 || pipe_fd[1] == -1)
 	{
 		perror("pipe");
+		free(content);
 		return (-1);
 	}
 	write(pipe_fd[STDOUT_FILENO], content, ft_strlen(content));

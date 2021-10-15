@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 17:44:07 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 16:58:06 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 18:06:59 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,15 @@ t_env	*find_var(t_structs *s, char *line)
 		&& ft_strncmp(current->name, name, ft_strlen(name) + 1))
 		current = current->next;
 	if (ft_strncmp(current->name, line, ft_strlen(name)))
+	{
+		free(name);
 		return (NULL);
+	}
 	else
+	{
+		free(name);
 		return (current);
+	}
 }
 
 char	*remove_char(char *str, size_t i)
@@ -94,4 +100,19 @@ void	remove_quotes(char ***cmd)
 		}
 		i++;
 	}
+}
+
+int	get_infile_sequel(t_structs *s, char ***line, int i, char **tmp)
+{
+	if (*(tmp[0] - 2) != '<')
+		s->cmds[i].fd_in = open(tmp[1], O_RDONLY);
+	if (s->cmds[i].fd_in == -1)
+	{
+		free(tmp[1]);
+		perror("open");
+		return (-1);
+	}
+	free(tmp[1]);
+	(*(*line)) += ft_strlen(tmp[1]);
+	return (0);
 }

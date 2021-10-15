@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 15:41:41 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 16:58:07 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 18:07:07 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,15 @@ int	get_infile(t_structs *s, char **line, int i)
 	skip_spaces(line);
 	tmp[1] = get_args(*line, 1);
 	if (*(tmp[0] - 2) == '<')
-		if (heredoc_handler(s, tmp[1], i) == -1)
-			return (-1);
-	if (*(tmp[0] - 2) != '<')
-		s->cmds[i].fd_in = open(tmp[1], O_RDONLY);
-	if (s->cmds[i].fd_in == -1)
 	{
-		perror("open");
-		return (-1);
+		if (heredoc_handler(s, tmp[1], i) == -1)
+		{
+			free(tmp[1]);
+			return (-1);
+		}
 	}
-	(*line) += ft_strlen(tmp[1]);
-	free(tmp[1]);
+	if (get_infile_sequel(s, &line, i, tmp) == -1)
+		return (-1);
 	return (0);
 }
 
@@ -100,6 +98,7 @@ int	get_outfile(t_structs *s, char **line, int i)
 		s->cmds[i].fd_out = open(tmp[1], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (s->cmds[i].fd_out == -1)
 	{
+		free(tmp[1]);
 		perror("open");
 		return (-1);
 	}
@@ -116,9 +115,10 @@ int	get_command(t_structs *s, char **line, int i)
 	tmp = get_args(*line, 0);
 	if (!s->cmds[i].cmd)
 	{
-		s->cmds[i].cmd = malloc(sizeof(char *) * 2);
+		s->cmds[i].cmd = ft_calloc(2, sizeof(char *));
 		if (!s->cmds[i].cmd)
 		{
+			free(tmp);
 			perror("malloc");
 			return (-1);
 		}
