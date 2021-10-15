@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:42:08 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/14 14:15:40 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/14 14:28:09 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	env_new(t_structs *s, char *var)
 	size_t	i;
 
 	new = malloc(sizeof(t_env));
+	if (!new)
+		ft_exit(s, "malloc", EXIT_FAILURE);
 	while (var && var[i] && var[i] != '=')
 		i++;
 	new->name = ft_substr(var, 0, i - 1);

@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/14 14:24:54 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/14 15:07:55 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,19 @@
 
 void	index_list(t_structs *s)
 {
-	(void)s;
+	size_t	index;
+	t_env	*env;
+
+	index = 1;
+	while (i <= s->env_size)
+	{
+		env = *s->env;
+		while (env)
+		{
+			env = env->next;
+		}
+		i++;
+	}
 }
 
 void	print_export(t_structs *s, t_cmd current)
@@ -42,28 +54,6 @@ void	print_export(t_structs *s, t_cmd current)
 			env = env->next;
 		}
 		i++;
-	}
-}
-
-void	create_env_variable(t_structs *s, char *current)
-{
-	t_env	*new;
-
-	new = malloc(sizeof(t_env));
-	if (!new)
-		ft_exit(s, "malloc", EXIT_FAILURE);
-	// new->name = ;
-	// new->value = ;
-	new->index = s->env_size + 1;
-	s->env_size++;
-	new->next = NULL;
-	if (!(*s->env))
-		*s->env = new;
-	else
-	{
-		while ((*s->env)->next)
-			*s->env = (*s->env)->next;
-		*s->env = new;
 	}
 }
 
@@ -101,7 +91,7 @@ void	ft_export(t_structs *s, t_cmd current)
 			if (env)
 				update_env_variable(current.cmd[i], env);
 			else
-				create_env_variable(s, current.cmd[i]);
+				env_new(s, current.cmd[i]);
 			i++;
 		}
 	}
