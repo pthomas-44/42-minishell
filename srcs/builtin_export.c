@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/14 14:01:17 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 10:25:04 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,20 +63,6 @@ void	create_env_variable(t_structs *s, char *current)
 		while ((*s->env)->next)
 			*s->env = (*s->env)->next;
 		*s->env = new;
-	}
-}
-
-void	update_env_variable(char *current, t_env *env)
-{
-	size_t	i;
-
-	i = 0;
-	while (ft_isalpha(current[i]))
-		i++;
-	if (current[i] == '=')
-	{
-		env->value = NULL;
-		env->value = ft_strdup(current + i + 1);
 	}
 }
 

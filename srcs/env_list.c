@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:42:08 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 09:55:01 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 10:23:51 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	env_init(t_structs *s, char **env)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	s->env_size = 0;
@@ -28,11 +28,12 @@ void	env_init(t_structs *s, char **env)
 
 void	env_new(t_structs *s, char *var)
 {
-	t_env	*current;
 	t_env	*new;
 	size_t	i;
+	t_env	*current;
 
 	new = malloc(sizeof(t_env));
+	i = 0;
 	if (!new)
 		ft_exit(s, "malloc", EXIT_FAILURE);
 	while (var && var[i] && var[i] != '=')
