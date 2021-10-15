@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/15 15:53:46 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 19:30:34 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	set_pwd(t_structs *s, t_env *pwd)
+void	set_pwd(t_structs *s, t_env *pwd)	// mettre la fonctions de type "int"
 {
 	char	cwd[MAXPATHLEN];
 
 	getcwd(cwd, MAXPATHLEN);
-	pwd->value = NULL;
+	pwd->value = NULL;	// remplacer par "free(pwd->value);"
 	pwd->value = ft_strdup(cwd);
 	if (!pwd->value)
-		ft_exit(s, "malloc", EXIT_FAILURE);
+		ft_exit(s, "malloc", EXIT_FAILURE);	// remplacer par return (-1);
 }
 
 t_env	*set_oldpwd(t_structs *s)
@@ -38,10 +38,10 @@ t_env	*set_oldpwd(t_structs *s)
 			{
 				if (!ft_strcmp(old_pwd->name, "OLDPWD"))
 				{
-					old_pwd->value = NULL;
+					old_pwd->value = NULL;	// remplacer par "free(old_pwd->value);"
 					old_pwd->value = ft_strdup(pwd->value);
 					if (!old_pwd->value)
-						ft_exit(s, "malloc", EXIT_FAILURE);
+						ft_exit(s, "malloc", EXIT_FAILURE);	// remplacer par return (NULL);
 					break ;
 				}
 				old_pwd = old_pwd->next;
@@ -60,8 +60,8 @@ void	ft_cd(t_structs *s, t_cmd current)
 	if (current.cmd[1])
 	{
 		if (chdir(current.cmd[1]) == -1)
-			ft_exit(s, "chdir", EXIT_FAILURE);
-		pwd = set_oldpwd(s);
-		set_pwd(s, pwd);
+			ft_exit(s, "chdir", EXIT_FAILURE);	// remplacer par "write(2, "minishell: cd: ", 11);	write(2, current.cmd[1], ft_strlen(current.cmd[0]));	write "2, ": No such file or directory", 28";	return ;""
+		pwd = set_oldpwd(s);	// rajouter "if (!pwd){	return ;}"
+		set_pwd(s, pwd);	// remplacer par "if (set_pwd(s, pwd) == -1){	return ;}"
 	}
 }

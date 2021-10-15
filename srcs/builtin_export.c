@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/15 17:05:35 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 19:36:13 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	index_list(t_structs *s)
 {
-	t_env	*list;
+	t_env	*list;	// remplacer par "t_env	*elem;"
 	t_env	*next;
 
 	list = *s->env;
@@ -54,7 +54,7 @@ void	print_export(t_structs *s, t_cmd current)
 						ft_strlen(export->value) - 1);
 					write(current.fd_out, "\"", 1);
 				}
-				write(current.fd_out, "\n", 2);
+				write(current.fd_out, "\n", 2);	// remplacer par "write(current.fd_out, "\n", 1);"
 			}
 			export = export->next;
 		}
@@ -71,11 +71,11 @@ char	*take_name(t_structs *s, char *arg)
 		i++;
 	name = ft_substr(arg, 0, i);
 	if (!name)
-		ft_exit(s, "malloc", EXIT_FAILURE);
+		ft_exit(s, "malloc", EXIT_FAILURE); // remplacer par "return (NULL)"
 	return (name);
 }
 
-void	create_env_variable(t_structs *s, t_cmd current)
+void	create_env_variable(t_structs *s, t_cmd current)	// mettre la fonctions de type "int"
 {
 	size_t	i;
 	t_env	*export;
@@ -85,7 +85,7 @@ void	create_env_variable(t_structs *s, t_cmd current)
 	while (current.cmd[i])
 	{
 		export = *s->env;
-		tmp = take_name(s, current.cmd[i]);
+		tmp = take_name(s, current.cmd[i]);	// rajouter "if (!tmp){	return (-1);}"
 		if (ft_str_isalpha(tmp))
 		{
 			while (export)
@@ -101,11 +101,11 @@ void	create_env_variable(t_structs *s, t_cmd current)
 		}
 		i++;
 	}
-}
+}	// rajouter "return (0);
 
 void	ft_export(t_structs *s, t_cmd current)
 {
-	if (current.cmd[1])
+	if (current.cmd[1])	// remplacer par "if (current.cmd[1] && create_env_variable(s, current) == -1){ return ;}""
 		create_env_variable(s, current);
 	else
 	{
