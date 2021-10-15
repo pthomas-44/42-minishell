@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/14 15:07:55 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 10:24:54 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ void	index_list(t_structs *s)
 	t_env	*env;
 
 	index = 1;
-	while (i <= s->env_size)
+	while (index <= s->env_size)
 	{
 		env = *s->env;
 		while (env)
 		{
 			env = env->next;
 		}
-		i++;
+		index++;
 	}
 }
 
