@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/15 11:22:45 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 12:07:16 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,19 @@ void	ft_echo(t_cmd current)
 
 	i = 1;
 	option = 0;
-	if (!ft_strcmp(current.cmd[1], "-n"))
+	if (!ft_strncmp(current.cmd[i], "-n", 2))
 	{
 		i = 2;
 		option = 1;
 	}
+	// while (!ft_strncmp(current.cmd[i], "-n", 2))
+	// 	i++;
 	while (current.cmd[i])
 	{
 		write(current.fd_out, current.cmd[i], ft_strlen(current.cmd[i]));
-		write(current.fd_out, " ", 1);
 		i++;
+		if (current.cmd[i])
+			write(current.fd_out, " ", 1);
 	}
 	if (!option)
 		write(current.fd_out, "\n", 1);
