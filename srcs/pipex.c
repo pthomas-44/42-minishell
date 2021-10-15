@@ -6,13 +6,13 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 13:00:45 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/13 13:29:05 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 11:12:44 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	launch_command(t_structs *s, int in, int out, int i)
+void	launch_command(t_structs *s, int in, int out, t_cmd current)
 {
 	pid_t	pid;
 
@@ -27,7 +27,7 @@ void	launch_command(t_structs *s, int in, int out, int i)
 			ft_exit(s, "dup2", EXIT_FAILURE);
 		if (close(in) == -1 || close(out) == -1)
 			ft_exit(s, "close", EXIT_FAILURE);
-		if (execve(s->cmds[i].path, s->cmds[i].cmd, NULL) == -1)
+		if (execve(current.path, current.cmd, NULL) == -1)
 			ft_exit(s, "execve", EXIT_FAILURE);
 	}
 	if (close(in) == -1 || close(out) == -1)
@@ -46,11 +46,11 @@ void	pipex(t_structs *s)
 	{
 		if (pipe(pipefd) == -1)
 			ft_exit(s, "pipe", EXIT_FAILURE);
-		launch_command(s, in, pipefd[1], i);
+		launch_command(s, in, pipefd[1], s->cmds[i]);
 		in = pipefd[0];
 		i++;
 	}
-	launch_command(s, in, s->cmds[i].fd_out, i);
+	launch_command(s, in, s->cmds[i].fd_out, s->cmds[i]);
 	i = 0;
 	while (i++ < s->cmds_size)
 		if (waitpid(-1, NULL, WUNTRACED) == -1)

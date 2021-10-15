@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/14 14:25:59 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 11:12:19 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,16 @@ int				get_outfile(t_structs *s, char **line, int i);
 int				get_infile(t_structs *s, char **line, int i);
 char			*get_args(char *line, bool is_file);
 char			*heredoc_loop(char *stop);
+// ~~ exec.c
+void			exec_cmds(t_structs *s);
+void			builtins_or_not(t_structs *s, t_cmd current);
 // ~~ paths.c
 void			find_cmd_paths(t_structs *s);
 void			set_paths(t_structs *s, char **paths);
 void			find_good_path(t_structs *s, char **paths);
 // ~~ pipex.c
 void			pipex(t_structs *s);
-void			launch_command(t_structs *s, int in, int out, int i);
+void			launch_command(t_structs *s, int in, int out, t_cmd current);
 // ~~ builtins.c
 void			ft_echo(t_cmd current);
 void			ft_pwd(t_cmd current);
@@ -121,7 +124,6 @@ void			set_pwd(t_structs *s, t_env *pwd);
 // ~~ builtin_export.c
 void			ft_export(t_structs *s, t_cmd current);
 void			update_env_variable(char *current, t_env *env);
-void			create_env_variable(t_structs *s, char *current);
 void			print_export(t_structs *s, t_cmd current);
 void			index_list(t_structs *s);
 // ~~ builtin_unset.c
