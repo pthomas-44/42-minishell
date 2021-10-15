@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:54:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 11:42:53 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 12:59:28 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ void	init_cmds_struct(t_structs *s, char *line)
 	ft_bzero(s->cmds, sizeof(t_cmd) * s->cmds_size);
 	while (i < s->cmds_size)
 	{
-		s->cmds[i].fd_in = -1;
+		s->cmds[i].fd_in = 0;
 		s->cmds[i].cmd = NULL;
 		s->cmds[i].cmd = NULL;
 		s->cmds[i].path = NULL;
-		s->cmds[i].fd_out = -1;
+		s->cmds[i].fd_out = 1;
 		s->cmds[i].pid = -1;
 		i++;
 	}
