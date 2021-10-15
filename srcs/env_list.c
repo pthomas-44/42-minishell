@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:42:08 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 10:26:49 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 11:07:51 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@ void	env_init(t_structs *s, char **env)
 	size_t	i;
 
 	i = 0;
+	s->env = NULL;
+	s->env = malloc(sizeof(t_env));
+	if (!s->env)
+		ft_exit(s, "malloc", EXIT_FAILURE);
 	s->env_size = 0;
 	while (env[i])
 	{
@@ -38,21 +42,20 @@ void	env_new(t_structs *s, char *var)
 		ft_exit(s, "malloc", EXIT_FAILURE);
 	while (var && var[i] && var[i] != '=')
 		i++;
-	new->name = ft_substr(var, 0, i - 1);
-	var += i + 1;
-	new->value = ft_substr(var, 0, ft_strlen(var));
+	new->name = ft_substr(var, 0, i);
+	new->value = ft_substr(var + i, 0, ft_strlen(var));
 	new->next = NULL;
 	if (!new->name || !new->value)
 		ft_exit(s, "malloc", EXIT_FAILURE);
-	current = *s->env;
-	if (current)
+	if (s->env_size)
 	{
+		current = *s->env;
 		while (current->next)
 			current = current->next;
 		current->next = new;
 	}
 	else
-		current = new;
+		*s->env = new;
 	s->env_size++;
 }
 
@@ -87,4 +90,5 @@ void	env_clear(t_structs *s)
 		env_del(s, current);
 	}
 	s->env_size = 0;
+	free(s->env);
 }
