@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/13 15:40:50 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 10:39:29 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	set_pwd(t_structs *s, t_env *pwd)
 	char	cwd[MAXPATHLEN];
 
 	getcwd(cwd, MAXPATHLEN);
-	// pwd->value = NULL; ??
+	pwd->value = NULL;
 	pwd->value = ft_strdup(cwd);
 	if (!pwd->value)
 		ft_exit(s, "malloc", EXIT_FAILURE);
@@ -38,7 +38,7 @@ t_env	*set_oldpwd(t_structs *s)
 			{
 				if (!ft_strcmp(old_pwd->name, "OLDPWD"))
 				{
-					// old_pwd->value = NULL; ??
+					old_pwd->value = NULL;
 					old_pwd->value = ft_strdup(pwd->value);
 					if (!old_pwd->value)
 						ft_exit(s, "malloc", EXIT_FAILURE);
