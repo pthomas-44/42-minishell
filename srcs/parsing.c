@@ -6,13 +6,13 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 13:00:09 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 16:58:03 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-//~~ Remplis la structure t_cmd avec les donnees de line
+//~~ Gere l'operateur '<<' comme un heredoc
 
 int	heredoc_handler(t_structs *s, char *stop, int i)
 {
@@ -39,6 +39,8 @@ int	heredoc_handler(t_structs *s, char *stop, int i)
 	return (0);
 }
 
+//~~ Remplis la structure t_cmd avec les donnees de line
+
 int	fill_cmd_struct(t_structs *s, char *line)
 {
 	size_t	i;
@@ -53,59 +55,47 @@ int	fill_cmd_struct(t_structs *s, char *line)
 			return (-1);
 		else if (*line == '|')
 		{
+			s->cmds[i].cmd = ft_split_quotes(s->cmds[i].cmd[0]);
+			remove_quotes(&s->cmds[i].cmd);
 			line++;
 			i++;
 		}
 		else if (*line && get_command(s, &line, i) == -1)
 			return (-1);
 	}
+	s->cmds[i].cmd = ft_split_quotes(s->cmds[i].cmd[0]);
+	remove_quotes(&s->cmds[i].cmd);
 	return (0);
 }
 
-// char	*replace_var()
-
-// char	*find_value(t_structs *s, char *line)
-// {
-// 	t_env	*current;
-// 	size_t	i;
-
-// 	i = 0;
-// 	while (line[i] && line[i] != ' ' && line[i] != '"')
-// 		i++;
-// 	line[i] = 0;
-// 	current = *s->env;
-// 	while (ft_strcmp(current->name, line))
-// 		current = current->next;
-// 	if (ft_strcmp(current->name, line))
-// 		return ("");
-// 	else
-// 		return (current->value);
-// }
 //~~ Remplace les variables d'environnement pas leurs valeurs
 
 char	*replace_env_variables(t_structs *s, char *line)
 {
-	(void)s;
-	(void)line;
-	// char	*value;
-	// size_t	i;
-	// char	quote;
+	t_env	*var;
+	size_t	i;
+	char	quote;
+	char	*new;
 
-	// i = 0;
-	// while (line && line[i])
-	// {
-	// 	if ((line[i] == '"' || line[i] == '\'') && quote == 0)
-	// 		quote = line[i];
-	// 	else if (line[i] == quote)
-	// 		quote = 0;
-	// 	if (line[i] == '$' && line[i + 1] != ' ' && quote != '\'')
-	// 	{
-	// 		value = find_value(s, &line[i + 1]);
-	// 		line = replace_var(line, i);
-	// 	}
-	// 	i++;
-	// }
-	return (line);
+	i = 0;
+	quote = 0;
+	new = NULL;
+	while (line && line[i])
+	{
+		if ((line[i] == '"' || line[i] == '\'') && quote == 0)
+			quote = line[i];
+		else if (line[i] == quote)
+			quote = 0;
+		if (line[i] == '$' && line[i + 1] != ' ' && quote != '\'')
+		{
+			var = find_var(s, &line[i + 1]);
+			new = replace_var(line, i, var);
+		}
+		i++;
+	}
+	if (!new)
+		new = ft_strdup(line);
+	return (new);
 }
 
 //~~ Verifie les erreurs de syntax
@@ -123,7 +113,7 @@ int	check_syntax_errors(char *line, char *charset)
 	}
 	if (*line && syntax_loop(line, charset, &quote, &last_char))
 		return (1);
-	if (*line && ft_strchr(charset, last_char))
+	if (*line && ft_strchr(charset, last_char)) // pipe de fin ?
 	{
 		write(2, "minishell: syntax error near \
 unexpected token `newline'\n", 57);
@@ -141,28 +131,21 @@ unexpected token `newline'\n", 57);
 
 void	parsing(t_structs *s, char *line)
 {
-	size_t	i;
 	char	*tmp;
 
 	if (!(*line) || check_syntax_errors(line, "<>|"))
 		return ;
 	init_cmds_struct(s, line);
-	line = replace_env_variables(s, line);
-	if (!line)
+	tmp = replace_env_variables(s, line);
+	if (!tmp)
 		return ;
-	if (fill_cmd_struct(s, line) == -1)
+	if (fill_cmd_struct(s, tmp) == -1)
 	{
+		free(tmp);
 		free_cmds_struct(s);
 		return ;
 	}
-	i = 0;
-	while (i < s->cmds_size)
-	{
-		tmp = s->cmds[i].cmd[0];
-		s->cmds[i].cmd = ft_split_quotes(s->cmds[i].cmd[0]);
-		i++;
-		free(tmp);
-	}
-	//execution
+	free(tmp);
+	// execution
 	free_cmds_struct(s);
 }

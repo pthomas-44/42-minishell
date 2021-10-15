@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:54:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 12:59:28 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 16:58:05 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	check_successive_operators(char **line, char *charset)
 		write(2, "'\n", 3);
 		return (-1);
 	}
-	else if (*tmp)
+	else if (*tmp && ft_strchr(charset, *tmp) && *(*line) != '|')
 	{
 		tmp++;
 		skip_spaces(&tmp);

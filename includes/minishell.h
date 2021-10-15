@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 12:06:21 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 16:58:09 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,10 @@ int				check_successive_operators(char **line, char *charset);
 int				syntax_loop(char *line, char *charset,
 					char *quote, char *last_char);
 // ~~ parsing_utils2.c
+t_env			*find_var(t_structs *s, char *line);
+char			*replace_var(char *line, size_t i, t_env *var);
+void			remove_quotes(char ***cmd);
+char			*remove_char(char *str, size_t i);
 // ~~ parsing_utils3.c
 int				get_command(t_structs *s, char **line, int i);
 int				get_outfile(t_structs *s, char **line, int i);
