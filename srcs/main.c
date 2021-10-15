@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:23:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 11:44:49 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 11:45:13 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,21 @@ void	prompt_loop(t_structs *s)
 
 void	init_control_struct(t_structs *s, char **env)
 {
+	size_t	i;
+
 	ft_bzero(s, sizeof(t_structs));
 	s->cmds = NULL;
-	env_init(s, env);
+	i = 0;
+	s->env = NULL;
+	s->env = malloc(sizeof(t_env));
+	if (!s->env)
+		ft_exit(s, "malloc", EXIT_FAILURE);
+	s->env_size = 0;
+	while (env[i])
+	{
+		env_new(s, env[i]);
+		i++;
+	}
 }
 
 int	main(int ac, char **av, char **env)
@@ -52,7 +64,6 @@ int	main(int ac, char **av, char **env)
 	t_structs	s;
 
 	(void)av;
-	(void)env;
 	if (ac != 1)
 		ft_exit(&s, "error: too many arguments\n", EXIT_MISSING);
 	init_control_struct(&s, env);

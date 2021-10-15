@@ -6,7 +6,7 @@
 #    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/24 08:57:58 by pthomas           #+#    #+#              #
-#    Updated: 2021/06/07 19:25:01 by pthomas          ###   ########lyon.fr    #
+#    Updated: 2021/10/15 11:16:07 by pthomas          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,24 +26,25 @@ PATH_OBJS	=	objs
 
 #~~~~ Sources ~~~~#
 
-SRCS		=	ft_mem1.c \
-				ft_mem2.c \
-				ft_strinfo1.c \
-				ft_strinfo2.c \
-				ft_chrtype.c \
-				ft_strtype.c \
-				ft_num.c \
-				ft_convertbase.c \
-				ft_misc.c \
-				ft_strmodif.c \
-				ft_stralloc.c \
-				ft_strjoin.c \
-				ft_split.c \
-				ft_put.c \
-				ft_lst1.c \
-				ft_lst2.c \
-				get_next_line.c \
-				get_next_line_utils.c \
+SRCS		=	ft_mem1.c				\
+				ft_mem2.c				\
+				ft_strinfo1.c			\
+				ft_strinfo2.c			\
+				ft_chrtype.c			\
+				ft_strtype.c			\
+				ft_num.c				\
+				ft_convertbase.c		\
+				ft_misc.c				\
+				ft_strmodif.c			\
+				ft_stralloc.c			\
+				ft_strjoin.c			\
+				ft_split.c				\
+				ft_split_quotes.c		\
+				ft_put.c				\
+				ft_lst1.c				\
+				ft_lst2.c				\
+				get_next_line.c			\
+				get_next_line_utils.c	
 
 #~~~~ Objects ~~~~#
 
