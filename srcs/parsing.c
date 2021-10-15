@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 17:09:15 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 17:45:45 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ char	*replace_env_variables(t_structs *s, char *line)
 			quote = line[i];
 		else if (line[i] == quote)
 			quote = 0;
-		if (line[i] == '$' && line[i + 1] != ' ' && quote != '\'')
+		if (line[i] == '$' && line[i + 1] != ' '
+			&& line[i + 1] != '?' && quote != '\'')
 		{
 			var = find_var(s, &line[i + 1]);
 			new = replace_var(line, i, var);
