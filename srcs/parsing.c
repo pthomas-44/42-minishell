@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/14 13:42:00 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 11:42:51 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	heredoc_handler(t_structs *s, char *stop, int i)
 		return (-1);
 	}
 	write(pipe_fd[STDOUT_FILENO], content, ft_strlen(content));
+	free(content);
 	if (close(pipe_fd[STDIN_FILENO]) == -1)
 	{
 		perror("close");
@@ -58,7 +59,6 @@ int	fill_cmd_struct(t_structs *s, char *line)
 		else if (*line && get_command(s, &line, i) == -1)
 			return (-1);
 	}
-	//split_quotes
 	return (0);
 }
 
@@ -103,6 +103,9 @@ unexpected token `newline'\n", 57);
 
 void	parsing(t_structs *s, char *line)
 {
+	size_t	i;
+	char	*tmp;
+
 	if (!(*line) || check_syntax_errors(line, "<>|"))
 		return ;
 	init_cmds_struct(s, line);
@@ -111,6 +114,14 @@ void	parsing(t_structs *s, char *line)
 	{
 		free_cmds_struct(s);
 		return ;
+	}
+	i = 0;
+	while (i < s->cmds_size)
+	{
+		tmp = s->cmds[i].cmd[0];
+		s->cmds[i].cmd = ft_split_quotes(s->cmds[i].cmd[0]);
+		i++;
+		free(tmp);
 	}
 	//execution
 	free_cmds_struct(s);

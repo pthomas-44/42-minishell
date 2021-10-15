@@ -6,29 +6,11 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:42:08 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 11:07:51 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 11:32:06 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	env_init(t_structs *s, char **env)
-{
-	size_t	i;
-
-	i = 0;
-	s->env = NULL;
-	s->env = malloc(sizeof(t_env));
-	if (!s->env)
-		ft_exit(s, "malloc", EXIT_FAILURE);
-	s->env_size = 0;
-	while (env[i])
-	{
-		env_new(s, env[i]);
-		i++;
-	}
-	return ;
-}
 
 void	env_new(t_structs *s, char *var)
 {
