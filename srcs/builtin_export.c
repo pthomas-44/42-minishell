@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/15 10:56:43 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 17:05:35 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,91 +14,102 @@
 
 void	index_list(t_structs *s)
 {
-	t_env	*env;
+	t_env	*list;
 	t_env	*next;
 
-	env = *s->env;
-	while (env)
+	list = *s->env;
+	while (list)
 	{
-		env->index = 1;
+		list->index = 1;
 		next = *s->env;
 		while (next)
 		{
-			if (ft_strcmp(env->name, next->name) < 0)
-				env->index++;
+			if (ft_strcmp(list->name, next->name) > 0)
+				list->index++;
 			next = next->next;
 		}
-		env = env->next;
+		list = list->next;
 	}
 }
 
 void	print_export(t_structs *s, t_cmd current)
 {
 	size_t	i;
-	t_env	*env;
+	t_env	*export;
 
-	index_list(s);
-	i = -1;
-	while (++i < s->env_size)
+	i = 0;
+	while (++i <= s->env_size)
 	{
-		env = *s->env;
-		while (env)
+		export = *s->env;
+		while (export)
 		{
-			if (i == env->index)
+			if (i == export->index)
 			{
 				write(current.fd_out, "declare -x ", 11);
-				write(current.fd_out, env->name, ft_strlen(env->name));
-				if (env->value)
+				write(current.fd_out, export->name, ft_strlen(export->name));
+				if (ft_strlen(export->value) > 0)
 				{
 					write(current.fd_out, "=\"", 2);
-					write(current.fd_out, env->value + 1, ft_strlen(env->value) - 1);
-					write(current.fd_out, "\"\n", 2);
+					write(current.fd_out, export->value + 1,
+						ft_strlen(export->value) - 1);
+					write(current.fd_out, "\"", 1);
 				}
-				break ;
+				write(current.fd_out, "\n", 2);
 			}
-			env = env->next;
+			export = export->next;
 		}
 	}
 }
 
-void	update_env_variable(char *current, t_env *env)
+char	*take_name(t_structs *s, char *arg)
 {
 	size_t	i;
+	char	*name;
 
 	i = 0;
-	while (ft_isalpha(current[i]))
+	while (arg[i] && arg[i] != '=')
 		i++;
-	if (current[i] == '=')
+	name = ft_substr(arg, 0, i);
+	if (!name)
+		ft_exit(s, "malloc", EXIT_FAILURE);
+	return (name);
+}
+
+void	create_env_variable(t_structs *s, t_cmd current)
+{
+	size_t	i;
+	t_env	*export;
+	char	*tmp;
+
+	i = 1;
+	while (current.cmd[i])
 	{
-		env->value = NULL;
-		env->value = ft_strdup(current + i + 1);
+		export = *s->env;
+		tmp = take_name(s, current.cmd[i]);
+		if (ft_str_isalpha(tmp))
+		{
+			while (export)
+			{
+				if (!ft_strncmp(tmp, export->name, ft_strlen(export->name) + 1))
+					break ;
+				export = export->next;
+			}
+			free(tmp);
+			if (export)
+				env_del(s, export);
+			env_new(s, current.cmd[i]);
+		}
+		i++;
 	}
 }
 
 void	ft_export(t_structs *s, t_cmd current)
 {
-	t_env	*env;
-	size_t	i;
-
 	if (current.cmd[1])
-	{
-		i = 0;
-		while (current.cmd[i])
-		{		
-			env = *s->env;
-			while (env)
-			{
-				if (!ft_strcmp(env->name, current.cmd[i]))
-					break ;
-				env = env->next;
-			}
-			if (env)
-				update_env_variable(current.cmd[i], env);
-			else
-				env_new(s, current.cmd[i]);
-			i++;
-		}
-	}
+		create_env_variable(s, current);
 	else
+	{
+		index_list(s);
 		print_export(s, current);
+	}
 }

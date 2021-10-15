@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/15 10:39:29 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 15:53:46 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,11 @@ void	ft_cd(t_structs *s, t_cmd current)
 {
 	t_env	*pwd;
 
-	if (chdir(current.cmd[1]) == -1)
-		ft_exit(s, "chdir", EXIT_FAILURE);
-	pwd = set_oldpwd(s);
-	set_pwd(s, pwd);
+	if (current.cmd[1])
+	{
+		if (chdir(current.cmd[1]) == -1)
+			ft_exit(s, "chdir", EXIT_FAILURE);
+		pwd = set_oldpwd(s);
+		set_pwd(s, pwd);
+	}
 }

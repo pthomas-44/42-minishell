@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/15 11:49:37 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 13:19:42 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	builtins_or_not(t_structs *s, t_cmd current)
 	else
 		if (execve(current.path, current.cmd, NULL) == -1)
 			ft_exit(s, "execve", EXIT_FAILURE);
+		// pipex(s); plutôt
 }
 
 void	exec_cmds(t_structs *s)

@@ -6,7 +6,7 @@
 #    By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/10/15 10:59:14 by mberne           ###   ########lyon.fr    #
+#    Updated: 2021/10/15 15:56:25 by mberne           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,8 +40,7 @@ SRCS		=	main.c				\
 				pipex.c				\
 				builtins.c			\
 				builtin_cd.c		\
-				builtin_export.c	\
-				builtin_unset.c
+				builtin_export.c
 
 #~~~~ Objects ~~~~#
 

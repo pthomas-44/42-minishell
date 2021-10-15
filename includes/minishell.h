@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 12:06:21 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 16:59:15 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,18 +114,19 @@ void			pipex(t_structs *s);
 void			launch_command(t_structs *s, int in, int out, t_cmd current);
 // ~~ builtins.c
 void			ft_echo(t_cmd current);
+int				check_option_n(char *arg);
 void			ft_pwd(t_cmd current);
 void			ft_env(t_structs *s, t_cmd current);
+void			ft_unset(t_structs *s, t_cmd current);
 // ~~ builtin_cd.c
 void			ft_cd(t_structs *s, t_cmd current);
 t_env			*set_oldpwd(t_structs *s);
 void			set_pwd(t_structs *s, t_env *pwd);
 // ~~ builtin_export.c
 void			ft_export(t_structs *s, t_cmd current);
-void			update_env_variable(char *current, t_env *env);
+void			create_env_variable(t_structs *s, t_cmd current);
+char			*take_name(t_structs *s, char *arg);
 void			print_export(t_structs *s, t_cmd current);
 void			index_list(t_structs *s);
-// ~~ builtin_unset.c
-void			ft_unset(t_structs *s, t_cmd current);
 
 #endif
