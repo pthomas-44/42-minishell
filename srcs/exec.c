@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/15 11:11:02 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 11:19:07 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	builtins_or_not(t_structs *s, t_cmd current)
 
 void	exec_cmds(t_structs *s)
 {
+	find_cmd_paths(s);
 	if (s->cmds_size == 1)
 		builtins_or_not(s, s->cmds[0]);
 	else
