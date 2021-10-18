@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/18 17:12:54 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/18 17:34:22 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,26 +108,26 @@ size_t	nb_of_pipes(char *line)
 	return (nb_of_pipes);
 }
 
-void	init_cmds_struct(t_structs *s, char *line)
-{
-	size_t	i;
+// void	init_cmds_struct(t_structs *s, char *line)
+// {
+// 	size_t	i;
 
-	i = 0;
-	s->cmds_size = nb_of_pipes(line) + 1;
-	s->cmds = ft_calloc(s->cmds_size, sizeof(t_cmd));
-	if (!s->cmds)
-		ft_exit(s, "malloc", EXIT_FAILURE);
-	ft_bzero(s->cmds, sizeof(t_cmd) * s->cmds_size);
-	while (i < s->cmds_size)
-	{
-		s->cmds[i].fd_in = 0;
-		s->cmds[i].cmd = NULL;
-		s->cmds[i].cmd = NULL;
-		s->cmds[i].path = NULL;
-		s->cmds[i].fd_out = 1;
-		i++;
-	}
-}
+// 	i = 0;
+// 	s->cmds_size = nb_of_pipes(line) + 1;
+// 	s->cmds = ft_calloc(s->cmds_size, sizeof(t_cmd));
+// 	if (!s->cmds)
+// 		ft_exit(s, "malloc", EXIT_FAILURE);
+// 	ft_bzero(s->cmds, sizeof(t_cmd) * s->cmds_size);
+// 	while (i < s->cmds_size)
+// 	{
+// 		s->cmds[i].fd_in = 0;
+// 		s->cmds[i].cmd = NULL;
+// 		s->cmds[i].cmd = NULL;
+// 		s->cmds[i].path = NULL;
+// 		s->cmds[i].fd_out = 1;
+// 		i++;
+// 	}
+// }
 
 //~~ Le parsing, qui appel "ta fonction" avec un tableau de structure t_cmd 
 
@@ -148,7 +148,7 @@ void	parsing(t_structs *s, char *line)
 		return ;
 	}
 	free(tmp);
-	print_args(s);
-	// exec_cmds(s);
+	// print_args(s);
+	exec_cmds(s);
 	free_cmds_struct(s);
 }
