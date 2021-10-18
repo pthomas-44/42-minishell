@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/18 15:28:28 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/18 17:03:58 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # include <dirent.h>
 # include <term.h>
 # include <termios.h>
+# include <errno.h>
 # include "../libft/includes/libft.h"
 
 /*** ~~ MACROS ~~ ***/
@@ -117,7 +118,7 @@ int				check_successive_operators(char **line, char *charset);
 // ~~ env_var_handler.c
 char			*replace_env_variables(t_structs *s, char *line);
 t_env			*find_var(t_structs *s, char *line);
-char			*replace_var(char *line, size_t i, t_env *var);
+char			*replace_var(char *line, size_t i, t_env *var, char c);
 char			*handle_operands(char *value, char *charset);
 // ~~ parsing_utils.c
 void			remove_quotes(char ***cmd);

@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/18 15:55:43 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/18 17:12:54 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,25 @@ int	fill_cmd_struct(t_structs *s, char *line)
 	return (0);
 }
 
+void	print_args(t_structs *s)
+{
+	size_t i = 0;
+	size_t j = 0;
+
+	while (j < s->cmds_size)
+	{
+		i = 0;
+		while (s->cmds->cmd[i])
+		{
+			// printf("cmd %zu | arg %zu | = |%s| ", j, i, s->cmds->cmd[i]);
+			printf("|%s| ", s->cmds->cmd[i]);
+			i++;
+		}
+		printf("\n");
+		j++;
+	}
+}
+
 size_t	nb_of_pipes(char *line)
 {
 	size_t	nb_of_pipes;
@@ -130,6 +149,6 @@ void	parsing(t_structs *s, char *line)
 	}
 	free(tmp);
 	print_args(s);
-	exec_cmds(s);
+	// exec_cmds(s);
 	free_cmds_struct(s);
 }

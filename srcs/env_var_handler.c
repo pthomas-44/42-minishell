@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/18 15:55:44 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/18 17:14:44 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*handle_operands(char *value, char *charset)
 	return (new);
 }
 
-char	*replace_var(char *line, size_t i, t_env *var)
+char	*replace_var(char *line, size_t i, t_env *var, char c)
 {
 	char	*new;
 
@@ -51,6 +51,11 @@ char	*replace_var(char *line, size_t i, t_env *var)
 	{
 		new = ft_strjoin_f3(new, handle_operands(var->value + 1, "<>|"));
 		new = ft_strjoin_f1(new, line + i + ft_strlen(var->name) + 1);
+	}
+	else if (c == '?')
+	{
+		new = ft_strjoin_f3(new, ft_nbtobase(errno, "0123456789"));
+		new = ft_strjoin_f1(new, line + i + 2);
 	}
 	else
 	{
@@ -106,10 +111,10 @@ char	*replace_env_variables(t_structs *s, char *line)
 		else if (line[i] == quote)
 			quote = 0;
 		if (line[i] == '$' && line[i + 1] != ' '
-			&& line[i + 1] != '?' && quote != '\'')
+			&& line[i + 1] != 0 && quote != '\'')
 		{
 			var = find_var(s, &line[i + 1]);
-			new = replace_var(line, i, var);
+			new = replace_var(line, i, var, line[i + 1]);
 		}
 		i++;
 	}
