@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:23:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 18:22:34 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/18 13:21:37 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,10 @@ int	main(int ac, char **av, char **env)
 {
 	t_structs	s;
 
+	// tcgetattr(STDIN_FILENO, &s.term.basic);
+	// s.term.new = s.term.basic;
+	// s.term.new.c_cc[VQUIT] = 0;
+	// tcsetattr(STDOUT_FILENO, TCSANOW, &s.term.new);
 	(void)av;
 	if (ac != 1)
 		ft_exit(&s, "error: too many arguments\n", EXIT_MISSING);

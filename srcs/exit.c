@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:24:04 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 11:50:19 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/18 13:21:36 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ void	ft_exit(t_structs *s, char *errormsg, int status)
 	free_cmds_struct(s);
 	env_clear(s);
 	rl_clear_history();
+	// tcsetattr(STDIN_FILENO, TCSANOW, &s->term.basic);
 	exit(status);
 }

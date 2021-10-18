@@ -1,57 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils1.c                                   :+:      :+:    :+:   */
+/*   syntax_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/11 14:54:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 19:45:41 by pthomas          ###   ########lyon.fr   */
+/*   Created: 2021/10/18 15:24:16 by pthomas           #+#    #+#             */
+/*   Updated: 2021/10/18 15:25:03 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	skip_spaces(char **line)
-{
-	while (**line == ' ')
-		(*line)++;
-}
-
-size_t	nb_of_pipes(char *line)
-{
-	size_t	nb_of_pipes;
-
-	nb_of_pipes = 0;
-	while (*line)
-	{
-		if (*line == '|')
-			nb_of_pipes++;
-		line++;
-	}
-	return (nb_of_pipes);
-}
-
-void	init_cmds_struct(t_structs *s, char *line)
-{
-	size_t	i;
-
-	i = 0;
-	s->cmds_size = nb_of_pipes(line) + 1;
-	s->cmds = ft_calloc(s->cmds_size, sizeof(t_cmd));
-	if (!s->cmds)
-		ft_exit(s, "malloc", EXIT_FAILURE);
-	ft_bzero(s->cmds, sizeof(t_cmd) * s->cmds_size);
-	while (i < s->cmds_size)
-	{
-		s->cmds[i].fd_in = 0;
-		s->cmds[i].cmd = NULL;
-		s->cmds[i].cmd = NULL;
-		s->cmds[i].path = NULL;
-		s->cmds[i].fd_out = 1;
-		i++;
-	}
-}
 
 int	check_successive_operators(char **line, char *charset)
 {
@@ -98,6 +57,35 @@ int	syntax_loop(char *line, char *charset, char *quote, char *last_char)
 			if (check_successive_operators(&line, charset) == -1)
 				return (-1);
 		line++;
+	}
+	return (0);
+}
+
+//~~ Verifie les erreurs de syntax
+
+int	check_syntax_errors(char *line, char *charset)
+{
+	char	quote;
+	char	last_char;
+
+	skip_spaces(&line);
+	if (*line == '|')
+	{
+		write(2, "minishell: syntax error near unexpected token `|'\n", 51);
+		return (1);
+	}
+	if (*line && syntax_loop(line, charset, &quote, &last_char))
+		return (1);
+	if (*line && ft_strchr(charset, last_char))
+	{
+		write(2, "minishell: syntax error near \
+unexpected token `newline'\n", 57);
+		return (1);
+	}
+	if (*line && quote)
+	{
+		write(2, "minishell: unclosed quotes\n", 28);
+		return (1);
 	}
 	return (0);
 }

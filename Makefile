@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+         #
+#    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/10/15 15:56:25 by mberne           ###   ########lyon.fr    #
+#    Updated: 2021/10/18 15:30:14 by pthomas          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,9 +32,10 @@ SRCS		=	main.c				\
 				env_list.c			\
 				signals.c			\
 				parsing.c			\
-				parsing_utils1.c	\
-				parsing_utils2.c	\
-				parsing_utils3.c	\
+				file_handler.c		\
+				syntax_checker.c	\
+				env_var_handler.c	\
+				parsing_utils.c		\
 				exec.c				\
 				paths.c				\
 				pipex.c				\

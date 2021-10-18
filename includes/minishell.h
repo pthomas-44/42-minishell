@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/18 17:26:47 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/18 17:33:02 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # include <readline/history.h>
 # include <dirent.h>
 # include <term.h>
+# include <termios.h>
 # include <errno.h>
 # include "../libft/includes/libft.h"
 
@@ -65,12 +66,19 @@ typedef struct s_signals
 	pid_t		*pid;
 }				t_signals;
 
+typedef struct s_term
+{
+	struct termios	basic;
+	struct termios	new;
+}				t_term;
+
 typedef struct s_structs
 {
 	t_cmd		*cmds;
 	size_t		cmds_size;
 	t_env		**env;
 	size_t		env_size;
+	t_term		term;
 }				t_structs;
 
 /*** ~~ PROTOTYPES ~~ ***/
@@ -91,30 +99,32 @@ void			sig_int(int sig);
 void			sig_quit(int sig);
 // ~~ parsing.c
 void			parsing(t_structs *s, char *line);
-int				check_syntax_errors(char *line, char *charset);
-char			*replace_env_variables(t_structs *s, char *line);
-int				fill_cmd_struct(t_structs *s, char *line);
-int				heredoc_handler(t_structs *s, char *stop, int i);
-// ~~ parsing_utils1.c
 void			init_cmds_struct(t_structs *s, char *line);
 size_t			nb_of_pipes(char *line);
-void			skip_spaces(char **line);
-int				check_successive_operators(char **line, char *charset);
-int				syntax_loop(char *line, char *charset,
-					char *quote, char *last_char);
-// ~~ parsing_utils2.c
-t_env			*find_var(t_structs *s, char *line);
-char			*replace_var(char *line, size_t i, t_env *var);
-void			remove_quotes(char ***cmd);
-char			*remove_char(char *str, size_t i);
-int				get_infile_sequel(t_structs *s,
-					char ***line, int i, char **tmp);
-// ~~ parsing_utils3.c
+int				fill_cmd_struct(t_structs *s, char *line);
 int				get_command(t_structs *s, char **line, int i);
+// ~~ file_handler.c
 int				get_outfile(t_structs *s, char **line, int i);
 int				get_infile(t_structs *s, char **line, int i);
-char			*get_args(char *line, bool is_file);
+int				get_infile_sequel(t_structs *s,
+					char ***line, int i, char **tmp);
+int				heredoc_handler(t_structs *s, char *stop, int i);
 char			*heredoc_loop(char *stop);
+// ~~ syntax_checker.c
+int				check_syntax_errors(char *line, char *charset);
+int				syntaxx_loop(char *line, char *charset,
+					char *quote, char *last_char);
+int				check_successive_operators(char **line, char *charset);
+// ~~ env_var_handler.c
+char			*replace_env_variables(t_structs *s, char *line);
+t_env			*find_var(t_structs *s, char *line);
+char			*replace_var(char *line, size_t i, t_env *var, char c);
+char			*handle_operands(char *value, char *charset);
+// ~~ parsing_utils.c
+void			remove_quotes(char ***cmd);
+char			*remove_char(char *str, size_t i);
+void			skip_spaces(char **line);
+char			*get_args(char *line, bool is_file);
 // ~~ exec.c
 void			exec_cmds(t_structs *s);
 int				builtins_or_not(t_structs *s, t_cmd current);

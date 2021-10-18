@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:48 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/14 12:58:53 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/18 13:11:26 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 
 void	sig_int(int sig)
 {
+	(void)sig;
 	char	*saved_line;
 
-	(void)sig;
 	saved_line = ft_strdup(rl_line_buffer);
 	saved_line = ft_strjoin_f2(PROMPT, saved_line);
 	rl_replace_line(saved_line, 1);
@@ -38,9 +38,9 @@ void	sig_int(int sig)
 
 void	sig_quit(int sig)
 {
+	(void)sig;
 	char	*saved_line;
 
-	(void)sig;
 	saved_line = ft_strdup(rl_line_buffer);
 	saved_line = ft_strjoin_f2(PROMPT, saved_line);
 	rl_replace_line(saved_line, 1);
