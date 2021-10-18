@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:54:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 19:45:41 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/18 13:02:55 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,16 @@ void	skip_spaces(char **line)
 size_t	nb_of_pipes(char *line)
 {
 	size_t	nb_of_pipes;
+	char	quote;
 
 	nb_of_pipes = 0;
 	while (*line)
 	{
-		if (*line == '|')
+		if ((*line == '"' || *line == '\'') && quote == 0)
+			quote = *line;
+		else if (*line == quote)
+			quote = 0;
+		else if (*line == '|' && !quote)
 			nb_of_pipes++;
 		line++;
 	}
