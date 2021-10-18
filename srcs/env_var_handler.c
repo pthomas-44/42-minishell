@@ -1,16 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils2.c                                   :+:      :+:    :+:   */
+/*   env_var_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/12 17:44:07 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 18:06:59 by pthomas          ###   ########lyon.fr   */
+/*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
+/*   Updated: 2021/10/18 15:28:23 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+char	*handle_operands(char *value, char *charset)
+{
+	char	*new;
+	size_t	i;
+
+	new = NULL;
+	while (*value)
+	{
+		i = 0;
+		while (value[i] && !ft_strchr(charset, value[i]))
+			i++;
+		if (value[i])
+		{
+			new = ft_substr(value, 0, i);
+			new = ft_strjoin_f3(new, ft_strjoin_f2("\"",
+						ft_strjoin_f1(ft_substr(&value[i], 0, 1), "\"")));
+			value += i + 1;
+		}
+		else
+		{
+			new = ft_strjoin_f1(new, value);
+			break ;
+		}
+	}
+	return (new);
+}
 
 char	*replace_var(char *line, size_t i, t_env *var)
 {
@@ -22,12 +49,12 @@ char	*replace_var(char *line, size_t i, t_env *var)
 	ft_strlcpy(new, line, i + 1);
 	if (var)
 	{
-		new = ft_strjoin_f1(new, var->value + 1);
+		new = ft_strjoin_f3(new, handle_operands(var->value + 1, "<>|"));
 		new = ft_strjoin_f1(new, line + i + ft_strlen(var->name) + 1);
 	}
 	else
 	{
-		while (line[i] != '"' && line[i] != ' ' && line[i] != '\'')
+		while (line[i] && line[i] != '"' && line[i] != ' ' && line[i] != '\'')
 			i++;
 		new = ft_strjoin_f1(new, line + i);
 	}
@@ -60,59 +87,33 @@ t_env	*find_var(t_structs *s, char *line)
 	}
 }
 
-char	*remove_char(char *str, size_t i)
-{
-	char	*new;
+//~~ Remplace les variables d'environnement pas leurs valeurs
 
-	if (i)
-		new = ft_substr(str, 0, i);
-	else
-		new = ft_strdup("");
-	new = ft_strjoin_f1(new, str + i + 1);
-	free(str);
-	return (new);
-}
-
-void	remove_quotes(char ***cmd)
+char	*replace_env_variables(t_structs *s, char *line)
 {
+	t_env	*var;
 	size_t	i;
-	size_t	j;
 	char	quote;
+	char	*new;
 
 	i = 0;
 	quote = 0;
-	while ((*cmd)[i])
+	new = NULL;
+	while (line && line[i])
 	{
-		j = 0;
-		while ((*cmd)[i][j])
+		if ((line[i] == '"' || line[i] == '\'') && quote == 0)
+			quote = line[i];
+		else if (line[i] == quote)
+			quote = 0;
+		if (line[i] == '$' && line[i + 1] != ' '
+			&& line[i + 1] != '?' && quote != '\'')
 		{
-			if (!quote && ((*cmd)[i][j] == '"' || (*cmd)[i][j] == '\''))
-			{
-				quote = (*cmd)[i][j];
-				(*cmd)[i] = remove_char((*cmd)[i], j--);
-			}
-			else if ((*cmd)[i][j] == quote)
-			{
-				quote = 0;
-				(*cmd)[i] = remove_char((*cmd)[i], j--);
-			}
-			j++;
+			var = find_var(s, &line[i + 1]);
+			new = replace_var(line, i, var);
 		}
 		i++;
 	}
-}
-
-int	get_infile_sequel(t_structs *s, char ***line, int i, char **tmp)
-{
-	if (*(tmp[0] - 2) != '<')
-		s->cmds[i].fd_in = open(tmp[1], O_RDONLY);
-	if (s->cmds[i].fd_in == -1)
-	{
-		free(tmp[1]);
-		perror("open");
-		return (-1);
-	}
-	free(tmp[1]);
-	(*(*line)) += ft_strlen(tmp[1]);
-	return (0);
+	if (!new)
+		new = ft_strdup(line);
+	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/18 13:03:29 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/18 15:26:57 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,28 @@
 
 //~~ Gere l'operateur '<<' comme un heredoc
 
-int	heredoc_handler(t_structs *s, char *stop, int i)
+int	get_command(t_structs *s, char **line, int i)
 {
-	int		pipe_fd[2];
-	char	*content;
+	char	*tmp;
 
-	content = heredoc_loop(stop);
-	if (!content)
-		return (-1);
-	pipe(pipe_fd);
-	if (pipe_fd[0] == -1 || pipe_fd[1] == -1)
+	tmp = NULL;
+	tmp = get_args(*line, 0);
+	if (!s->cmds[i].cmd)
 	{
-		perror("pipe");
-		free(content);
-		return (-1);
+		s->cmds[i].cmd = ft_calloc(2, sizeof(char *));
+		if (!s->cmds[i].cmd)
+		{
+			free(tmp);
+			perror("malloc");
+			return (-1);
+		}
+		s->cmds[i].cmd[0] = ft_strdup(tmp);
+		s->cmds[i].cmd[1] = NULL;
 	}
-	write(pipe_fd[STDOUT_FILENO], content, ft_strlen(content));
-	free(content);
-	if (close(pipe_fd[STDIN_FILENO]) == -1)
-	{
-		perror("close");
-		return (-1);
-	}
-	s->cmds[i].fd_in = pipe_fd[1];
+	else
+		s->cmds[i].cmd[0] = ft_strjoin_f1(s->cmds[i].cmd[0], tmp);
+	(*line) += ft_strlen(tmp);
+	free(tmp);
 	return (0);
 }
 
@@ -69,66 +68,6 @@ int	fill_cmd_struct(t_structs *s, char *line)
 	return (0);
 }
 
-//~~ Remplace les variables d'environnement pas leurs valeurs
-
-char	*replace_env_variables(t_structs *s, char *line)
-{
-	t_env	*var;
-	size_t	i;
-	char	quote;
-	char	*new;
-
-	i = 0;
-	quote = 0;
-	new = NULL;
-	while (line && line[i])
-	{
-		if ((line[i] == '"' || line[i] == '\'') && quote == 0)
-			quote = line[i];
-		else if (line[i] == quote)
-			quote = 0;
-		if (line[i] == '$' && line[i + 1] != ' '
-			&& line[i + 1] != '?' && quote != '\'')
-		{
-			var = find_var(s, &line[i + 1]);
-			new = replace_var(line, i, var);
-		}
-		i++;
-	}
-	if (!new)
-		new = ft_strdup(line);
-	return (new);
-}
-
-//~~ Verifie les erreurs de syntax
-
-int	check_syntax_errors(char *line, char *charset)
-{
-	char	quote;
-	char	last_char;
-
-	skip_spaces(&line);
-	if (*line == '|')
-	{
-		write(2, "minishell: syntax error near unexpected token `|'\n", 51);
-		return (1);
-	}
-	if (*line && syntax_loop(line, charset, &quote, &last_char))
-		return (1);
-	if (*line && ft_strchr(charset, last_char))
-	{
-		write(2, "minishell: syntax error near \
-unexpected token `newline'\n", 57);
-		return (1);
-	}
-	if (*line && quote)
-	{
-		write(2, "minishell: unclosed quotes\n", 28);
-		return (1);
-	}
-	return (0);
-}
-
 void	print_args(t_structs *s)
 {
 	size_t i = 0;
@@ -139,11 +78,52 @@ void	print_args(t_structs *s)
 		i = 0;
 		while (s->cmds->cmd[i])
 		{
-			printf("cmd %zu | arg %zu | = |%s| ", j, i, s->cmds->cmd[i]);
+			// printf("cmd %zu | arg %zu | = |%s| ", j, i, s->cmds->cmd[i]);
+			printf("|%s| ", s->cmds->cmd[i]);
 			i++;
 		}
 		printf("\n");
 		j++;
+	}
+}
+
+size_t	nb_of_pipes(char *line)
+{
+	size_t	nb_of_pipes;
+	char	quote;
+
+	nb_of_pipes = 0;
+	while (*line)
+	{
+		if ((*line == '"' || *line == '\'') && quote == 0)
+			quote = *line;
+		else if (*line == quote)
+			quote = 0;
+		else if (*line == '|' && !quote)
+			nb_of_pipes++;
+		line++;
+	}
+	return (nb_of_pipes);
+}
+
+void	init_cmds_struct(t_structs *s, char *line)
+{
+	size_t	i;
+
+	i = 0;
+	s->cmds_size = nb_of_pipes(line) + 1;
+	s->cmds = ft_calloc(s->cmds_size, sizeof(t_cmd));
+	if (!s->cmds)
+		ft_exit(s, "malloc", EXIT_FAILURE);
+	ft_bzero(s->cmds, sizeof(t_cmd) * s->cmds_size);
+	while (i < s->cmds_size)
+	{
+		s->cmds[i].fd_in = 0;
+		s->cmds[i].cmd = NULL;
+		s->cmds[i].cmd = NULL;
+		s->cmds[i].path = NULL;
+		s->cmds[i].fd_out = 1;
+		i++;
 	}
 }
 
@@ -166,6 +146,7 @@ void	parsing(t_structs *s, char *line)
 		return ;
 	}
 	free(tmp);
-	exec_cmds(s);
+	print_args(s);
+	// exec_cmds(s);
 	free_cmds_struct(s);
 }
