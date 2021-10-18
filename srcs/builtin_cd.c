@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/15 15:53:46 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/18 09:56:40 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,5 @@ void	ft_cd(t_structs *s, t_cmd current)
 		pwd = set_oldpwd(s);
 		set_pwd(s, pwd);
 	}
+	// else cd tout seul revient dans HOME
 }
