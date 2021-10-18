@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/18 17:27:05 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/18 17:39:36 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ void	exec_cmds(t_structs *s)
 		perror("malloc");
 		return ;
 	}
-	pipex(s);
+	if (s->cmds->cmd)
+		pipex(s);
 }
