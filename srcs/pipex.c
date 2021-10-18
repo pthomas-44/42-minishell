@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 13:00:45 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/15 11:12:44 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/18 17:26:25 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,13 @@ void	launch_command(t_structs *s, int in, int out, t_cmd current)
 			ft_exit(s, "dup2", EXIT_FAILURE);
 		if (close(in) == -1 || close(out) == -1)
 			ft_exit(s, "close", EXIT_FAILURE);
-		if (execve(current.path, current.cmd, NULL) == -1)
-			ft_exit(s, "execve", EXIT_FAILURE);
+		builtins_or_not(s, current);
 	}
-	if (close(in) == -1 || close(out) == -1)
-		ft_exit(s, "close", EXIT_FAILURE);
+	else
+	{
+		if (close(in) == -1 || close(out) == -1)
+			ft_exit(s, "close", EXIT_FAILURE);
+	}
 }
 
 void	pipex(t_structs *s)

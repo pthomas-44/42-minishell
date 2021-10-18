@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/15 19:36:13 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/18 15:51:06 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 void	index_list(t_structs *s)
 {
-	t_env	*list;	// remplacer par "t_env	*elem;"
+	t_env	*elem;
 	t_env	*next;
 
-	list = *s->env;
-	while (list)
+	elem = *s->env;
+	while (elem)
 	{
-		list->index = 1;
+		elem->index = 1;
 		next = *s->env;
 		while (next)
 		{
-			if (ft_strcmp(list->name, next->name) > 0)
-				list->index++;
+			if (ft_strcmp(elem->name, next->name) > 0)
+				elem->index++;
 			next = next->next;
 		}
-		list = list->next;
+		elem = elem->next;
 	}
 }
 
@@ -54,14 +54,30 @@ void	print_export(t_structs *s, t_cmd current)
 						ft_strlen(export->value) - 1);
 					write(current.fd_out, "\"", 1);
 				}
-				write(current.fd_out, "\n", 2);	// remplacer par "write(current.fd_out, "\n", 1);"
+				write(current.fd_out, "\n", 1);
 			}
 			export = export->next;
 		}
 	}
 }
 
-char	*take_name(t_structs *s, char *arg)
+int	is_word(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	if (ft_isdigit(str[i]))
+		return (0);
+	while (str[i])
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+char	*take_name(char *arg)
 {
 	size_t	i;
 	char	*name;
@@ -71,11 +87,11 @@ char	*take_name(t_structs *s, char *arg)
 		i++;
 	name = ft_substr(arg, 0, i);
 	if (!name)
-		ft_exit(s, "malloc", EXIT_FAILURE); // remplacer par "return (NULL)"
+		return (NULL);
 	return (name);
 }
 
-void	create_env_variable(t_structs *s, t_cmd current)	// mettre la fonctions de type "int"
+int	create_env_variable(t_structs *s, t_cmd current)
 {
 	size_t	i;
 	t_env	*export;
@@ -85,8 +101,10 @@ void	create_env_variable(t_structs *s, t_cmd current)	// mettre la fonctions de 
 	while (current.cmd[i])
 	{
 		export = *s->env;
-		tmp = take_name(s, current.cmd[i]);	// rajouter "if (!tmp){	return (-1);}"
-		if (ft_str_isalpha(tmp))
+		tmp = take_name(current.cmd[i]);
+		if (!tmp)
+			return (-1);
+		if (is_word(tmp))
 		{
 			while (export)
 			{
@@ -99,14 +117,27 @@ void	create_env_variable(t_structs *s, t_cmd current)	// mettre la fonctions de 
 				env_del(s, export);
 			env_new(s, current.cmd[i]);
 		}
+		else
+		{
+			write(2, "minishell: export: '", 20);
+			write(2, current.cmd[i], ft_strlen(current.cmd[i]));
+			write(2, "': not a valid identifier\n", 26);
+		}
 		i++;
 	}
-}	// rajouter "return (0);
+	return (0);
+}
 
 void	ft_export(t_structs *s, t_cmd current)
 {
-	if (current.cmd[1])	// remplacer par "if (current.cmd[1] && create_env_variable(s, current) == -1){ return ;}""
-		create_env_variable(s, current);
+	if (current.cmd[1])
+	{
+		if (create_env_variable(s, current) == -1)
+		{
+			errno = EXIT_FAILURE;
+			return ;
+		}
+	}
 	else
 	{
 		index_list(s);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/15 19:07:25 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/18 17:27:23 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	check_option_n(char *arg) // avec la modif' ligne 40 tu peux supprimer cette fonction
+int	check_option_n(char *arg)
 {
 	size_t	i;
 
@@ -29,15 +29,15 @@ int	check_option_n(char *arg) // avec la modif' ligne 40 tu peux supprimer cette
 void	ft_echo(t_cmd current)
 {
 	size_t	i;
-	int		option;	// remplacer par "bool	option;"
+	bool	option;
 
 	i = 1;
 	option = 0;
 	if (current.cmd[i])
 	{
-		while (!ft_strncmp(current.cmd[i], "-", 1)) // remplacer par "while (current.cmd[i] && current.cmd[i][0] == '-'))"	Sinon ca segfault sur "echo -n" sans le "current.cmd[i]", Ca me rassure je suis pas le seul a faire des strcmp pour un caractere des fois xD on est bete parreil :p
+		while (current.cmd[i] && current.cmd[i][0] == '-')
 		{
-			if (check_option_n(current.cmd[i] + 1)) // remplacer par "if (current.cmd[i][1] == 'n' && current.cmd[i][2] == '\0')""
+			if (check_option_n(current.cmd[i] + 1))
 				option = 1;
 			else
 				break ;
@@ -45,7 +45,7 @@ void	ft_echo(t_cmd current)
 		}
 		while (current.cmd[i])
 		{
-			write(current.fd_out, current.cmd[i], ft_strlen(current.cmd[i])); // il manque le dup2 ici chef
+			write(current.fd_out, current.cmd[i], ft_strlen(current.cmd[i]));
 			i++;
 			if (current.cmd[i])
 				write(current.fd_out, " ", 1);
@@ -66,18 +66,18 @@ void	ft_pwd(t_cmd current)
 
 void	ft_env(t_structs *s, t_cmd current)
 {
-	t_env	*list;	// remplacer par "t_env	*elem;"
+	t_env	*elem;
 
-	list = *s->env;
-	while (list)
+	elem = *s->env;
+	while (elem)
 	{
-		if (ft_strlen(list->value) > 0)
+		if (ft_strlen(elem->value) > 0)
 		{
-			write(current.fd_out, list->name, ft_strlen(list->name));
-			write(current.fd_out, list->value, ft_strlen(list->value));
+			write(STDOUT_FILENO, elem->name, ft_strlen(elem->name));
+			write(current.fd_out, elem->value, ft_strlen(elem->value));
 			write(current.fd_out, "\n", 1);
 		}
-		list = list->next;
+		elem = elem->next;
 	}
 }
 
@@ -93,7 +93,7 @@ void	ft_unset(t_structs *s, t_cmd current)
 		if (!ft_strcmp(unset->name, current.cmd[1]))
 		{
 			env_del(s, unset);
-			break ; // remplacer par return ; (meme chose, juste plus propre imho)
+			return ;
 		}
 		unset = unset->next;
 	}

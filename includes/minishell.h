@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 19:45:22 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/18 17:26:47 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # include <readline/history.h>
 # include <dirent.h>
 # include <term.h>
+# include <errno.h>
 # include "../libft/includes/libft.h"
 
 /*** ~~ MACROS ~~ ***/
@@ -116,11 +117,11 @@ char			*get_args(char *line, bool is_file);
 char			*heredoc_loop(char *stop);
 // ~~ exec.c
 void			exec_cmds(t_structs *s);
-void			builtins_or_not(t_structs *s, t_cmd current);
+int				builtins_or_not(t_structs *s, t_cmd current);
 // ~~ paths.c
-void			find_cmd_paths(t_structs *s);
-void			set_paths(t_structs *s, char **paths);
-void			find_good_path(t_structs *s, char **paths);
+int				find_cmd_paths(t_structs *s);
+int				set_paths(char **paths, int path_size);
+int				find_good_path(t_structs *s, char **paths);
 // ~~ pipex.c
 void			pipex(t_structs *s);
 void			launch_command(t_structs *s, int in, int out, t_cmd current);
@@ -132,12 +133,14 @@ void			ft_env(t_structs *s, t_cmd current);
 void			ft_unset(t_structs *s, t_cmd current);
 // ~~ builtin_cd.c
 void			ft_cd(t_structs *s, t_cmd current);
+int				go_home(t_structs *s, t_cmd current);
 t_env			*set_oldpwd(t_structs *s);
-void			set_pwd(t_structs *s, t_env *pwd);
+int				set_pwd(t_env *pwd);
 // ~~ builtin_export.c
 void			ft_export(t_structs *s, t_cmd current);
-void			create_env_variable(t_structs *s, t_cmd current);
-char			*take_name(t_structs *s, char *arg);
+int				create_env_variable(t_structs *s, t_cmd current);
+char			*take_name(char *arg);
+int				is_word(char *str);
 void			print_export(t_structs *s, t_cmd current);
 void			index_list(t_structs *s);
 
