@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 17:08:35 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 19:45:22 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ typedef struct s_cmd
 	char		**cmd;
 	char		*path;
 	int			fd_out;
-	pid_t		pid;
 }				t_cmd;
 
 typedef struct s_env
@@ -57,6 +56,13 @@ typedef struct s_env
 	size_t		index;
 	void		*next;
 }				t_env;
+
+typedef struct s_signals
+{
+	bool		sig_int;
+	bool		sig_quit;
+	pid_t		*pid;
+}				t_signals;
 
 typedef struct s_structs
 {
@@ -100,6 +106,8 @@ t_env			*find_var(t_structs *s, char *line);
 char			*replace_var(char *line, size_t i, t_env *var);
 void			remove_quotes(char ***cmd);
 char			*remove_char(char *str, size_t i);
+int				get_infile_sequel(t_structs *s,
+					char ***line, int i, char **tmp);
 // ~~ parsing_utils3.c
 int				get_command(t_structs *s, char **line, int i);
 int				get_outfile(t_structs *s, char **line, int i);
