@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/19 15:18:42 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/19 16:16:49 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	find_good_path(t_structs *s, char **paths)
 			}
 			free(tmp_path);
 		}
+		// si j'ai pas trouvé de path, je balance à find_executable_path ?
 	}
 	return (0);
 }
