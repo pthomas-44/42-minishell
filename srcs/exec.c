@@ -6,13 +6,13 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/18 17:39:36 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/19 10:59:49 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	builtins_or_not(t_structs *s, t_cmd current)
+void	builtins(t_structs *s, t_cmd current)
 {
 	if (!ft_strcmp(current.cmd[0], "echo"))
 		ft_echo(current);
@@ -28,15 +28,24 @@ int	builtins_or_not(t_structs *s, t_cmd current)
 		ft_env(s, current);
 	else if (!ft_strcmp(current.cmd[0], "exit"))
 		ft_exit(s, "", errno);
-	else
-	{
-		if (execve(current.path, current.cmd, NULL) == -1)
-		{
-			write(2, "minishell: ", 11);
-			write(2, current.cmd[0], ft_strlen(current.cmd[0]));
-			write(2, ": command not found", 19);
-		}
-	}
+}
+
+int	is_builtin(t_cmd current)
+{
+	if (!ft_strcmp(current.cmd[0], "echo"))
+		return (1);
+	else if (!ft_strcmp(current.cmd[0], "cd"))
+		return (1);
+	else if (!ft_strcmp(current.cmd[0], "pwd"))
+		return (1);
+	else if (!ft_strcmp(current.cmd[0], "export"))
+		return (1);
+	else if (!ft_strcmp(current.cmd[0], "unset"))
+		return (1);
+	else if (!ft_strcmp(current.cmd[0], "env"))
+		return (1);
+	else if (!ft_strcmp(current.cmd[0], "exit"))
+		return (1);
 	return (0);
 }
 
