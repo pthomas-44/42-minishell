@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/19 10:59:50 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/19 15:20:19 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ void			builtins(t_structs *s, t_cmd current);
 int				find_cmd_paths(t_structs *s);
 int				set_paths(char **paths, int path_size);
 int				find_good_path(t_structs *s, char **paths);
+int				find_executable_path(t_structs *s, t_cmd current);
 // ~~ pipex.c
 void			pipex(t_structs *s);
 void			launch_command(t_structs *s, int in, int out, t_cmd current);
@@ -145,7 +146,7 @@ void			ft_env(t_structs *s, t_cmd current);
 void			ft_unset(t_structs *s, t_cmd current);
 // ~~ builtin_cd.c
 void			ft_cd(t_structs *s, t_cmd current);
-int				go_home(t_structs *s, t_cmd current);
+int				go_home(t_structs *s, t_cmd current, int i);
 t_env			*set_oldpwd(t_structs *s);
 int				set_pwd(t_env *pwd);
 // ~~ builtin_export.c

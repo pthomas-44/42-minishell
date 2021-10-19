@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 13:00:45 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/19 11:03:25 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/19 11:23:29 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	launch_command(t_structs *s, int in, int out, t_cmd current)
 			write(2, "minishell: ", 11);
 			write(2, current.cmd[0], ft_strlen(current.cmd[0]));
 			write(2, ": command not found\n", 20);
-			return ;
+			exit(EXIT_FAILURE);
 		}
 	}
 	else

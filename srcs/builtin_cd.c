@@ -6,13 +6,13 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/18 15:55:26 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/19 15:17:30 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	go_home(t_structs *s, t_cmd current)
+int	go_home(t_structs *s, t_cmd current, int i)
 {
 	t_env	*elem;
 	char	*tmp;
@@ -24,20 +24,20 @@ int	go_home(t_structs *s, t_cmd current)
 			break ;
 		elem = elem->next;
 	}
-	if (current.cmd[1])
+	if (current.cmd[i])
 	{
-		tmp = ft_strdup(current.cmd[1] + 1);
-		free(current.cmd[1]);
+		tmp = ft_strdup(current.cmd[i] + 1);
+		free(current.cmd[i]);
 		if (!tmp)
 			return (-1);
-		current.cmd[1] = ft_strjoin_f2(elem->value + 1, tmp);
-		if (!current.cmd[1])
+		current.cmd[i] = ft_strjoin_f2(elem->value + 1, tmp);
+		if (!current.cmd[i])
 			return (-1);
 	}
 	else
 	{
-		current.cmd[1] = ft_strdup(elem->value + 1);
-		if (!current.cmd[1])
+		current.cmd[i] = ft_strdup(elem->value + 1);
+		if (!current.cmd[i])
 			return (-1);
 	}
 	return (0);
@@ -91,7 +91,7 @@ void	ft_cd(t_structs *s, t_cmd current)
 
 	if (!current.cmd[1] || current.cmd[1][0] == '~')
 	{
-		if (go_home(s, current) == -1)
+		if (go_home(s, current, 1) == -1)
 		{
 			errno = EXIT_FAILURE;
 			return ;
@@ -101,7 +101,7 @@ void	ft_cd(t_structs *s, t_cmd current)
 	{
 		write(2, "minishell: cd: ", 15);
 		write(2, current.cmd[1], ft_strlen(current.cmd[1]));
-		write(2, ": No such file or directory", 27);
+		write(2, ": No such file or directory\n", 28);
 		errno = EXIT_FAILURE;
 		return ;
 	}

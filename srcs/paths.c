@@ -6,11 +6,55 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/18 14:33:39 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/19 15:18:42 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	find_executable_path(t_structs *s, t_cmd current)
+{
+	char	cwd[MAXPATHLEN];
+	char	*tmp;
+
+	if (current.cmd[0][0] == '~')
+	{
+		if (go_home(s, current, 0) == -1)
+		{
+			errno = EXIT_FAILURE;
+			return (-1);
+		}
+	}
+	if (open(current.cmd[0], O_RDONLY) != -1)
+	{
+		current.path = ft_strdup(current.cmd[0]);
+		if (!current.path)
+			return (-1);
+	}
+	else if (current.cmd[0][0] == '.' && current.cmd[0][1] == '/')
+	{
+		getcwd(cwd, MAXPATHLEN);
+		tmp = ft_strjoin_f1(cwd, "/");
+		if (!tmp)
+			return (-1);
+		tmp = ft_strjoin_f1(tmp, current.cmd[0]);
+		if (!tmp)
+			return (-1);
+		if (open(tmp, O_RDONLY) != -1)
+		{
+			current.path = ft_strdup(tmp);
+			if (!current.path)
+				return (-1);
+		}
+	}
+	else
+	{
+		write(2, "minishell: ", 11);
+		write(2, current.cmd[0], ft_strlen(current.cmd[0]));
+		write(2, ": No such file or directory\n", 28);
+	}
+	return (0);
+}
 
 int	find_good_path(t_structs *s, char **paths)
 {
