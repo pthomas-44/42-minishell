@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/18 17:27:23 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/20 12:49:20 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,23 @@ void	ft_env(t_structs *s, t_cmd current)
 void	ft_unset(t_structs *s, t_cmd current)
 {
 	t_env	*unset;
+	size_t	i;
 
 	if (!current.cmd[1])
 		return ;
-	unset = *s->env;
-	while (unset)
+	i = 1;
+	while (current.cmd[i])
 	{
-		if (!ft_strcmp(unset->name, current.cmd[1]))
+		unset = *s->env;
+		while (unset)
 		{
-			env_del(s, unset);
-			return ;
+			if (!ft_strcmp(unset->name, current.cmd[i]))
+			{
+				env_del(s, unset);
+				break ;
+			}
+			unset = unset->next;
 		}
-		unset = unset->next;
+		i++;
 	}
 }

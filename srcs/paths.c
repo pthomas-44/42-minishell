@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/19 16:16:49 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/20 13:22:25 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	find_executable_path(t_structs *s, t_cmd current)
 	else if (current.cmd[0][0] == '.' && current.cmd[0][1] == '/')
 	{
 		getcwd(cwd, MAXPATHLEN);
-		tmp = ft_strjoin_f1(cwd, "/");
+		tmp = ft_strjoin_f0(cwd, "/");
 		if (!tmp)
 			return (-1);
 		tmp = ft_strjoin_f1(tmp, current.cmd[0]);
@@ -46,6 +46,7 @@ int	find_executable_path(t_structs *s, t_cmd current)
 			if (!current.path)
 				return (-1);
 		}
+		free(tmp);
 	}
 	else
 	{
@@ -83,7 +84,6 @@ int	find_good_path(t_structs *s, char **paths)
 			}
 			free(tmp_path);
 		}
-		// si j'ai pas trouvé de path, je balance à find_executable_path ?
 	}
 	return (0);
 }

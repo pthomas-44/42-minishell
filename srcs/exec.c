@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/19 14:55:18 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/20 13:20:00 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,19 @@ int	is_builtin(t_cmd current)
 
 void	exec_cmds(t_structs *s)
 {
+	size_t	i;
+
 	if (find_cmd_paths(s) == -1)
 	{
 		perror("malloc");
 		return ;
+	}
+	i = 0;
+	while (i < s->cmds_size)
+	{
+		if (!s->cmds[i].path && !is_builtin(s->cmds[i]))
+			find_executable_path(s, s->cmds[i]);
+		i++;
 	}
 	if (s->cmds->cmd)
 		pipex(s);
