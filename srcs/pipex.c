@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 13:00:45 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/20 14:58:52 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 11:36:02 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,21 @@
 
 void	launch_builtin(t_structs *s, int in, int out, t_cmd current)
 {
-	// (void)in;
-	// (void)out;
-	printf("wesh\n");
-	printf("%d | %d\n", current.fd_in, current.fd_out);
-	if ((current.fd_in != 0 && close(current.fd_in) == -1) || (current.fd_out != 1 && close(current.fd_out) == -1))
-	{
-		perror("close");
-		return ;
-	}
-	printf("wesh2\n");
 	if (in != 0 && dup2(in, current.fd_in) == -1)
 	{
 		perror("dup2");
 		return ;
 	}
-	printf("wesh3\n");
 	if (out != 1 && dup2(out, current.fd_out) == -1)
 	{
 		perror("dup2");
 		return ;
 	}
-	printf("wesh4\n");
 	if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))
 	{
 		perror("close");
 		return ;
 	}
-	printf("wesh5\n");
 	builtins(s, current);
 }
 
