@@ -6,25 +6,11 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/22 11:17:38 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 16:18:40 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	check_option_n(char *arg)
-{
-	size_t	i;
-
-	i = 0;
-	while (arg[i])
-	{
-		if (arg[i] != 'n')
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 void	ft_echo(t_structs *s, t_cmd current)
 {
@@ -47,8 +33,7 @@ void	ft_echo(t_structs *s, t_cmd current)
 		while (current.cmd[i])
 		{
 			write(current.fd_out, current.cmd[i], ft_strlen(current.cmd[i]));
-			i++;
-			if (current.cmd[i])
+			if (current.cmd[++i])
 				write(current.fd_out, " ", 1);
 		}
 	}
@@ -75,7 +60,7 @@ void	ft_env(t_structs *s, t_cmd current)
 	{
 		if (ft_strlen(elem->value) > 0)
 		{
-			write(STDOUT_FILENO, elem->name, ft_strlen(elem->name));
+			write(current.fd_out, elem->name, ft_strlen(elem->name));
 			write(current.fd_out, elem->value, ft_strlen(elem->value));
 			write(current.fd_out, "\n", 1);
 		}

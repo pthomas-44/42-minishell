@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/22 11:38:14 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 17:06:59 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,9 @@ char			*remove_char(char *str, size_t i);
 void			skip_spaces(char **line);
 char			*get_args(char *line, bool is_file);
 // ~~ exec.c
+void			pipex(t_structs *s);
+void			launch_command(t_structs *s, int in, int out, t_cmd *current);
+void			wait_child_process(t_structs *s);
 int				is_builtin(t_cmd current);
 void			builtins(t_structs *s, t_cmd current);
 // ~~ paths.c
@@ -138,27 +141,24 @@ int				find_path_in_sys(t_cmd *current, char **paths);
 int				find_exe_path(t_structs *s, t_cmd *current);
 char			*replace_by_home_path(t_structs *s, char *cmd);
 int				path_error_check(t_cmd *current);
-// ~~ pipex.c
-void			pipex(t_structs *s);
-void			launch_command(t_structs *s, int in, int out, t_cmd *current);
-void			launch_builtin(t_structs *s, int in, int out, t_cmd current);
 // ~~ builtins.c
 void			ft_echo(t_structs *s, t_cmd current);
-int				check_option_n(char *arg);
 void			ft_pwd(t_structs *s, t_cmd current);
 void			ft_env(t_structs *s, t_cmd current);
 void			ft_unset(t_structs *s, t_cmd current);
 // ~~ builtin_cd.c
 void			ft_cd(t_structs *s, t_cmd current);
-int				go_home(t_structs *s, t_cmd current, int i);
-t_env			*set_oldpwd(t_structs *s);
-int				set_pwd(t_env *pwd);
+int				set_oldpwd(t_structs *s);
+int				set_pwd(t_structs *s);
 // ~~ builtin_export.c
 void			ft_export(t_structs *s, t_cmd current);
 int				create_env_variable(t_structs *s, t_cmd current);
-char			*take_name(char *arg);
-int				is_word(char *str);
+void			create_variable(t_structs *s, char *cmd, char *tmp);
 void			print_export(t_structs *s, t_cmd current);
 void			index_list(t_structs *s);
+// ~~ builtins_utils.c
+int				check_option_n(char *arg);
+int				is_word(char *str);
+char			*take_name(char *arg);
 
 #endif
