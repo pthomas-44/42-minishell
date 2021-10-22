@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/20 20:55:00 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 11:38:00 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 void	builtins(t_structs *s, t_cmd current)
 {
 	if (!ft_strcmp(current.cmd[0], "echo"))
-		ft_echo(current);
+		ft_echo(s, current);
 	else if (!ft_strcmp(current.cmd[0], "cd"))
 		ft_cd(s, current);
 	else if (!ft_strcmp(current.cmd[0], "pwd"))
-		ft_pwd(current);
+		ft_pwd(s, current);
 	else if (!ft_strcmp(current.cmd[0], "export"))
 		ft_export(s, current);
 	else if (!ft_strcmp(current.cmd[0], "unset"))

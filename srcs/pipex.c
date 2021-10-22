@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 13:00:45 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/22 11:32:36 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 11:38:12 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	launch_builtin(t_structs *s, int in, int out, t_cmd current)
 {
-	if (in != 0 && dup2(in, STDIN_FILENO) == -1)
+	if (in != 0 && dup2(in, current.fd_in) == -1)
 	{
 		perror("dup2");
 		return ;
 	}
-	if (out != 1 && dup2(out, STDOUT_FILENO) == -1)
+	if (out != 1 && dup2(out, current.fd_out) == -1)
 	{
 		perror("dup2");
 		return ;
