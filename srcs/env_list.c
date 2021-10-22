@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:42:08 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 14:07:56 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/20 20:23:26 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,25 @@ void	env_clear(t_structs *s)
 	}
 	s->env_size = 0;
 	free(s->env);
+}
+
+char	**list_to_char(t_structs *s)
+{
+	t_env	*elem;
+	size_t	i;
+	char	**envp;
+
+	i = 0;
+	elem = *s->env;
+	envp = malloc(sizeof(char *) * s->env_size + 1);
+	if (!envp)
+		perror("malloc");
+	envp[s->env_size + 1] = NULL;
+	while (elem)
+	{
+		envp[i] = ft_strjoin_f0(elem->name, elem->value);
+		i++;
+		elem = elem->next;
+	}
+	return (envp);
 }

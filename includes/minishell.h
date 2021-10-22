@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/20 12:58:19 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/20 20:23:41 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void			ft_exit(t_structs *s, char *errormsg, int status);
 void			env_new(t_structs *s, char *var);
 void			env_del(t_structs *s, t_env *elem);
 void			env_clear(t_structs *s);
+char			**list_to_char(t_structs *s);
 // ~~ signal.c
 void			sig_int(int sig);
 void			sig_quit(int sig);
@@ -126,17 +127,20 @@ char			*remove_char(char *str, size_t i);
 void			skip_spaces(char **line);
 char			*get_args(char *line, bool is_file);
 // ~~ exec.c
-void			exec_cmds(t_structs *s);
 int				is_builtin(t_cmd current);
 void			builtins(t_structs *s, t_cmd current);
 // ~~ paths.c
-int				find_cmd_paths(t_structs *s);
-int				set_paths(char **paths, int path_size);
-int				find_good_path(t_structs *s, char **paths);
-int				find_executable_path(t_structs *s, t_cmd current);
+int				get_path(t_structs *s, t_cmd *current);
+char			**get_env_paths(t_structs *s);
+char			**add_backslash(char **paths);
+int				find_path(t_structs *s, char **paths, t_cmd *current);
+int				find_path_in_sys(t_cmd *current, char **paths);
+int				find_exe_path(t_structs *s, t_cmd *current);
+char			*replace_by_home_path(t_structs *s, char *cmd);
+int				path_error_check(t_cmd *current);
 // ~~ pipex.c
 void			pipex(t_structs *s);
-void			launch_command(t_structs *s, int in, int out, t_cmd current);
+void			launch_command(t_structs *s, int in, int out, t_cmd *current);
 void			launch_builtin(t_structs *s, int in, int out, t_cmd current);
 // ~~ builtins.c
 void			ft_echo(t_cmd current);

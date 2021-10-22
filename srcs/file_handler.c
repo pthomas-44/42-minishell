@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:26:00 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/20 19:07:50 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 11:19:42 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int	get_outfile(t_structs *s, char **line, int i)
 	skip_spaces(&(*line));
 	tmp[1] = get_args(*line, 1);
 	if (*(tmp[0] - 2) == '>')
-		s->cmds[i].fd_out = open(tmp[1], O_CREAT | O_RDWR, 0644);
+		s->cmds[i].fd_out = open(tmp[1], O_CREAT | O_WRONLY | O_APPEND, 0644);
 	else
-		s->cmds[i].fd_out = open(tmp[1], O_CREAT | O_RDWR | O_TRUNC, 0644);
+		s->cmds[i].fd_out = open(tmp[1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (s->cmds[i].fd_out == -1)
 	{
 		free(tmp[1]);

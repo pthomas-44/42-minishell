@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/18 17:35:24 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/20 19:49:51 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,14 @@ void	parsing(t_structs *s, char *line)
 	}
 	free(tmp);
 	// print_args(s);
-	exec_cmds(s);
+	// exec_cmds(s);
+	// size_t i = 0;
+	// while (i < s->cmds_size)
+	// {
+	// 	get_path(s, &s->cmds[i]);
+	// 	// printf("path = %s | cmd[0] = %s\n", s->cmds[i].path, s->cmds[i].cmd[0]);
+	// 	i++;
+	// }
+	pipex(s);
 	free_cmds_struct(s);
 }
