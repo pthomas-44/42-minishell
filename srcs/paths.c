@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/20 13:22:25 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/20 16:34:27 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,7 @@ int	find_executable_path(t_structs *s, t_cmd current)
 			return (-1);
 		}
 	}
-	if (open(current.cmd[0], O_RDONLY) != -1)
-	{
-		current.path = ft_strdup(current.cmd[0]);
-		if (!current.path)
-			return (-1);
-	}
-	else if (current.cmd[0][0] == '.' && current.cmd[0][1] == '/')
+	if (current.cmd[0][0] == '.' && current.cmd[0][1] == '/')
 	{
 		getcwd(cwd, MAXPATHLEN);
 		tmp = ft_strjoin_f0(cwd, "/");
@@ -47,6 +41,12 @@ int	find_executable_path(t_structs *s, t_cmd current)
 				return (-1);
 		}
 		free(tmp);
+	}
+	else if (open(current.cmd[0], O_RDONLY) != -1)
+	{
+		current.path = ft_strdup(current.cmd[0]);
+		if (!current.path)
+			return (-1);
 	}
 	else
 	{
