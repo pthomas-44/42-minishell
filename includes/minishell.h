@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/20 12:58:19 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 10:58:27 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,9 +139,9 @@ void			pipex(t_structs *s);
 void			launch_command(t_structs *s, int in, int out, t_cmd current);
 void			launch_builtin(t_structs *s, int in, int out, t_cmd current);
 // ~~ builtins.c
-void			ft_echo(t_cmd current);
+void			ft_echo(t_structs *s, t_cmd current);
 int				check_option_n(char *arg);
-void			ft_pwd(t_cmd current);
+void			ft_pwd(t_structs *s, t_cmd current);
 void			ft_env(t_structs *s, t_cmd current);
 void			ft_unset(t_structs *s, t_cmd current);
 // ~~ builtin_cd.c

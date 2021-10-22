@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/20 14:27:30 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 11:17:38 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ int	check_option_n(char *arg)
 	return (1);
 }
 
-void	ft_echo(t_cmd current)
+void	ft_echo(t_structs *s, t_cmd current)
 {
 	size_t	i;
 	bool	option;
 
+	(void)s;
 	i = 1;
 	option = 0;
 	if (current.cmd[i])
@@ -55,10 +56,11 @@ void	ft_echo(t_cmd current)
 		write(current.fd_out, "\n", 1);
 }
 
-void	ft_pwd(t_cmd current)
+void	ft_pwd(t_structs *s, t_cmd current)
 {
 	char	cwd[MAXPATHLEN];
 
+	(void)s;
 	getcwd(cwd, MAXPATHLEN);
 	write(current.fd_out, cwd, ft_strlen(cwd));
 	write(current.fd_out, "\n", 1);
