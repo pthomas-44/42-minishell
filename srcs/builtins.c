@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/25 10:12:39 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/25 11:39:30 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,16 @@ int	ft_echo(t_structs *s, t_cmd current)
 	bool	option;
 
 	(void)s;
-	i = 1;
+	i = 0;
 	option = 0;
-	if (current.cmd[i])
+	if (current.cmd[1])
 	{
-		while (current.cmd[i] && current.cmd[i][0] == '-')
+		while (current.cmd[++i] && current.cmd[i][0] == '-')
 		{
 			if (check_option_n(current.cmd[i] + 1))
 				option = 1;
 			else
 				break ;
-			i++;
 		}
 		while (current.cmd[i])
 		{
@@ -77,7 +76,10 @@ int	ft_unset(t_structs *s, t_cmd current)
 	size_t	i;
 
 	if (!current.cmd[1])
+	{
+		errno = EXIT_FAILURE;
 		return (-1);
+	}
 	i = 1;
 	while (current.cmd[i])
 	{

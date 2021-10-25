@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/25 10:11:20 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/25 11:39:03 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ int	ft_cd(t_structs *s, t_cmd current)
 	else
 		current.path = ft_strdup(current.cmd[1]);
 	if (!current.path)
+	{
+		errno = EXIT_FAILURE;
 		return (-1);
+	}
 	if (chdir(current.path) == -1)
 	{
 		write(2, "minishell: cd: ", 15);
