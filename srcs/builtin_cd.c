@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/22 16:18:41 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/25 10:11:20 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,31 +60,26 @@ int	set_oldpwd(t_structs *s)
 	return (0);
 }
 
-void	ft_cd(t_structs *s, t_cmd current)
+int	ft_cd(t_structs *s, t_cmd current)
 {
 	if (!current.cmd[1] || current.cmd[1][0] == '~')
-	{
 		current.path = replace_by_home_path(s, current.cmd[1]);
-		if (!current.path)
-			return ;
-	}
 	else
-	{
 		current.path = ft_strdup(current.cmd[1]);
-		if (!current.path)
-			return ;
-	}
+	if (!current.path)
+		return (-1);
 	if (chdir(current.path) == -1)
 	{
 		write(2, "minishell: cd: ", 15);
 		write(2, current.path, ft_strlen(current.path));
 		write(2, ": No such file or directory\n", 28);
 		errno = EXIT_FAILURE;
-		return ;
+		return (-1);
 	}
 	if (set_oldpwd(s) == -1 || set_pwd(s) == -1)
 	{
 		errno = EXIT_FAILURE;
-		return ;
+		return (-1);
 	}
+	return (0);
 }

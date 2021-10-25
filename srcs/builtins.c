@@ -6,13 +6,13 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/22 16:18:40 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/25 10:12:39 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_echo(t_structs *s, t_cmd current)
+int	ft_echo(t_structs *s, t_cmd current)
 {
 	size_t	i;
 	bool	option;
@@ -39,9 +39,10 @@ void	ft_echo(t_structs *s, t_cmd current)
 	}
 	if (!option)
 		write(current.fd_out, "\n", 1);
+	return (0);
 }
 
-void	ft_pwd(t_structs *s, t_cmd current)
+int	ft_pwd(t_structs *s, t_cmd current)
 {
 	char	cwd[MAXPATHLEN];
 
@@ -49,9 +50,10 @@ void	ft_pwd(t_structs *s, t_cmd current)
 	getcwd(cwd, MAXPATHLEN);
 	write(current.fd_out, cwd, ft_strlen(cwd));
 	write(current.fd_out, "\n", 1);
+	return (0);
 }
 
-void	ft_env(t_structs *s, t_cmd current)
+int	ft_env(t_structs *s, t_cmd current)
 {
 	t_env	*elem;
 
@@ -66,15 +68,16 @@ void	ft_env(t_structs *s, t_cmd current)
 		}
 		elem = elem->next;
 	}
+	return (0);
 }
 
-void	ft_unset(t_structs *s, t_cmd current)
+int	ft_unset(t_structs *s, t_cmd current)
 {
 	t_env	*unset;
 	size_t	i;
 
 	if (!current.cmd[1])
-		return ;
+		return (-1);
 	i = 1;
 	while (current.cmd[i])
 	{
@@ -90,4 +93,5 @@ void	ft_unset(t_structs *s, t_cmd current)
 		}
 		i++;
 	}
+	return (0);
 }
