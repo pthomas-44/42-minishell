@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/26 17:52:20 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/26 17:52:40 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ char			*get_args(char *line, bool is_file);
 // ~~ file_handler.c
 int				get_infile(t_structs *s, char **line, int i);
 int				get_outfile(t_structs *s, char **line, int i);
+// ~~ split_cmd.c
+char			**split_cmd(char **cmd);
 // ~~ exec.c
 void			pipex(t_structs *s);
 void			launch_command(t_structs *s, int in, int out, t_cmd *current);
@@ -139,6 +141,5 @@ int				create_env_variable(t_structs *s, t_cmd current);
 void			create_variable(t_structs *s, char *cmd, char *tmp);
 void			print_export(t_structs *s, t_cmd current);
 void			index_list(t_structs *s);
-char	**split_cmd(char **cmd);
 
 #endif
