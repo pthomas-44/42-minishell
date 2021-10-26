@@ -6,28 +6,29 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/25 11:37:58 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/26 16:37:39 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	builtins(t_structs *s, t_cmd current)
+int	builtins(t_structs *s, t_cmd current)
 {
-	if (!ft_strcmp(current.cmd[0], "echo"))
-		ft_echo(s, current);
-	else if (!ft_strcmp(current.cmd[0], "cd"))
-		ft_cd(s, current);
-	else if (!ft_strcmp(current.cmd[0], "pwd"))
-		ft_pwd(s, current);
-	else if (!ft_strcmp(current.cmd[0], "export"))
-		ft_export(s, current);
-	else if (!ft_strcmp(current.cmd[0], "unset"))
-		ft_unset(s, current);
-	else if (!ft_strcmp(current.cmd[0], "env"))
-		ft_env(s, current);
+	if (!ft_strcmp(current.cmd[0], "echo") && ft_echo(s, current) == -1)
+		return (-1);
+	else if (!ft_strcmp(current.cmd[0], "cd") && ft_cd(s, current) == -1)
+		return (-1);
+	else if (!ft_strcmp(current.cmd[0], "pwd") && ft_pwd(s, current) == -1)
+		return (-1);
+	else if (!ft_strcmp(current.cmd[0], "export") && ft_export(s, current) == -1)
+		return (-1);
+	else if (!ft_strcmp(current.cmd[0], "unset") && ft_unset(s, current) == -1)
+		return (-1);
+	else if (!ft_strcmp(current.cmd[0], "env") && ft_env(s, current) == -1)
+		return (-1);
 	else if (!ft_strcmp(current.cmd[0], "exit"))
 		ft_exit(s, "", errno);
+	return (0);
 }
 
 int	is_builtin(t_cmd current)
@@ -54,16 +55,45 @@ void	wait_child_process(t_structs *s)
 	size_t		i;
 
 	i = 0;
-	while (i < s->cmds_size && !is_builtin(s->cmds[i]))
+	while (i < s->cmds_size)
 	{
-		if (s->cmds[i].path && s->cmds[i].cmd
-			&& waitpid(-1, NULL, WUNTRACED) == -1)
+		if (is_builtin(s->cmds[i]) || (s->cmds[i].path && s->cmds[i].cmd))
 		{
-			perror("waitpid");
-			return ;
+			if (waitpid(-1, NULL, WUNTRACED) == -1)
+			{
+				perror("waitpid");
+				return ;
+			}
 		}
 		i++;
 	}
+}
+
+void	launch_builtin(t_structs *s, int in, int out, t_cmd *current)
+{
+	pid_t	pid;
+
+	(void)in;
+	(void)out;
+	pid = fork();
+	if (pid == -1)
+		perror("fork");
+	else if (pid == 0)
+	{
+		// if (in != 0 && dup2(in, STDIN_FILENO) == -1)
+		// 	perror("dup2");
+		// else if (out != 1 && dup2(out, STDOUT_FILENO) == -1)
+		// 	perror("dup2");
+		// else if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))
+		// 	perror("close");
+		if (builtins(s, *current) == -1)
+			exit(EXIT_FAILURE);
+		else
+			exit(EXIT_SUCCESS);
+	}
+	// else
+	// 	if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))
+	// 		perror("close");
 }
 
 void	launch_command(t_structs *s, int in, int out, t_cmd *current)
@@ -86,8 +116,11 @@ void	launch_command(t_structs *s, int in, int out, t_cmd *current)
 		else if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))
 			perror("close");
 		else if (execve(current->path, current->cmd, envp) == -1)
+		{
+			free_tab(envp, 0);
 			perror("execve");
-		free_tab(envp, 0);
+			exit(EXIT_FAILURE);
+		}
 	}
 	else
 		if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))
@@ -110,11 +143,11 @@ void	pipex(t_structs *s)
 		if (s->cmds[i].fd_out == 1 && i < s->cmds_size - 1)
 			s->cmds[i].fd_out = pipefd[1];
 		if (is_builtin(s->cmds[i]))
-			builtins(s, s->cmds[i]);
+			launch_builtin(s, s->cmds[i].fd_in, s->cmds[i].fd_out, &s->cmds[i]);
 		else
 			launch_command(s, s->cmds[i].fd_in, s->cmds[i].fd_out, &s->cmds[i]);
 		i++;
-		if (s->cmds[i].fd_in == 0 && i)
+		if (i < s->cmds_size && s->cmds[i].fd_in == 0)
 			s->cmds[i].fd_in = pipefd[0];
 	}
 	wait_child_process(s);

@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/25 10:09:11 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/26 15:27:25 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,9 +129,10 @@ char			*get_args(char *line, bool is_file);
 // ~~ exec.c
 void			pipex(t_structs *s);
 void			launch_command(t_structs *s, int in, int out, t_cmd *current);
+void			launch_builtin(t_structs *s, int in, int out, t_cmd *current);
 void			wait_child_process(t_structs *s);
 int				is_builtin(t_cmd current);
-void			builtins(t_structs *s, t_cmd current);
+int				builtins(t_structs *s, t_cmd current);
 // ~~ paths.c
 int				get_path(t_structs *s, t_cmd *current);
 char			**get_env_paths(t_structs *s);
