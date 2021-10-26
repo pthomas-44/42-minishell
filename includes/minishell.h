@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/26 15:27:25 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/26 17:52:20 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 /*** ~~ MACROS ~~ ***/
 
 # define EXIT_MISSING 2
-# define PROMPT "minishell $> "
+# define PROMPT "potatoshell >$ "
 # define HEREDOC_PROMPT "> "
 
 /*** ~~ STRUCTURES ~~ ***/
@@ -83,15 +83,11 @@ typedef struct s_structs
 
 /*** ~~ PROTOTYPES ~~ ***/
 
-// ~~ main.c
-void			init_control_struct(t_structs *s, char **env);
-void			prompt_loop(t_structs *s);
-void			ft_exit(t_structs *s, char *errormsg, int status);
 // ~~ exit.c
 void			free_cmds_struct(t_structs *s);
 void			ft_exit(t_structs *s, char *errormsg, int status);
 // ~~ env_list.c
-void			env_new(t_structs *s, char *var);
+int				env_new(t_structs *s, char *var);
 void			env_del(t_structs *s, t_env *elem);
 void			env_clear(t_structs *s);
 char			**list_to_char(t_structs *s);
@@ -100,32 +96,18 @@ void			sig_int(int sig);
 void			sig_quit(int sig);
 // ~~ parsing.c
 void			parsing(t_structs *s, char *line);
-void			init_cmds_struct(t_structs *s, char *line);
-size_t			nb_of_pipes(char *line);
-int				fill_cmd_struct(t_structs *s, char *line);
-int				get_command(t_structs *s, char **line, int i);
-// ~~ file_handler.c
-int				get_outfile(t_structs *s, char **line, int i);
-int				get_infile(t_structs *s, char **line, int i);
-int				get_infile_sequel(t_structs *s,
-					char ***line, int i, char **tmp);
-int				heredoc_handler(t_structs *s, char *stop, int i);
-char			*heredoc_loop(char *stop);
 // ~~ syntax_checker.c
 int				check_syntax_errors(char *line, char *charset);
-int				syntaxx_loop(char *line, char *charset,
-					char *quote, char *last_char);
-int				check_successive_operators(char **line, char *charset);
 // ~~ env_var_handler.c
 char			*replace_env_variables(t_structs *s, char *line);
-t_env			*find_var(t_structs *s, char *line);
-char			*replace_var(char *line, size_t i, t_env *var, char c);
-char			*handle_operands(char *value, char *charset);
+char			check_quotes(char c, char quote);
 // ~~ parsing_utils.c
-void			remove_quotes(char ***cmd);
-char			*remove_char(char *str, size_t i);
+void			remove_quotes(char **cmd);
 void			skip_spaces(char **line);
 char			*get_args(char *line, bool is_file);
+// ~~ file_handler.c
+int				get_infile(t_structs *s, char **line, int i);
+int				get_outfile(t_structs *s, char **line, int i);
 // ~~ exec.c
 void			pipex(t_structs *s);
 void			launch_command(t_structs *s, int in, int out, t_cmd *current);
@@ -157,9 +139,6 @@ int				create_env_variable(t_structs *s, t_cmd current);
 void			create_variable(t_structs *s, char *cmd, char *tmp);
 void			print_export(t_structs *s, t_cmd current);
 void			index_list(t_structs *s);
-// ~~ builtins_utils.c
-int				check_option_n(char *arg);
-int				is_word(char *str);
-char			*take_name(char *arg);
+char	**split_cmd(char **cmd);
 
 #endif

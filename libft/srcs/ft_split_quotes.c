@@ -6,20 +6,31 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:51:28 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 14:25:39 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 13:20:44 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
 
+static char	check_quotes(char c, char quote)
+{
+	if ((c == '"' || c == '\'') && quote == 0)
+		quote = c;
+	else if (c == quote)
+		quote = 0;
+	return (quote);
+}
+
 static int	ft_countwords(const char *s, char c)
 {
 	int	nb;
+	char	quote;
 
 	nb = 0;
 	while (*s)
 	{
-		if (*s && *s != c && (*(s + 1) == c || *(s + 1) == 0))
+		quote = check_quotes(*s, quote);
+		if (*s && *s != c && (*(s + 1) == c || *(s + 1) == 0) && !quote)
 			nb++;
 		s++;
 	}
@@ -32,15 +43,6 @@ static char	**ft_freetab(char **tab, int i)
 		free(tab[i]);
 	free(tab);
 	return (0);
-}
-
-static char	check_quotes(char c, char quote)
-{
-	if ((c == '"' || c == '\'') && quote == 0)
-		quote = c;
-	else if (c == quote)
-		quote = 0;
-	return (quote);
 }
 
 static char	**loop(char const **s, char **tab, int *i)

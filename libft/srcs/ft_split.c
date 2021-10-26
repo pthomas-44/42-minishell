@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 04:16:43 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/06 19:49:03 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 15:22:22 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	**ft_split(char const *s, char c)
 	char		**tab;
 
 	i = 0;
-	tab = malloc(sizeof(char *) * (ft_countwords(s, c) + 1));
+	tab = ft_calloc(ft_countwords(s, c) + 1, sizeof(char *));
 	if (!s || !tab)
 		return (0);
 	while (*s)

@@ -6,42 +6,45 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/25 13:54:56 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/26 17:51:03 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-//~~ Gere l'operateur '<<' comme un heredoc
+//~~ Recupere la ligne de commande
 
-int	get_command(t_structs *s, char **line, int i)
+static int	get_command(t_structs *s, char **line, int i)
 {
 	char	*tmp;
 
-	tmp = NULL;
 	tmp = get_args(*line, 0);
 	if (!s->cmds[i].cmd)
 	{
-		s->cmds[i].cmd = ft_calloc(2, sizeof(char *));
+		s->cmds[i].cmd = ft_split(ft_strdup(tmp), 0);
 		if (!s->cmds[i].cmd)
 		{
 			free(tmp);
 			perror("malloc");
 			return (-1);
 		}
-		s->cmds[i].cmd[0] = ft_strdup(tmp);
-		s->cmds[i].cmd[1] = NULL;
 	}
 	else
 		s->cmds[i].cmd[0] = ft_strjoin_f1(s->cmds[i].cmd[0], tmp);
+	if (!s->cmds[i].cmd[0])
+	{
+		free(tmp);
+		perror("malloc");
+		return (-1);
+	}
 	(*line) += ft_strlen(tmp);
 	free(tmp);
 	return (0);
 }
 
-//~~ Remplis la structure t_cmd avec les donnees de line
+//~~ Remplis la structure t_cmd avec les donnees de la ligne de commandes
 
-int	fill_cmd_struct(t_structs *s, char *line)
+static int	fill_cmd_struct(t_structs *s, char *line)
 {
 	size_t	i;
 
@@ -55,8 +58,8 @@ int	fill_cmd_struct(t_structs *s, char *line)
 			return (-1);
 		else if (*line == '|')
 		{
-			s->cmds[i].cmd = ft_split_quotes(s->cmds[i].cmd[0]);
-			remove_quotes(&s->cmds[i].cmd);
+			s->cmds[i].cmd = split_cmd(s->cmds[i].cmd);
+			remove_quotes(s->cmds[i].cmd);
 			line++;
 			i++;
 		}
@@ -65,17 +68,20 @@ int	fill_cmd_struct(t_structs *s, char *line)
 	}
 	if (!s->cmds[i].cmd)
 		return (-1);
-	s->cmds[i].cmd = ft_split_quotes(s->cmds[i].cmd[0]);
-	remove_quotes(&s->cmds[i].cmd);
+	s->cmds[i].cmd = split_cmd(s->cmds[i].cmd);
+	remove_quotes(s->cmds[i].cmd);
 	return (0);
 }
 
-size_t	nb_of_pipes(char *line)
+// Compte le nombre de pipes dans la ligne de commandes
+
+static size_t	nb_of_pipes(char *line)
 {
 	size_t	nb_of_pipes;
 	char	quote;
 
 	nb_of_pipes = 0;
+	quote = 0;
 	while (*line)
 	{
 		if ((*line == '"' || *line == '\'') && quote == 0)
@@ -89,20 +95,20 @@ size_t	nb_of_pipes(char *line)
 	return (nb_of_pipes);
 }
 
-void	init_cmds_struct(t_structs *s, char *line)
+// Initialisation de la structure t_cmd
+
+static void	init_cmds_struct(t_structs *s, char *line)
 {
 	size_t	i;
 
-	i = 0;
 	s->cmds_size = nb_of_pipes(line) + 1;
-	s->cmds = ft_calloc(s->cmds_size, sizeof(t_cmd));
+	s->cmds = ft_calloc(s->cmds_size + 1, sizeof(t_cmd));
 	if (!s->cmds)
 		ft_exit(s, "malloc", EXIT_FAILURE);
-	ft_bzero(s->cmds, sizeof(t_cmd) * s->cmds_size);
+	i = 0;
 	while (i < s->cmds_size)
 	{
 		s->cmds[i].fd_in = 0;
-		s->cmds[i].cmd = NULL;
 		s->cmds[i].cmd = NULL;
 		s->cmds[i].path = NULL;
 		s->cmds[i].fd_out = 1;
@@ -110,26 +116,8 @@ void	init_cmds_struct(t_structs *s, char *line)
 	}
 }
 
-// void	print_args(t_structs *s)
-// {
-// 	size_t i = 0;
-// 	size_t j = 0;
-
-// 	while (j < s->cmds_size)
-// 	{
-// 		i = 0;
-// 		while (s->cmds->cmd[i])
-// 		{
-// 			// printf("cmd %zu | arg %zu | = |%s| ", j, i, s->cmds->cmd[i]);
-// 			printf("|%s| ", s->cmds->cmd[i]);
-// 			i++;
-// 		}
-// 		printf("\n");
-// 		j++;
-// 	}
-// }
-
-//~~ Le parsing, qui appel "ta fonction" avec un tableau de structure t_cmd 
+//~~ Le parsing, qui appel l'execution avec un tableau 
+//		de structures t_cmd contenant les donnees du parsing
 
 void	parsing(t_structs *s, char *line)
 {
@@ -138,7 +126,7 @@ void	parsing(t_structs *s, char *line)
 	if (!(*line) || check_syntax_errors(line, "<>|"))
 		return ;
 	init_cmds_struct(s, line);
-	tmp = replace_env_variables(s, line);
+	tmp = replace_env_variables(s, ft_strdup(line));
 	if (!tmp)
 		return ;
 	if (fill_cmd_struct(s, tmp) == -1)
@@ -148,15 +136,6 @@ void	parsing(t_structs *s, char *line)
 		return ;
 	}
 	free(tmp);
-	// print_args(s);
-	// exec_cmds(s);
-	// size_t i = 0;
-	// while (i < s->cmds_size)
-	// {
-	// 	get_path(s, &s->cmds[i]);
-	// 	// printf("path = %s | cmd[0] = %s\n", s->cmds[i].path, s->cmds[i].cmd[0]);
-	// 	i++;
-	// }
 	pipex(s);
 	free_cmds_struct(s);
 }

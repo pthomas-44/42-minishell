@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 16:00:37 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/15 11:14:57 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 17:01:34 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int			ft_strcmp(const char *s1, const char *s2);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 // ~~ ft_strinfo2.c
 char		*ft_strnstr(const char *haystack, const char *needle, size_t len);
-int			ft_strchrstr(const char *s1, const char *s2);
+char		*ft_strchrstr(const char *s1, const char *s2);
 // ~~ ft_chrtype.c
 int			ft_isalpha(int c);
 int			ft_isdigit(int c);
@@ -104,8 +104,6 @@ char		*ft_strjoin_f2(const char *s1, const char *s2);
 char		*ft_strjoin_f3(const char *s1, const char *s2);
 // ~~ ft_split.c
 char		**ft_split(char const *s, char c);
-// ~~ ft_split_quotes.c
-char		**ft_split_quotes(char const *s);
 // ~~ ft_strput.c
 void		ft_putchar_fd(char c, int fd);
 void		ft_putstr_fd(char *s, int fd);

@@ -6,13 +6,24 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/18 17:14:44 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/26 13:31:00 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*handle_operands(char *value, char *charset)
+//~~ Inhibe les operateurs
+
+char	check_quotes(char c, char quote)
+{
+	if ((c == '"' || c == '\'') && quote == 0)
+		quote = c;
+	else if (c == quote)
+		quote = 0;
+	return (quote);
+}
+
+static char	*handle_operands(char *value, char *charset)
 {
 	char	*new;
 	size_t	i;
@@ -36,46 +47,47 @@ char	*handle_operands(char *value, char *charset)
 			break ;
 		}
 	}
+	if (!new)
+		perror("malloc");
 	return (new);
 }
 
-char	*replace_var(char *line, size_t i, t_env *var, char c)
+//~~ Remplace la variable par sa valeur
+
+char	*replace_var(char *line, size_t i, t_env *var)
 {
 	char	*new;
 
-	new = ft_calloc(ft_strlen(line), sizeof(char));
-	if (!new)
-		return (NULL);
-	ft_strlcpy(new, line, i + 1);
+	new = ft_substr(line, 0, i);
 	if (var)
 	{
 		new = ft_strjoin_f3(new, handle_operands(var->value + 1, "<>|"));
-		new = ft_strjoin_f1(new, line + i + ft_strlen(var->name) + 1);
+		new = ft_strjoin_f1(new, &line[i] + ft_strlen(var->name) + 1);
 	}
-	else if (c == '?')
+	else if (line[i + 1] == '?')
 	{
 		new = ft_strjoin_f3(new, ft_nbtobase(errno, "0123456789"));
-		new = ft_strjoin_f1(new, line + i + 2);
+		new = ft_strjoin_f1(new, &line[i + 2]);
 	}
 	else
 	{
 		while (line[i] && line[i] != '"' && line[i] != ' ' && line[i] != '\'')
 			i++;
-		new = ft_strjoin_f1(new, line + i);
+		if (line[i])
+			new = ft_strjoin_f1(new, &line[i]);
 	}
+	free(line);
 	return (new);
 }
 
-t_env	*find_var(t_structs *s, char *line)
+//~~ Trouve la variable correspondante dans t_env
+
+static t_env	*find_var(t_structs *s, char *line)
 {
 	t_env	*current;
 	char	*name;
-	size_t	i;
 
-	i = 0;
-	while (line[i] && line[i] != ' ' && line[i] != '"' && line[i] != '\'')
-		i++;
-	name = ft_substr(line, 0, i);
+	name = ft_substr(line, 0, ft_strchrstr(line, " \"\'$") - line);
 	current = *s->env;
 	while (current->next
 		&& ft_strncmp(current->name, name, ft_strlen(name) + 1))
@@ -99,26 +111,24 @@ char	*replace_env_variables(t_structs *s, char *line)
 	t_env	*var;
 	size_t	i;
 	char	quote;
-	char	*new;
 
 	i = 0;
 	quote = 0;
-	new = NULL;
 	while (line && line[i])
 	{
-		if ((line[i] == '"' || line[i] == '\'') && quote == 0)
-			quote = line[i];
-		else if (line[i] == quote)
-			quote = 0;
-		if (line[i] == '$' && line[i + 1] != ' '
-			&& line[i + 1] != 0 && quote != '\'')
+		quote = check_quotes(line[i], quote);
+		if (line[i] == '$' && line[i + 1] && !ft_strchr("$ \"\'", line[i + 1]))
 		{
 			var = find_var(s, &line[i + 1]);
-			new = replace_var(line, i, var, line[i + 1]);
+			line = replace_var(line, i, var);
+			if (!line)
+			{
+				perror("malloc");
+				return (NULL);
+			}
 		}
-		i++;
+		if (line[i])
+			i++;
 	}
-	if (!new)
-		new = ft_strdup(line);
-	return (new);
+	return (line);
 }

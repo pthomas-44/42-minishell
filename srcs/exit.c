@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:24:04 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/18 13:21:36 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 16:04:03 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,14 @@ void	free_cmds_struct(t_structs *s)
 	}
 	free(s->cmds);
 	s->cmds = NULL;
+	s->cmds_size = 0;
 }
 
-//~~ Affiche les message d'erreur et free la memoire allouee
+//~~ Affiche les message d'erreur et libere toute la memoire allouee
 
 void	ft_exit(t_structs *s, char *errormsg, int status)
 {
-	if (status != EXIT_SUCCESS)
+	if (status == EXIT_FAILURE)
 		perror(errormsg);
 	else if (status == EXIT_SUCCESS)
 		write(1, "exit\n", 5);
