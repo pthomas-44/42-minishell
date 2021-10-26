@@ -6,11 +6,12 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 13:21:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/07 12:22:58 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 15:47:43 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
+#include <stdio.h>
 
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
@@ -52,7 +53,7 @@ void	free_tab(char **split, size_t size)
 	i = 0;
 	if (split && size)
 	{
-		while (--size >= 0)
+		while (size && --size >= 0)
 			free(split[size]);
 		free(split);
 	}
@@ -60,7 +61,7 @@ void	free_tab(char **split, size_t size)
 	{
 		while (split[i])
 			i++;
-		while (--i <= 0)
+		while (i && i-- >= 0)
 			free(split[i]);
 		free(split);
 	}

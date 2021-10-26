@@ -6,7 +6,7 @@
 #    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/10/20 14:28:20 by pthomas          ###   ########lyon.fr    #
+#    Updated: 2021/10/26 17:34:28 by pthomas          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS		=	main.c				\
 				syntax_checker.c	\
 				env_var_handler.c	\
 				parsing_utils.c		\
+				split_cmd.c			\
 				exec.c				\
 				paths.c				\
 				pipex.c				\
@@ -73,6 +74,9 @@ libs :
 				$(MAKE) -C $(PATH_LIBFT)
 
 re :			fclean all
+
+run :			re
+				./$(NAME)
 
 #~~~~ Compilation Rules ~~~~#
 

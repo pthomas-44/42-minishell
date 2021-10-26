@@ -6,13 +6,15 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:42:08 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/20 20:23:26 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/26 17:32:26 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	env_new(t_structs *s, char *var)
+//~~ Cree et ajoute un nouvel element a la liste env
+
+int	env_new(t_structs *s, char *var)
 {
 	t_env	*new;
 	size_t	i;
@@ -21,14 +23,13 @@ void	env_new(t_structs *s, char *var)
 	new = malloc(sizeof(t_env));
 	i = 0;
 	if (!new)
-		ft_exit(s, "malloc", EXIT_FAILURE);
-	while (var && var[i] && var[i] != '=')
-		i++;
+		return (-1);
+	i = ft_strchr(var, '=') - var;
 	new->name = ft_substr(var, 0, i);
 	new->value = ft_substr(var + i, 0, ft_strlen(var));
 	new->next = NULL;
 	if (!new->name || !new->value)
-		ft_exit(s, "malloc", EXIT_FAILURE);
+		return (-1);
 	if (s->env_size)
 	{
 		current = *s->env;
@@ -39,7 +40,10 @@ void	env_new(t_structs *s, char *var)
 	else
 		*s->env = new;
 	s->env_size++;
+	return (0);
 }
+
+//~~ Supprime un element de la liste env
 
 void	env_del(t_structs *s, t_env *elem)
 {
@@ -60,6 +64,8 @@ void	env_del(t_structs *s, t_env *elem)
 	free(elem);
 }
 
+//~~ Supprime la liste env
+
 void	env_clear(t_structs *s)
 {
 	t_env	*current;
@@ -75,23 +81,33 @@ void	env_clear(t_structs *s)
 	free(s->env);
 }
 
+//~~ Converti la liste env en tableau de chaines de caracteres
+
 char	**list_to_char(t_structs *s)
 {
-	t_env	*elem;
 	size_t	i;
+	t_env	*current;
 	char	**envp;
 
 	i = 0;
-	elem = *s->env;
-	envp = malloc(sizeof(char *) * s->env_size + 1);
+	current = *s->env;
+	envp = ft_calloc(s->env_size + 1, sizeof(char *));
 	if (!envp)
-		perror("malloc");
-	envp[s->env_size + 1] = NULL;
-	while (elem)
 	{
-		envp[i] = ft_strjoin_f0(elem->name, elem->value);
-		i++;
-		elem = elem->next;
+		perror("malloc");
+		return (NULL);
 	}
+	while (current)
+	{
+		envp[i] = ft_strjoin_f0(current->name, current->value);
+		if (!envp[i++])
+		{
+			perror("malloc");
+			free_tab(envp, 0);
+			return (NULL);
+		}
+		current = current->next;
+	}
+	envp[i] = NULL;
 	return (envp);
 }

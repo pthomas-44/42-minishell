@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 13:00:45 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/22 11:38:12 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/26 14:55:48 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,18 @@ void	pipex(t_structs *s)
 		}
 		if (s->cmds[i].fd_out == 1 && i < s->cmds_size - 1)
 			s->cmds[i].fd_out = pipefd[1];
-		// if (is_builtin(s->cmds[i]))
-		// 	launch_builtin(s, s->cmds[i].fd_in, s->cmds[i].fd_out, s->cmds[i]);
-		// else
-		launch_command(s, s->cmds[i].fd_in, s->cmds[i].fd_out, &s->cmds[i]);
+		else if (i < s->cmds_size - 1 && close(pipefd[1]) == -1)
+			perror("close");
+			; // protect
+		if (is_builtin(s->cmds[i]))
+			launch_builtin(s, s->cmds[i].fd_in, s->cmds[i].fd_out, s->cmds[i]);
+		else
+			launch_command(s, s->cmds[i].fd_in, s->cmds[i].fd_out, &s->cmds[i]);
 		i++;
-		if (s->cmds[i].fd_in == 0 && i)
+		if (s->cmds[i].fd_in == 0)
 			s->cmds[i].fd_in = pipefd[0];
+		else if (i - 1 < s->cmds_size - 1 && close(pipefd[0]) == -1)
+			perror("close");
 	}
 	wait_child_process(s);
 }

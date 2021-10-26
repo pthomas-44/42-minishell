@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 13:57:25 by pthomas           #+#    #+#             */
-/*   Updated: 2021/03/04 09:26:00 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 17:05:28 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 	return (0);
 }
 
-int	ft_strchrstr(const char *s1, const char *s2)
+char	*ft_strchrstr(const char *s1, const char *s2)
 {
 	unsigned int	i;
 	unsigned int	j;
@@ -44,7 +44,7 @@ int	ft_strchrstr(const char *s1, const char *s2)
 		while (s2[j])
 		{
 			if (s1[i] == s2[j])
-				return (1);
+				return ((char *)&s1[i]);
 			j++;
 		}
 		i++;

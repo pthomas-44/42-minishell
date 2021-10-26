@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:23:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/20 19:10:15 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/26 12:26:22 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_signals	g_sigs;
 
-//~~ La loop qui affiche le prompt et envoie l'entrée standard dans le parsing
+//~~ La loop qui affiche le prompt et envoie l'entree standard dans le parsing
 
-void	prompt_loop(t_structs *s)
+static void	prompt_loop(t_structs *s)
 {
 	char	*line;
 	char	*tmp;
@@ -25,7 +25,7 @@ void	prompt_loop(t_structs *s)
 	tmp = NULL;
 	signal(SIGINT, &sig_int);
 	signal(SIGQUIT, &sig_quit);
-	while (ft_strcmp(line, "exit"))
+	while (1)
 	{
 		line = readline(PROMPT);
 		if (!line)
@@ -42,21 +42,21 @@ void	prompt_loop(t_structs *s)
 
 //~~ Initialisation de la structure de controle
 
-void	init_control_struct(t_structs *s, char **env)
+static void	init_control_struct(t_structs *s, char **env)
 {
 	size_t	i;
 
 	ft_bzero(s, sizeof(t_structs));
 	s->cmds = NULL;
-	i = 0;
-	s->env = NULL;
 	s->env = malloc(sizeof(t_env));
 	if (!s->env)
 		ft_exit(s, "malloc", EXIT_FAILURE);
 	s->env_size = 0;
+	i = 0;
 	while (env[i])
 	{
-		env_new(s, env[i]);
+		if (env_new(s, env[i]) == -1)
+			ft_exit(s, "malloc", EXIT_FAILURE);
 		i++;
 	}
 }
@@ -70,9 +70,9 @@ int	main(int ac, char **av, char **env)
 	// s.term.new.c_cc[VQUIT] = 0;
 	// tcsetattr(STDOUT_FILENO, TCSANOW, &s.term.new);
 	(void)av;
+	init_control_struct(&s, env);
 	if (ac != 1)
 		ft_exit(&s, "error: too many arguments\n", EXIT_MISSING);
-	init_control_struct(&s, env);
 	prompt_loop(&s);
 	ft_exit(&s, "", 0);
 	return (0);

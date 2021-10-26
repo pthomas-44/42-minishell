@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/22 11:37:57 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/26 17:48:11 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,30 @@
 
 int	path_error_check(t_cmd *current)
 {
+	DIR	*dir;
+
+	dir = opendir(current->path);
+	if (!current->path || dir || open(current->path, O_RDONLY) == -1
+		|| access(current->path, X_OK) == -1)
+		write(2, "minishell: ", 11);
+	if (!current->path || open(
+			current->path, O_RDONLY) == -1 || access(current->path, X_OK) == -1)
+		write(2, current->cmd[0], ft_strlen(current->cmd[0]));
 	if (!current->path)
-	{
-		write(2, "minishell: ", 11);
-		write(2, current->cmd[0], ft_strlen(current->cmd[0]));
 		write(2, ": command not found\n", 20);
-		return (-1);
-	}
-	if (opendir(current->path))
+	else if (dir)
 	{
-		write(2, "minishell: ", 11);
-		write(2, current->path, ft_strlen(current->cmd[0]));
+		write(2, current->path, ft_strlen(current->path));
 		write(2, ": is a directory\n", 18);
-		return (-1);
+		closedir(dir);
 	}
-	if (open(current->path, O_RDONLY) == -1)
-	{
-		write(2, "minishell: ", 11);
-		write(2, current->cmd[0], ft_strlen(current->cmd[0]));
-		write(2, ": No such file or directory\n", 28);
-		return (-1);
-	}
-	return (0);
+	else if (open(current->path, O_RDONLY) == -1)
+		write(2, ": No such file or directory\n", 29);
+	else if (access(current->path, X_OK) == -1)
+		write(2, ": Permission denied\n", 21);
+	else
+		return (0);
+	return (-1);
 }
 
 char	*replace_by_home_path(t_structs *s, char *cmd)
@@ -114,7 +116,11 @@ int	find_path(t_structs *s, char **paths, t_cmd *current)
 		return (-1);
 	}
 	if (path_error_check(current) == -1)
+	{
+		free(current->path);
+		current->path = NULL;
 		return (-1);
+	}
 	return (0);
 }
 
@@ -152,7 +158,7 @@ char	**get_env_paths(t_structs *s)
 	{
 		if (!ft_strcmp(elem->name, "PATH"))
 		{
-			paths = ft_split(elem->value, ':');
+			paths = ft_split(elem->value + 1, ':');
 			break ;
 		}
 		elem = elem->next;

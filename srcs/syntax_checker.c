@@ -6,13 +6,13 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:24:16 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/18 15:25:03 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 16:55:59 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	check_successive_operators(char **line, char *charset)
+static int	check_successive_operators(char **line, char *charset)
 {
 	char	*tmp;
 
@@ -41,7 +41,7 @@ int	check_successive_operators(char **line, char *charset)
 	return (0);
 }
 
-int	syntax_loop(char *line, char *charset, char *quote, char *last_char)
+static int	syntax_loop(char *line, char *charset, char *quote, char *last_char)
 {
 	*quote = 0;
 	*last_char = 0;
@@ -74,15 +74,15 @@ int	check_syntax_errors(char *line, char *charset)
 		write(2, "minishell: syntax error near unexpected token `|'\n", 51);
 		return (1);
 	}
-	if (*line && syntax_loop(line, charset, &quote, &last_char))
+	if (syntax_loop(line, charset, &quote, &last_char) == -1)
 		return (1);
-	if (*line && ft_strchr(charset, last_char))
+	if (ft_strchr(charset, last_char))
 	{
 		write(2, "minishell: syntax error near \
 unexpected token `newline'\n", 57);
 		return (1);
 	}
-	if (*line && quote)
+	if (quote)
 	{
 		write(2, "minishell: unclosed quotes\n", 28);
 		return (1);
