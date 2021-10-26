@@ -6,57 +6,42 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/22 11:17:38 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/25 11:39:30 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	check_option_n(char *arg)
-{
-	size_t	i;
-
-	i = 0;
-	while (arg[i])
-	{
-		if (arg[i] != 'n')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-void	ft_echo(t_structs *s, t_cmd current)
+int	ft_echo(t_structs *s, t_cmd current)
 {
 	size_t	i;
 	bool	option;
 
 	(void)s;
-	i = 1;
+	i = 0;
 	option = 0;
-	if (current.cmd[i])
+	if (current.cmd[1])
 	{
-		while (current.cmd[i] && current.cmd[i][0] == '-')
+		while (current.cmd[++i] && current.cmd[i][0] == '-')
 		{
 			if (check_option_n(current.cmd[i] + 1))
 				option = 1;
 			else
 				break ;
-			i++;
 		}
 		while (current.cmd[i])
 		{
 			write(current.fd_out, current.cmd[i], ft_strlen(current.cmd[i]));
-			i++;
-			if (current.cmd[i])
+			if (current.cmd[++i])
 				write(current.fd_out, " ", 1);
 		}
 	}
 	if (!option)
 		write(current.fd_out, "\n", 1);
+	return (0);
 }
 
-void	ft_pwd(t_structs *s, t_cmd current)
+int	ft_pwd(t_structs *s, t_cmd current)
 {
 	char	cwd[MAXPATHLEN];
 
@@ -64,9 +49,10 @@ void	ft_pwd(t_structs *s, t_cmd current)
 	getcwd(cwd, MAXPATHLEN);
 	write(current.fd_out, cwd, ft_strlen(cwd));
 	write(current.fd_out, "\n", 1);
+	return (0);
 }
 
-void	ft_env(t_structs *s, t_cmd current)
+int	ft_env(t_structs *s, t_cmd current)
 {
 	t_env	*elem;
 
@@ -75,21 +61,25 @@ void	ft_env(t_structs *s, t_cmd current)
 	{
 		if (ft_strlen(elem->value) > 0)
 		{
-			write(STDOUT_FILENO, elem->name, ft_strlen(elem->name));
+			write(current.fd_out, elem->name, ft_strlen(elem->name));
 			write(current.fd_out, elem->value, ft_strlen(elem->value));
 			write(current.fd_out, "\n", 1);
 		}
 		elem = elem->next;
 	}
+	return (0);
 }
 
-void	ft_unset(t_structs *s, t_cmd current)
+int	ft_unset(t_structs *s, t_cmd current)
 {
 	t_env	*unset;
 	size_t	i;
 
 	if (!current.cmd[1])
-		return ;
+	{
+		errno = EXIT_FAILURE;
+		return (-1);
+	}
 	i = 1;
 	while (current.cmd[i])
 	{
@@ -105,4 +95,5 @@ void	ft_unset(t_structs *s, t_cmd current)
 		}
 		i++;
 	}
+	return (0);
 }

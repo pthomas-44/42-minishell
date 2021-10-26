@@ -6,7 +6,7 @@
 #    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/10/26 17:34:28 by pthomas          ###   ########lyon.fr    #
+#    Updated: 2021/10/26 17:49:22 by pthomas          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,10 +39,10 @@ SRCS		=	main.c				\
 				split_cmd.c			\
 				exec.c				\
 				paths.c				\
-				pipex.c				\
 				builtins.c			\
 				builtin_cd.c		\
-				builtin_export.c
+				builtin_export.c	\
+				builtins_utils.c
 
 #~~~~ Objects ~~~~#
 

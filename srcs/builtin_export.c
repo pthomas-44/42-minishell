@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/22 10:57:31 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/25 10:10:33 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,81 +61,55 @@ void	print_export(t_structs *s, t_cmd current)
 	}
 }
 
-int	is_word(char *str)
+void	create_variable(t_structs *s, char *cmd, char *tmp)
 {
-	size_t	i;
+	t_env	*export;
 
-	i = 0;
-	if (ft_isdigit(str[i]))
-		return (0);
-	while (str[i])
+	export = *s->env;
+	while (export)
 	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (0);
-		i++;
+		if (!ft_strncmp(tmp, export->name, ft_strlen(export->name) + 1))
+			break ;
+		export = export->next;
 	}
-	return (1);
-}
-
-char	*take_name(char *arg)
-{
-	size_t	i;
-	char	*name;
-
-	i = 0;
-	while (arg[i] && arg[i] != '=')
-		i++;
-	name = ft_substr(arg, 0, i);
-	if (!name)
-		return (NULL);
-	return (name);
+	if (export)
+		env_del(s, export);
+	env_new(s, cmd);
 }
 
 int	create_env_variable(t_structs *s, t_cmd current)
 {
 	size_t	i;
-	t_env	*export;
 	char	*tmp;
 
 	i = 1;
 	while (current.cmd[i])
 	{
-		export = *s->env;
 		tmp = take_name(current.cmd[i]);
 		if (!tmp)
 			return (-1);
 		if (is_word(tmp))
-		{
-			while (export)
-			{
-				if (!ft_strncmp(tmp, export->name, ft_strlen(export->name) + 1))
-					break ;
-				export = export->next;
-			}
-			free(tmp);
-			if (export)
-				env_del(s, export);
-			env_new(s, current.cmd[i]);
-		}
+			create_variable(s, current.cmd[i], tmp);
 		else
 		{
-			write(2, "minishell: export: '", 20);
+			write(2, "minishell: export: `", 20);
 			write(2, current.cmd[i], ft_strlen(current.cmd[i]));
 			write(2, "': not a valid identifier\n", 26);
 		}
+		free(tmp);
 		i++;
 	}
 	return (0);
 }
 
-void	ft_export(t_structs *s, t_cmd current)
+int	ft_export(t_structs *s, t_cmd current)
 {
 	if (current.cmd[1])
 	{
 		if (create_env_variable(s, current) == -1)
 		{
 			errno = EXIT_FAILURE;
-			return ;
+			return (-1);
 		}
 	}
 	else
@@ -143,4 +117,5 @@ void	ft_export(t_structs *s, t_cmd current)
 		index_list(s);
 		print_export(s, current);
 	}
+	return (0);
 }
