@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/26 17:52:40 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/26 17:55:26 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,5 +141,9 @@ int				create_env_variable(t_structs *s, t_cmd current);
 void			create_variable(t_structs *s, char *cmd, char *tmp);
 void			print_export(t_structs *s, t_cmd current);
 void			index_list(t_structs *s);
+// ~~ builtins_utils.c
+int				check_option_n(char *arg);
+int				is_word(char *str);
+char			*take_name(char *arg);
 
 #endif
