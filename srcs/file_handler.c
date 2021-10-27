@@ -6,11 +6,13 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:26:00 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 18:09:48 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:28:01 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+//~~ La boucle de lecture du heredoc 
 
 static char	*heredoc_loop(char *stop)
 {
@@ -32,6 +34,8 @@ static char	*heredoc_loop(char *stop)
 	}
 	return (content);
 }
+
+//~~ La gestion du heredoc
 
 static int	heredoc_handler(t_structs *s, char *stop, int i)
 {
@@ -57,6 +61,8 @@ static int	heredoc_handler(t_structs *s, char *stop, int i)
 	s->cmds[i].fd_in = pipe_fd[STDIN_FILENO];
 	return (0);
 }
+
+//~~ Recuparation du fichier de redirection de la sortie
 
 int	get_outfile(t_structs *s, char **line, int i)
 {
@@ -87,6 +93,8 @@ int	get_outfile(t_structs *s, char **line, int i)
 	return (0);
 }
 
+//~~ Suite de la fonction get_infile() (norme)
+
 static int	get_infile_sequel(t_structs *s, int i, char **tmp)
 {
 	s->cmds[i].fd_in = open(tmp[1], O_RDONLY);
@@ -98,6 +106,8 @@ static int	get_infile_sequel(t_structs *s, int i, char **tmp)
 	}
 	return (0);
 }
+
+//~~ Recuparation du fichier de redirection de l'entree
 
 int	get_infile(t_structs *s, char **line, int i)
 {

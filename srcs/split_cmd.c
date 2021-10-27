@@ -6,11 +6,13 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:51:28 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/22 18:23:01 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:29:12 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+// ~~ Recupere le nombre de mots dans la chaine
 
 static size_t	ft_countwords(const char *s)
 {
@@ -28,6 +30,8 @@ static size_t	ft_countwords(const char *s)
 	}
 	return (nb);
 }
+
+// ~~ Recupere le prochain mot dans la chaine
 
 static char	**get_word(char *s, char **split, size_t *i, size_t *j)
 {
@@ -53,6 +57,8 @@ static char	**get_word(char *s, char **split, size_t *i, size_t *j)
 	}
 	return (split);
 }
+
+// ~~ Split en prenant en compte les quotes
 
 char	**split_cmd(char **cmd)
 {
