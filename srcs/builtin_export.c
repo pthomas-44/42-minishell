@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 17:58:24 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:24:02 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,14 +112,14 @@ int	create_env_variable(t_structs *s, t_cmd current)
 
 //~~ Built-in export
 
-int	bi_export(t_structs *s, t_cmd current)
+void	bi_export(t_structs *s, t_cmd current)
 {
 	if (current.cmd[1])
 	{
 		if (create_env_variable(s, current) == -1)
 		{
 			errno = EXIT_FAILURE;
-			return (-1);
+			return ;
 		}
 	}
 	else
@@ -127,5 +127,4 @@ int	bi_export(t_structs *s, t_cmd current)
 		index_list(s);
 		print_export(s);
 	}
-	return (0);
 }

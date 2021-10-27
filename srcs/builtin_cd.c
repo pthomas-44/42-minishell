@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 18:15:59 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:24:18 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	set_oldpwd(t_structs *s)
 
 //~~ Built-in cd
 
-int	bi_cd(t_structs *s, t_cmd current)
+void	bi_cd(t_structs *s, t_cmd current)
 {
 	if (!current.cmd[1] || current.cmd[1][0] == '~')
 		current.path = replace_by_home_path(s, current.cmd[1]);
@@ -75,7 +75,7 @@ int	bi_cd(t_structs *s, t_cmd current)
 	if (!current.path)
 	{
 		errno = EXIT_FAILURE;
-		return (-1);
+		return ;
 	}
 	if (chdir(current.path) == -1)
 	{
@@ -83,12 +83,11 @@ int	bi_cd(t_structs *s, t_cmd current)
 		write(2, current.path, ft_strlen(current.path));
 		write(2, ": No such file or directory\n", 28);
 		errno = EXIT_FAILURE;
-		return (-1);
+		return ;
 	}
 	if (set_oldpwd(s) == -1 || set_pwd(s) == -1)
 	{
 		errno = EXIT_FAILURE;
-		return (-1);
+		return ;
 	}
-	return (0);
 }
