@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 14:45:25 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 15:00:30 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,8 +132,8 @@ char			*replace_by_home_path(t_structs *s, char *cmd);
 int				path_error_check(t_cmd *current);
 // ~~ builtins.c
 int				ft_echo(t_cmd current);
-int				ft_pwd(t_cmd current);
-int				ft_env(t_structs *s, t_cmd current);
+int				ft_pwd(void);
+int				ft_env(t_structs *s);
 int				ft_unset(t_structs *s, t_cmd current);
 // ~~ builtin_cd.c
 int				ft_cd(t_structs *s, t_cmd current);
@@ -143,7 +143,7 @@ int				set_pwd(t_structs *s);
 int				ft_export(t_structs *s, t_cmd current);
 int				create_env_variable(t_structs *s, t_cmd current);
 void			create_variable(t_structs *s, char *cmd, char *tmp);
-void			print_export(t_structs *s, t_cmd current);
+void			print_export(t_structs *s);
 void			index_list(t_structs *s);
 // ~~ builtins_utils.c
 int				check_option_n(char *arg);

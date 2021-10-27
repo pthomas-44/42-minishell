@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 14:45:26 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 14:59:39 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_echo(t_cmd current)
 	return (0);
 }
 
-int	ft_pwd(t_cmd current)
+int	ft_pwd(void)
 {
 	char	cwd[MAXPATHLEN];
 
@@ -50,7 +50,7 @@ int	ft_pwd(t_cmd current)
 	return (0);
 }
 
-int	ft_env(t_structs *s, t_cmd current)
+int	ft_env(t_structs *s)
 {
 	t_env	*elem;
 

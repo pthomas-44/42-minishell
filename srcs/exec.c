@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 14:45:35 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 14:59:53 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ int	builtins(t_structs *s, t_cmd current)
 		return (-1);
 	else if (!ft_strcmp(current.cmd[0], "cd") && ft_cd(s, current) == -1)
 		return (-1);
-	else if (!ft_strcmp(current.cmd[0], "pwd") && ft_pwd(current) == -1)
+	else if (!ft_strcmp(current.cmd[0], "pwd") && ft_pwd() == -1)
 		return (-1);
 	else if (!ft_strcmp(current.cmd[0], "export")
 		&& ft_export(s, current) == -1)
 		return (-1);
 	else if (!ft_strcmp(current.cmd[0], "unset") && ft_unset(s, current) == -1)
 		return (-1);
-	else if (!ft_strcmp(current.cmd[0], "env") && ft_env(s, current) == -1)
+	else if (!ft_strcmp(current.cmd[0], "env") && ft_env(s) == -1)
 		return (-1);
 	// else if (!ft_strcmp(current.cmd[0], "exit"))
 	// 	ft_exit(s, "exit", ft_atoi(current.cmd[1]));

@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 14:46:59 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 15:00:24 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	index_list(t_structs *s)
 	}
 }
 
-void	print_export(t_structs *s, t_cmd current)
+void	print_export(t_structs *s)
 {
 	size_t	i;
 	t_env	*export;
@@ -115,7 +115,7 @@ int	ft_export(t_structs *s, t_cmd current)
 	else
 	{
 		index_list(s);
-		print_export(s, current);
+		print_export(s);
 	}
 	return (0);
 }
