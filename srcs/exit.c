@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:24:04 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 14:37:18 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 19:06:35 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ void	ft_exit(t_structs *s, char *errormsg, int status)
 		perror(errormsg);
 	else if (status == EXIT_SUCCESS || !ft_strcmp(errormsg, "exit"))
 		write(1, "exit\n", 6);
-	else if (status == EXIT_MISSING)
-		write(2, errormsg, ft_strlen(errormsg));
 	free(s->parse_line[0]);
 	s->parse_line[0] = NULL;
 	free(s->parse_line[1]);
