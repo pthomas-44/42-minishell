@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 16:16:01 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 11:25:21 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:01:28 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+//~~ Vérifie l'option -n pour echo
 
 int	check_option_n(char *arg)
 {
@@ -25,6 +27,8 @@ int	check_option_n(char *arg)
 	}
 	return (1);
 }
+
+//~~ Vérifie qu'une variable a le bon format selon POSIX
 
 int	is_word(char *str)
 {
@@ -41,6 +45,8 @@ int	is_word(char *str)
 	}
 	return (1);
 }
+
+//~~ Récupère le nom de la future variable d'environnement dans la commande
 
 char	*take_name(char *arg)
 {

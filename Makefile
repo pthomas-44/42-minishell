@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
+#    By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/10/27 14:54:30 by pthomas          ###   ########lyon.fr    #
+#    Updated: 2021/10/27 18:06:03 by mberne           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SRCS		=	main.c				\
 				parsing_utils.c		\
 				split_cmd.c			\
 				exec.c				\
+				pipex.c				\
 				paths.c				\
 				builtins.c			\
 				builtin_cd.c		\

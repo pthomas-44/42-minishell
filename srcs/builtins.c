@@ -6,13 +6,15 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 14:59:39 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 17:55:35 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_echo(t_cmd current)
+//~~ Built-in echo
+
+int	bi_echo(t_cmd current)
 {
 	size_t	i;
 	bool	option;
@@ -40,7 +42,9 @@ int	ft_echo(t_cmd current)
 	return (0);
 }
 
-int	ft_pwd(void)
+//~~ Built-in pwd
+
+int	bi_pwd(void)
 {
 	char	cwd[MAXPATHLEN];
 
@@ -50,7 +54,9 @@ int	ft_pwd(void)
 	return (0);
 }
 
-int	ft_env(t_structs *s)
+//~~ Built-in env
+
+int	bi_env(t_structs *s)
 {
 	t_env	*elem;
 
@@ -68,7 +74,9 @@ int	ft_env(t_structs *s)
 	return (0);
 }
 
-int	ft_unset(t_structs *s, t_cmd current)
+//~~ Built-in unset
+
+int	bi_unset(t_structs *s, t_cmd current)
 {
 	t_env	*unset;
 	size_t	i;
