@@ -6,7 +6,7 @@
 #    By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/10/27 19:25:25 by mberne           ###   ########lyon.fr    #
+#    Updated: 2021/10/27 19:26:04 by mberne           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRCS		=	main.c				\
 				split_cmd.c			\
 				exec.c				\
 				pipex.c				\
+				paths_utils.c		\
 				builtins.c			\
 				builtin_cd.c		\
 				builtin_export.c	\

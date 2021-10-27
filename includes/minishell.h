@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 18:55:16 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 19:09:37 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@
 
 /*** ~~ MACROS ~~ ***/
 
-# define EXIT_MISSING 2
 # define PROMPT "potatoshell >$ "
 
 /*** ~~ STRUCTURES ~~ ***/
@@ -119,16 +118,10 @@ int				is_builtin(t_cmd current);
 void			builtins(t_structs *s, t_cmd current);
 // ~~ pipex.c
 void			pipex(t_structs *s);
-void			launch_command(t_structs *s, int in, int out, t_cmd *current);
-void			wait_child_process(t_structs *s);
 // ~~ paths_utils.c
-int				get_path(t_structs *s, t_cmd *current);
 char			**get_env_paths(t_structs *s);
-char			**add_backslash(char **paths);
-int				find_path(t_structs *s, char **paths, t_cmd *current);
 int				find_path_in_sys(t_cmd *current, char **paths);
 int				find_exe_path(t_structs *s, t_cmd *current);
-char			*replace_by_home_path(t_structs *s, char *cmd);
 int				path_error_check(t_cmd *current);
 // ~~ builtins.c
 void			bi_echo(t_cmd current);
@@ -147,6 +140,7 @@ void			create_variable(t_structs *s, char *cmd, char *tmp);
 void			print_export(t_structs *s);
 void			index_list(t_structs *s);
 // ~~ builtins_utils.c
+char			*replace_by_home_path(t_structs *s, char *cmd);
 int				check_option_n(char *arg);
 int				is_word(char *str);
 char			*take_name(char *arg);

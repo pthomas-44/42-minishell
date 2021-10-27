@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:23:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 14:37:20 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 19:05:04 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	init_control_struct(&s, env);
 	if (ac != 1)
-		ft_exit(&s, "error: too many arguments\n", EXIT_MISSING);
+	{
+		errno = E2BIG;
+		ft_exit(&s, "potatoshell", EXIT_FAILURE);
+	}
 	prompt_loop(&s);
 	ft_exit(&s, "", 0);
 	return (0);
