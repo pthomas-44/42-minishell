@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 18:34:53 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:55:16 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void			builtins(t_structs *s, t_cmd current);
 void			pipex(t_structs *s);
 void			launch_command(t_structs *s, int in, int out, t_cmd *current);
 void			wait_child_process(t_structs *s);
-// ~~ paths.c
+// ~~ paths_utils.c
 int				get_path(t_structs *s, t_cmd *current);
 char			**get_env_paths(t_structs *s);
 char			**add_backslash(char **paths);

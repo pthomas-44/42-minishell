@@ -6,11 +6,13 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:24:16 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 18:23:14 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:30:00 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+//~~ Verifie si les operateurs se suivent
 
 static int	check_successive_operators(char **line, char *charset)
 {
@@ -40,6 +42,8 @@ static int	check_successive_operators(char **line, char *charset)
 	}
 	return (0);
 }
+
+//~~ Verifie chaque caracteres
 
 static int	syntax_loop(char *line, char *charset, char *quote, char *last_char)
 {

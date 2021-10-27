@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 18:22:19 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:40:43 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,33 @@ void	launch_command(t_structs *s, int in, int out, t_cmd *current)
 	}
 	else if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))
 		perror("close");
+}
+
+// ~~ Recupere le chemin d'une commande
+
+int	get_path(t_structs *s, t_cmd *current)
+{
+	char	**paths;
+
+	paths = get_env_paths(s);
+	if (paths && !ft_strchr(current->cmd[0], '/')
+		&& find_path_in_sys(current, paths) == -1)
+		perror("malloc");
+	else if ((!paths || ft_strchr(current->cmd[0], '/'))
+		&& !current->path && find_exe_path(s, current) == -1)
+		perror("malloc");
+	else if (path_error_check(current) == -1)
+	{
+		free(current->path);
+		current->path = NULL;
+	}
+	else
+	{
+		free_tab(paths, 0);
+		return (0);
+	}
+	free_tab(paths, 0);
+	return (-1);
 }
 
 //~~ Exécute plusieurs commandes

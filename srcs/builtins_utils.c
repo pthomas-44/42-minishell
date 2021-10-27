@@ -3,14 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 16:16:01 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 18:01:28 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:43:48 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+// ~~ Trouve le '~' par le HOME
+
+char	*replace_by_home_path(t_structs *s, char *cmd)
+{
+	t_env	*elem;
+	char	*new;
+
+	elem = *s->env;
+	while (elem)
+	{
+		if (!ft_strcmp(elem->name, "HOME"))
+			break ;
+		elem = elem->next;
+	}
+	if (cmd && (cmd[0] != '~' || ft_strcmp(elem->name, "HOME")))
+		return (ft_strdup(cmd));
+	if (cmd)
+		new = ft_strjoin_f0(elem->value + 1, cmd + 1);
+	else
+		new = ft_strdup(elem->value + 1);
+	return (new);
+}
 
 //~~ Vérifie l'option -n pour echo
 
