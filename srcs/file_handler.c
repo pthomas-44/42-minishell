@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:26:00 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/26 13:33:51 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:09:48 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static char	*heredoc_loop(char *stop)
 	content = NULL;
 	while (ft_strcmp(line, stop))
 	{
-		line = readline(HEREDOC_PROMPT);
-		if (!line)
+		write (1, "> ", 2);
+		if (get_next_line(0, &line) == -1 || !line)
 			break ;
 		if (content)
 			content = ft_strjoin_f1(content, "\n");
