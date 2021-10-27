@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2021/10/27 19:05:46 by pthomas          ###   ########lyon.fr   */
-=======
-/*   Updated: 2021/10/27 18:55:16 by mberne           ###   ########lyon.fr   */
->>>>>>> 31e357d985fee866bacc37ddff296444f55142a9
+/*   Updated: 2021/10/27 19:09:37 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
