@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/26 16:02:17 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 13:59:19 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_echo(t_structs *s, t_cmd current)
 	(void)s;
 	i = 0;
 	option = 0;
-	printf("%d | %d\n", current.fd_in, current.fd_out);
+	// printf("%d | %d\n", current.fd_in, current.fd_out);
 	if (current.cmd[1])
 	{
 		while (current.cmd[++i] && current.cmd[i][0] == '-')
@@ -32,13 +32,13 @@ int	ft_echo(t_structs *s, t_cmd current)
 		}
 		while (current.cmd[i])
 		{
-			write(current.fd_out, current.cmd[i], ft_strlen(current.cmd[i]));
+			write(STDOUT_FILENO, current.cmd[i], ft_strlen(current.cmd[i]));
 			if (current.cmd[++i])
-				write(current.fd_out, " ", 1);
+				write(STDOUT_FILENO, " ", 1);
 		}
 	}
 	if (!option)
-		write(current.fd_out, "\n", 1);
+		write(STDOUT_FILENO, "\n", 1);
 	return (0);
 }
 

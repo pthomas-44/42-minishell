@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/26 17:51:03 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 12:57:45 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,6 @@ void	parsing(t_structs *s, char *line)
 		return ;
 	}
 	free(tmp);
-	pipex(s);
+	exec(s);
 	free_cmds_struct(s);
 }

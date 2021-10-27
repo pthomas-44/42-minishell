@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:23:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/26 18:15:32 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 14:37:20 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,20 @@ t_signals	g_sigs;
 
 static void	prompt_loop(t_structs *s)
 {
-	char	*line;
-	char	*tmp;
-
-	line = NULL;
-	tmp = NULL;
 	signal(SIGINT, &sig_int);
 	signal(SIGQUIT, &sig_quit);
 	while (1)
 	{
-		line = readline(PROMPT);
-		if (!line)
+		s->parse_line[0] = readline(PROMPT);
+		if (!s->parse_line[0])
 			break ;
-		parsing(s, line);
-		if (line[0] && ft_strcmp(line, tmp))
-			add_history(line);
-		free(tmp);
-		tmp = line;
+		parsing(s, s->parse_line[0]);
+		if (s->parse_line[0][0]
+			&& ft_strcmp(s->parse_line[0], s->parse_line[1]))
+			add_history(s->parse_line[0]);
+		free(s->parse_line[1]);
+		s->parse_line[1] = s->parse_line[0];
 	}
-	free(tmp);
 	ft_exit(s, "", EXIT_SUCCESS);
 }
 
@@ -47,6 +42,8 @@ static void	init_control_struct(t_structs *s, char **env)
 	size_t	i;
 
 	ft_bzero(s, sizeof(t_structs));
+	s->parse_line[0] = NULL;
+	s->parse_line[1] = NULL;
 	s->cmds = NULL;
 	s->env = malloc(sizeof(t_env));
 	if (!s->env)

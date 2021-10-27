@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/26 18:09:06 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 14:32:02 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,13 @@ typedef struct s_term
 
 typedef struct s_structs
 {
+	char		*parse_line[2];
 	t_cmd		*cmds;
 	size_t		cmds_size;
 	t_env		**env;
 	size_t		env_size;
 	t_term		term;
+
 }				t_structs;
 
 /*** ~~ PROTOTYPES ~~ ***/
@@ -113,9 +115,9 @@ int				get_outfile(t_structs *s, char **line, int i);
 // ~~ split_cmd.c
 char			**split_cmd(char **cmd);
 // ~~ exec.c
+void			exec(t_structs *s);
 void			pipex(t_structs *s);
 void			launch_command(t_structs *s, int in, int out, t_cmd *current);
-void			launch_builtin(t_structs *s, int in, int out, t_cmd *current);
 void			wait_child_process(t_structs *s);
 int				is_builtin(t_cmd current);
 int				builtins(t_structs *s, t_cmd current);

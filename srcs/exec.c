@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 12:44:51 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 14:37:32 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,15 @@ int	builtins(t_structs *s, t_cmd current)
 		return (-1);
 	else if (!ft_strcmp(current.cmd[0], "pwd") && ft_pwd(s, current) == -1)
 		return (-1);
-	else if (!ft_strcmp(current.cmd[0], "export") && ft_export(s, current) == -1)
+	else if (!ft_strcmp(current.cmd[0], "export")
+		&& ft_export(s, current) == -1)
 		return (-1);
 	else if (!ft_strcmp(current.cmd[0], "unset") && ft_unset(s, current) == -1)
 		return (-1);
 	else if (!ft_strcmp(current.cmd[0], "env") && ft_env(s, current) == -1)
 		return (-1);
-	else if (!ft_strcmp(current.cmd[0], "exit"))
-		ft_exit(s, "", errno);
+	// else if (!ft_strcmp(current.cmd[0], "exit"))
+	// 	ft_exit(s, "", errno);
 	return (0);
 }
 
@@ -69,40 +70,11 @@ void	wait_child_process(t_structs *s)
 	}
 }
 
-void	launch_builtin(t_structs *s, int in, int out, t_cmd *current)
-{
-	pid_t	pid;
-
-	(void)in;
-	(void)out;
-	pid = fork();
-	if (pid == -1)
-		perror("fork");
-	else if (pid == 0)
-	{
-		// if (in != 0 && dup2(in, STDIN_FILENO) == -1)
-		// 	perror("dup2");
-		// else if (out != 1 && dup2(out, STDOUT_FILENO) == -1)
-		// 	perror("dup2");
-		// else if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))
-		// 	perror("close");
-		if (builtins(s, *current) == -1)
-			exit(EXIT_FAILURE);
-		else
-			exit(EXIT_SUCCESS);
-	}
-	// else
-	// 	if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))
-	// 		perror("close");
-}
-
 void	launch_command(t_structs *s, int in, int out, t_cmd *current)
 {
 	pid_t	pid;
 	char	**envp;
 
-	if (get_path(s, current) == -1)
-		return ;
 	pid = fork();
 	if (pid == -1)
 		perror("fork");
@@ -115,16 +87,16 @@ void	launch_command(t_structs *s, int in, int out, t_cmd *current)
 			perror("dup2");
 		else if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))
 			perror("close");
-		else if (execve(current->path, current->cmd, envp) == -1)
-		{
-			free_tab(envp, 0);
+		else if (is_builtin(*current) && builtins(s, *current) == -1)
+			perror("built-in");
+		else if (!is_builtin(*current)
+			&& execve(current->path, current->cmd, envp) == -1)
 			perror("execve");
-			exit(EXIT_FAILURE);
-		}
+		free_tab(envp, 0);
+		exit(EXIT_FAILURE);
 	}
-	else
-		if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))
-			perror("close");
+	else if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))
+		perror("close");
 }
 
 void	pipex(t_structs *s)
@@ -142,13 +114,22 @@ void	pipex(t_structs *s)
 		}
 		if (s->cmds[i].fd_out == 1 && i < s->cmds_size - 1)
 			s->cmds[i].fd_out = pipefd[1];
-		// if (is_builtin(s->cmds[i]))
-		// 	launch_builtin(s, s->cmds[i].fd_in, s->cmds[i].fd_out, &s->cmds[i]);
-		// else
+		if (is_builtin(s->cmds[i]) || get_path(s, &s->cmds[i]) != -1)
 			launch_command(s, s->cmds[i].fd_in, s->cmds[i].fd_out, &s->cmds[i]);
 		i++;
 		if (i < s->cmds_size && s->cmds[i].fd_in == 0)
 			s->cmds[i].fd_in = pipefd[0];
 	}
 	wait_child_process(s);
+}
+
+void	exec(t_structs *s)
+{
+	if (s->cmds_size == 1 && is_builtin(s->cmds[0]))
+	{
+		if (builtins(s, s->cmds[0]) == -1)
+			perror("built-in");
+	}
+	else
+		pipex(s);
 }

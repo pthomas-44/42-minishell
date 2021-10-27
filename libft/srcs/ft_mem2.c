@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_mem2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 13:21:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/26 17:49:54 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 14:22:02 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,23 @@ void	free_tab(char **split, size_t size)
 	if (split && size)
 	{
 		while (size && --size >= 0)
+		{
 			free(split[size]);
+			split[size] = NULL;
+		}
 		free(split);
+		split = NULL;
 	}
 	else if (split)
 	{
 		while (split[i])
 			i++;
 		while (i && i-- >= 0)
+		{
 			free(split[i]);
+			split[i] = NULL;
+		}
 		free(split);
+		split = NULL;
 	}
 }
