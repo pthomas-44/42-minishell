@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 18:21:09 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:32:37 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	builtins(t_structs *s, t_cmd current)
 		bi_unset(s, current);
 	else if (!ft_strcmp(current.cmd[0], "env"))
 		bi_env(s);
-	// else if (!ft_strcmp(current.cmd[0], "exit"))
-	// 	ft_exit(s, "exit", ft_atoi(current.cmd[1]));
+	else if (!ft_strcmp(current.cmd[0], "exit"))
+		bi_exit(s, current);
 }
 
 //~~ Renvoie 1 si la commande est un built-in

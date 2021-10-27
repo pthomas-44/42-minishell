@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/10/27 19:05:46 by pthomas          ###   ########lyon.fr   */
+=======
+/*   Updated: 2021/10/27 18:55:16 by mberne           ###   ########lyon.fr   */
+>>>>>>> 31e357d985fee866bacc37ddff296444f55142a9
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +132,7 @@ void			bi_echo(t_cmd current);
 void			bi_pwd(void);
 void			bi_env(t_structs *s);
 void			bi_unset(t_structs *s, t_cmd current);
+void			bi_exit(t_structs *s, t_cmd current);
 // ~~ builtin_cd.c
 void			bi_cd(t_structs *s, t_cmd current);
 int				set_oldpwd(t_structs *s);
