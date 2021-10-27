@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/26 16:42:32 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 14:46:59 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,16 @@ void	print_export(t_structs *s, t_cmd current)
 		{
 			if (i == export->index)
 			{
-				write(current.fd_out, "declare -x ", 11);
-				write(current.fd_out, export->name, ft_strlen(export->name));
+				write(STDOUT_FILENO, "declare -x ", 11);
+				write(STDOUT_FILENO, export->name, ft_strlen(export->name));
 				if (ft_strlen(export->value) > 0)
 				{
-					write(current.fd_out, "=\"", 2);
-					write(current.fd_out, export->value + 1,
+					write(STDOUT_FILENO, "=\"", 2);
+					write(STDOUT_FILENO, export->value + 1,
 						ft_strlen(export->value) - 1);
-					write(current.fd_out, "\"", 1);
+					write(STDOUT_FILENO, "\"", 1);
 				}
-				write(current.fd_out, "\n", 1);
+				write(STDOUT_FILENO, "\n", 1);
 			}
 			export = export->next;
 		}
