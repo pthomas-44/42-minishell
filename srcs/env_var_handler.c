@@ -6,13 +6,13 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 11:40:42 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 14:46:45 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-//~~ Inhibe les operateurs
+//~~ Gestion des quotes
 
 char	check_quotes(char c, char quote)
 {
@@ -22,6 +22,8 @@ char	check_quotes(char c, char quote)
 		quote = 0;
 	return (quote);
 }
+
+//~~ Inhibe les operateurs dans les noms de variables
 
 static char	*handle_operands(char *value, char *charset)
 {
@@ -59,15 +61,15 @@ char	*replace_var(char *line, size_t i, t_env *var)
 	char	*new;
 
 	new = ft_substr(line, 0, i);
-	if (var)
-	{
-		new = ft_strjoin_f3(new, handle_operands(var->value + 1, "<>|"));
-		new = ft_strjoin_f1(new, &line[i] + ft_strlen(var->name) + 1);
-	}
-	else if (line[i + 1] == '?')
+	if (line[i + 1] == '?')
 	{
 		new = ft_strjoin_f3(new, ft_nbtobase(errno, "0123456789"));
 		new = ft_strjoin_f1(new, &line[i + 2]);
+	}
+	else if (var)
+	{
+		new = ft_strjoin_f3(new, handle_operands(var->value + 1, "<>|"));
+		new = ft_strjoin_f1(new, &line[i] + ft_strlen(var->name) + 1);
 	}
 	else
 	{
@@ -121,7 +123,8 @@ char	*replace_env_variables(t_structs *s, char *line)
 	while (line && line[i])
 	{
 		quote = check_quotes(line[i], quote);
-		if (line[i] == '$' && (ft_isalpha(line[i + 1]) || line[i + 1] == '_'))
+		if (line[i] == '$' && (ft_isalpha(line[i + 1])
+				|| line[i + 1] == '_' || line[i + 1] == '?'))
 		{
 			var = find_var(s, &line[i + 1]);
 			line = replace_var(line, i, var);
