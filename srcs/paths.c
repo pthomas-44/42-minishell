@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 18:38:05 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:43:41 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,29 +40,6 @@ int	path_error_check(t_cmd *current)
 	else
 		return (0);
 	return (-1);
-}
-
-// ~~ Trouve le '~' par le HOME
-
-char	*replace_by_home_path(t_structs *s, char *cmd)
-{
-	t_env	*elem;
-	char	*new;
-
-	elem = *s->env;
-	while (elem)
-	{
-		if (!ft_strcmp(elem->name, "HOME"))
-			break ;
-		elem = elem->next;
-	}
-	if (cmd && (cmd[0] != '~' || ft_strcmp(elem->name, "HOME")))
-		return (ft_strdup(cmd));
-	if (cmd)
-		new = ft_strjoin_f0(elem->value + 1, cmd + 1);
-	else
-		new = ft_strdup(elem->value + 1);
-	return (new);
 }
 
 // ~~ Trouve le chemin de la commande dans l'ordinateur
@@ -156,31 +133,4 @@ char	**get_env_paths(t_structs *s)
 		elem = elem->next;
 	}
 	return (add_backslash(paths));
-}
-
-// ~~ Recupere le chemin d'une commande
-
-int	get_path(t_structs *s, t_cmd *current)
-{
-	char	**paths;
-
-	paths = get_env_paths(s);
-	if (paths && !ft_strchr(current->cmd[0], '/')
-		&& find_path_in_sys(current, paths) == -1)
-		perror("malloc");
-	else if ((!paths || ft_strchr(current->cmd[0], '/'))
-		&& !current->path && find_exe_path(s, current) == -1)
-		perror("malloc");
-	else if (path_error_check(current) == -1)
-	{
-		free(current->path);
-		current->path = NULL;
-	}
-	else
-	{
-		free_tab(paths, 0);
-		return (0);
-	}
-	free_tab(paths, 0);
-	return (-1);
 }
