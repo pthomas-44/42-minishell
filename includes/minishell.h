@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 14:32:02 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 14:45:25 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,8 @@ int				find_exe_path(t_structs *s, t_cmd *current);
 char			*replace_by_home_path(t_structs *s, char *cmd);
 int				path_error_check(t_cmd *current);
 // ~~ builtins.c
-int				ft_echo(t_structs *s, t_cmd current);
-int				ft_pwd(t_structs *s, t_cmd current);
+int				ft_echo(t_cmd current);
+int				ft_pwd(t_cmd current);
 int				ft_env(t_structs *s, t_cmd current);
 int				ft_unset(t_structs *s, t_cmd current);
 // ~~ builtin_cd.c

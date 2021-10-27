@@ -6,21 +6,19 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 13:59:19 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 14:45:26 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_echo(t_structs *s, t_cmd current)
+int	ft_echo(t_cmd current)
 {
 	size_t	i;
 	bool	option;
 
-	(void)s;
 	i = 0;
 	option = 0;
-	// printf("%d | %d\n", current.fd_in, current.fd_out);
 	if (current.cmd[1])
 	{
 		while (current.cmd[++i] && current.cmd[i][0] == '-')
@@ -42,14 +40,13 @@ int	ft_echo(t_structs *s, t_cmd current)
 	return (0);
 }
 
-int	ft_pwd(t_structs *s, t_cmd current)
+int	ft_pwd(t_cmd current)
 {
 	char	cwd[MAXPATHLEN];
 
-	(void)s;
 	getcwd(cwd, MAXPATHLEN);
-	write(current.fd_out, cwd, ft_strlen(cwd));
-	write(current.fd_out, "\n", 1);
+	write(STDOUT_FILENO, cwd, ft_strlen(cwd));
+	write(STDOUT_FILENO, "\n", 1);
 	return (0);
 }
 
@@ -62,9 +59,9 @@ int	ft_env(t_structs *s, t_cmd current)
 	{
 		if (ft_strlen(elem->value) > 0)
 		{
-			write(current.fd_out, elem->name, ft_strlen(elem->name));
-			write(current.fd_out, elem->value, ft_strlen(elem->value));
-			write(current.fd_out, "\n", 1);
+			write(STDOUT_FILENO, elem->name, ft_strlen(elem->name));
+			write(STDOUT_FILENO, elem->value, ft_strlen(elem->value));
+			write(STDOUT_FILENO, "\n", 1);
 		}
 		elem = elem->next;
 	}
