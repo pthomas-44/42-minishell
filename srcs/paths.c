@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/26 17:48:11 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:15:36 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,12 @@ char	*replace_by_home_path(t_structs *s, char *cmd)
 			break ;
 		elem = elem->next;
 	}
-	if (cmd[0] != '~' || ft_strcmp(elem->name, "HOME"))
+	if (cmd && (cmd[0] != '~' || ft_strcmp(elem->name, "HOME")))
 		return (ft_strdup(cmd));
-	new = ft_strjoin_f0(elem->value + 1, cmd + 1);
+	if (cmd)
+		new = ft_strjoin_f0(elem->value + 1, cmd + 1);
+	else
+		new = ft_strdup(elem->value + 1);
 	return (new);
 }
 
