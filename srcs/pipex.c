@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 18:04:42 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:22:19 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ void	launch_command(t_structs *s, int in, int out, t_cmd *current)
 			perror("dup2");
 		else if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))
 			perror("close");
-		else if (is_builtin(*current) && builtins(s, *current) == -1)
-			perror("built-in");
 		else if (!is_builtin(*current)
 			&& execve(current->path, current->cmd, envp) == -1)
 			perror("execve");
 		free_tab(envp, 0);
+		if (is_builtin(*current))
+			builtins(s, *current);
 		exit(EXIT_FAILURE);
 	}
 	else if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))

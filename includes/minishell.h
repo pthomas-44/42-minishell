@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 18:21:01 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:29:02 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ char			**split_cmd(char **cmd);
 // ~~ exec.c
 void			exec(t_structs *s);
 int				is_builtin(t_cmd current);
-int				builtins(t_structs *s, t_cmd current);
+void			builtins(t_structs *s, t_cmd current);
 // ~~ pipex.c
 void			pipex(t_structs *s);
 void			launch_command(t_structs *s, int in, int out, t_cmd *current);
@@ -131,16 +131,16 @@ int				find_exe_path(t_structs *s, t_cmd *current);
 char			*replace_by_home_path(t_structs *s, char *cmd);
 int				path_error_check(t_cmd *current);
 // ~~ builtins.c
-int				bi_echo(t_cmd current);
-int				bi_pwd(void);
-int				bi_env(t_structs *s);
-int				bi_unset(t_structs *s, t_cmd current);
+void			bi_echo(t_cmd current);
+void			bi_pwd(void);
+void			bi_env(t_structs *s);
+void			bi_unset(t_structs *s, t_cmd current);
 // ~~ builtin_cd.c
-int				bi_cd(t_structs *s, t_cmd current);
+void			bi_cd(t_structs *s, t_cmd current);
 int				set_oldpwd(t_structs *s);
 int				set_pwd(t_structs *s);
 // ~~ builtin_export.c
-int				bi_export(t_structs *s, t_cmd current);
+void			bi_export(t_structs *s, t_cmd current);
 int				create_env_variable(t_structs *s, t_cmd current);
 void			create_variable(t_structs *s, char *cmd, char *tmp);
 void			print_export(t_structs *s);

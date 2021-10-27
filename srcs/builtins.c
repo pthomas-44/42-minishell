@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 17:55:35 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:25:13 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //~~ Built-in echo
 
-int	bi_echo(t_cmd current)
+void	bi_echo(t_cmd current)
 {
 	size_t	i;
 	bool	option;
@@ -39,24 +39,22 @@ int	bi_echo(t_cmd current)
 	}
 	if (!option)
 		write(STDOUT_FILENO, "\n", 1);
-	return (0);
 }
 
 //~~ Built-in pwd
 
-int	bi_pwd(void)
+void	bi_pwd(void)
 {
 	char	cwd[MAXPATHLEN];
 
 	getcwd(cwd, MAXPATHLEN);
 	write(STDOUT_FILENO, cwd, ft_strlen(cwd));
 	write(STDOUT_FILENO, "\n", 1);
-	return (0);
 }
 
 //~~ Built-in env
 
-int	bi_env(t_structs *s)
+void	bi_env(t_structs *s)
 {
 	t_env	*elem;
 
@@ -71,12 +69,11 @@ int	bi_env(t_structs *s)
 		}
 		elem = elem->next;
 	}
-	return (0);
 }
 
 //~~ Built-in unset
 
-int	bi_unset(t_structs *s, t_cmd current)
+void	bi_unset(t_structs *s, t_cmd current)
 {
 	t_env	*unset;
 	size_t	i;
@@ -84,7 +81,7 @@ int	bi_unset(t_structs *s, t_cmd current)
 	if (!current.cmd[1])
 	{
 		errno = EXIT_FAILURE;
-		return (-1);
+		return ;
 	}
 	i = 1;
 	while (current.cmd[i])
@@ -101,5 +98,4 @@ int	bi_unset(t_structs *s, t_cmd current)
 		}
 		i++;
 	}
-	return (0);
 }
