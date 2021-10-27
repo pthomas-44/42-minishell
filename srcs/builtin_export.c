@@ -6,11 +6,13 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 15:00:24 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 17:58:24 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+//~~ Index les variables d'environnement selon l'ordre ascii
 
 void	index_list(t_structs *s)
 {
@@ -31,6 +33,8 @@ void	index_list(t_structs *s)
 		elem = elem->next;
 	}
 }
+
+//~~ Print les variables d'environnement triées selon l'ordre ascii
 
 void	print_export(t_structs *s)
 {
@@ -61,6 +65,8 @@ void	print_export(t_structs *s)
 	}
 }
 
+//~~ Crée une nouvelle variable d'environnement
+
 void	create_variable(t_structs *s, char *cmd, char *tmp)
 {
 	t_env	*export;
@@ -76,6 +82,8 @@ void	create_variable(t_structs *s, char *cmd, char *tmp)
 		env_del(s, export);
 	env_new(s, cmd);
 }
+
+//~~ Vérifie si la variable qu'on veut créer est valable
 
 int	create_env_variable(t_structs *s, t_cmd current)
 {
@@ -102,7 +110,9 @@ int	create_env_variable(t_structs *s, t_cmd current)
 	return (0);
 }
 
-int	ft_export(t_structs *s, t_cmd current)
+//~~ Built-in export
+
+int	bi_export(t_structs *s, t_cmd current)
 {
 	if (current.cmd[1])
 	{

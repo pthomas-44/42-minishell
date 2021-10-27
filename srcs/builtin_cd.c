@@ -6,11 +6,13 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 14:57:43 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:15:59 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+//~~ Change la variable d'environnement pwd
 
 int	set_pwd(t_structs *s)
 {
@@ -31,6 +33,8 @@ int	set_pwd(t_structs *s)
 		return (-1);
 	return (0);
 }
+
+//~~ Change la variable d'environnement oldpwd
 
 int	set_oldpwd(t_structs *s)
 {
@@ -60,7 +64,9 @@ int	set_oldpwd(t_structs *s)
 	return (0);
 }
 
-int	ft_cd(t_structs *s, t_cmd current)
+//~~ Built-in cd
+
+int	bi_cd(t_structs *s, t_cmd current)
 {
 	if (!current.cmd[1] || current.cmd[1][0] == '~')
 		current.path = replace_by_home_path(s, current.cmd[1]);

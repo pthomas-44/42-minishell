@@ -6,7 +6,11 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/10/27 18:10:07 by pthomas          ###   ########lyon.fr   */
+=======
+/*   Updated: 2021/10/27 18:05:23 by mberne           ###   ########lyon.fr   */
+>>>>>>> 3952a439aa2dc2c8d4bc4ef3b2825a69d4b99160
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,11 +119,12 @@ int				get_outfile(t_structs *s, char **line, int i);
 char			**split_cmd(char **cmd);
 // ~~ exec.c
 void			exec(t_structs *s);
+int				is_builtin(t_cmd current);
+int				builtins(t_structs *s, t_cmd current);
+// ~~ pipex.c
 void			pipex(t_structs *s);
 void			launch_command(t_structs *s, int in, int out, t_cmd *current);
 void			wait_child_process(t_structs *s);
-int				is_builtin(t_cmd current);
-int				builtins(t_structs *s, t_cmd current);
 // ~~ paths.c
 int				get_path(t_structs *s, t_cmd *current);
 char			**get_env_paths(t_structs *s);
@@ -130,16 +135,16 @@ int				find_exe_path(t_structs *s, t_cmd *current);
 char			*replace_by_home_path(t_structs *s, char *cmd);
 int				path_error_check(t_cmd *current);
 // ~~ builtins.c
-int				ft_echo(t_cmd current);
-int				ft_pwd(void);
-int				ft_env(t_structs *s);
-int				ft_unset(t_structs *s, t_cmd current);
+int				bi_echo(t_cmd current);
+int				bi_pwd(void);
+int				bi_env(t_structs *s);
+int				bi_unset(t_structs *s, t_cmd current);
 // ~~ builtin_cd.c
-int				ft_cd(t_structs *s, t_cmd current);
+int				bi_cd(t_structs *s, t_cmd current);
 int				set_oldpwd(t_structs *s);
 int				set_pwd(t_structs *s);
 // ~~ builtin_export.c
-int				ft_export(t_structs *s, t_cmd current);
+int				bi_export(t_structs *s, t_cmd current);
 int				create_env_variable(t_structs *s, t_cmd current);
 void			create_variable(t_structs *s, char *cmd, char *tmp);
 void			print_export(t_structs *s);
