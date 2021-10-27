@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 18:24:02 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:29:03 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	create_env_variable(t_structs *s, t_cmd current)
 			create_variable(s, current.cmd[i], tmp);
 		else
 		{
-			write(2, "minishell: export: `", 20);
+			write(2, "potatoshell: export: `", 22);
 			write(2, current.cmd[i], ft_strlen(current.cmd[i]));
 			write(2, "': not a valid identifier\n", 26);
 		}

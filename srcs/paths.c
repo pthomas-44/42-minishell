@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 18:15:36 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:22:36 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	path_error_check(t_cmd *current)
 	dir = opendir(current->path);
 	if (!current->path || dir || open(current->path, O_RDONLY) == -1
 		|| access(current->path, X_OK) == -1)
-		write(2, "minishell: ", 11);
+		write(2, "potatoshell: ", 13);
 	if (!current->path || open(
 			current->path, O_RDONLY) == -1 || access(current->path, X_OK) == -1)
 		write(2, current->cmd[0], ft_strlen(current->cmd[0]));

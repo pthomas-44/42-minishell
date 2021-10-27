@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 18:24:18 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:29:04 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	bi_cd(t_structs *s, t_cmd current)
 	}
 	if (chdir(current.path) == -1)
 	{
-		write(2, "minishell: cd: ", 15);
+		write(2, "potatoshell: cd: ", 17);
 		write(2, current.path, ft_strlen(current.path));
 		write(2, ": No such file or directory\n", 28);
 		errno = EXIT_FAILURE;
