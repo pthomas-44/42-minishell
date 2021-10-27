@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:24:16 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/22 16:55:59 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:23:14 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	check_successive_operators(char **line, char *charset)
 	if (*tmp && ft_strchr(charset, *tmp) && (*(*line) != '|' || *tmp == '|')
 		&& (*tmp != *(*line) || tmp - 1 != (*line)))
 	{
-		write(2, "minishell: syntax error near unexpected token `", 48);
+		write(2, "potatoshell: syntax error near unexpected token `", 49);
 		write(2, tmp, 1);
 		write(2, "'\n", 3);
 		return (-1);
@@ -32,7 +32,7 @@ static int	check_successive_operators(char **line, char *charset)
 		skip_spaces(&tmp);
 		if (*tmp && ft_strchr(charset, *tmp))
 		{
-			write(2, "minishell: syntax error near unexpected token `", 48);
+			write(2, "potatoshell: syntax error near unexpected token `", 49);
 			write(2, tmp, 1);
 			write(2, "'\n", 3);
 			return (-1);
@@ -71,20 +71,20 @@ int	check_syntax_errors(char *line, char *charset)
 	skip_spaces(&line);
 	if (*line == '|')
 	{
-		write(2, "minishell: syntax error near unexpected token `|'\n", 51);
+		write(2, "potatoshell: syntax error near unexpected token `|'\n", 52);
 		return (1);
 	}
 	if (syntax_loop(line, charset, &quote, &last_char) == -1)
 		return (1);
 	if (ft_strchr(charset, last_char))
 	{
-		write(2, "minishell: syntax error near \
-unexpected token `newline'\n", 57);
+		write(2, "potatoshell: syntax error near \
+unexpected token `newline'\n", 58);
 		return (1);
 	}
 	if (quote)
 	{
-		write(2, "minishell: unclosed quotes\n", 28);
+		write(2, "potatoshell: unclosed quotes\n", 29);
 		return (1);
 	}
 	return (0);
