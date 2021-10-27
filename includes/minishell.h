@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 18:29:02 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 18:34:53 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ void			bi_echo(t_cmd current);
 void			bi_pwd(void);
 void			bi_env(t_structs *s);
 void			bi_unset(t_structs *s, t_cmd current);
+void			bi_exit(t_structs *s, t_cmd current);
 // ~~ builtin_cd.c
 void			bi_cd(t_structs *s, t_cmd current);
 int				set_oldpwd(t_structs *s);
