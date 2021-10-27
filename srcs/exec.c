@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/26 16:37:39 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 11:00:17 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,9 +142,9 @@ void	pipex(t_structs *s)
 		}
 		if (s->cmds[i].fd_out == 1 && i < s->cmds_size - 1)
 			s->cmds[i].fd_out = pipefd[1];
-		if (is_builtin(s->cmds[i]))
-			launch_builtin(s, s->cmds[i].fd_in, s->cmds[i].fd_out, &s->cmds[i]);
-		else
+		// if (is_builtin(s->cmds[i]))
+		// 	launch_builtin(s, s->cmds[i].fd_in, s->cmds[i].fd_out, &s->cmds[i]);
+		// else
 			launch_command(s, s->cmds[i].fd_in, s->cmds[i].fd_out, &s->cmds[i]);
 		i++;
 		if (i < s->cmds_size && s->cmds[i].fd_in == 0)

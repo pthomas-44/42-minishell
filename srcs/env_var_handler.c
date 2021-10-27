@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/26 13:31:00 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 11:40:42 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ char	*replace_var(char *line, size_t i, t_env *var)
 	}
 	else
 	{
-		while (line[i] && line[i] != '"' && line[i] != ' ' && line[i] != '\'')
+		i++;
+		while (line[i] && (ft_isalnum(line[i]) || line[i] == '_'))
 			i++;
 		if (line[i])
 			new = ft_strjoin_f1(new, &line[i]);
@@ -87,7 +88,10 @@ static t_env	*find_var(t_structs *s, char *line)
 	t_env	*current;
 	char	*name;
 
-	name = ft_substr(line, 0, ft_strchrstr(line, " \"\'$") - line);
+	name = line;
+	while (ft_isalnum(*name) || *name == '_')
+		name++;
+	name = ft_substr(line, 0, name - line);
 	current = *s->env;
 	while (current->next
 		&& ft_strncmp(current->name, name, ft_strlen(name) + 1))
@@ -117,7 +121,7 @@ char	*replace_env_variables(t_structs *s, char *line)
 	while (line && line[i])
 	{
 		quote = check_quotes(line[i], quote);
-		if (line[i] == '$' && line[i + 1] && !ft_strchr("$ \"\'", line[i + 1]))
+		if (line[i] == '$' && (ft_isalpha(line[i + 1]) || line[i + 1] == '_'))
 		{
 			var = find_var(s, &line[i + 1]);
 			line = replace_var(line, i, var);
@@ -127,7 +131,7 @@ char	*replace_env_variables(t_structs *s, char *line)
 				return (NULL);
 			}
 		}
-		if (line[i])
+		else if (line[i])
 			i++;
 	}
 	return (line);

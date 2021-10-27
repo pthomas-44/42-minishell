@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/26 17:55:26 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/26 18:09:06 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ char			**list_to_char(t_structs *s);
 // ~~ signal.c
 void			sig_int(int sig);
 void			sig_quit(int sig);
+void			child_sig_int(int sig);
+void			child_sig_quit(int sig);
 // ~~ parsing.c
 void			parsing(t_structs *s, char *line);
 // ~~ syntax_checker.c
