@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:51:28 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 18:29:12 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 14:41:33 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ char	**split_cmd(char **cmd)
 
 	i = 0;
 	j = 0;
-	if (!cmd[0])
-		return (0);
+	if (!cmd || !cmd[0])
+		return (NULL);
 	split = malloc(sizeof(char *) * (ft_countwords(cmd[0]) + 1));
 	if (!split)
 	{
 		perror("malloc");
-		return (0);
+		return (NULL);
 	}
 	while ((cmd[0])[j])
 	{

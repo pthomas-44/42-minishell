@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 19:31:50 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 14:40:46 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	get_command(t_structs *s, char **line, int i)
 	tmp = get_args(*line, 0);
 	if (!s->cmds[i].cmd)
 	{
-		s->cmds[i].cmd = ft_split(ft_strdup(tmp), 0);
+		s->cmds[i].cmd = ft_split(tmp, 0);
 		if (!s->cmds[i].cmd)
 		{
 			free(tmp);
@@ -66,8 +66,6 @@ static int	fill_cmd_struct(t_structs *s, char *line)
 		else if (*line && get_command(s, &line, i) == -1)
 			return (-1);
 	}
-	if (!s->cmds[i].cmd)
-		return (-1);
 	s->cmds[i].cmd = split_cmd(s->cmds[i].cmd);
 	remove_quotes(s->cmds[i].cmd);
 	return (0);
@@ -102,7 +100,7 @@ static void	init_cmds_struct(t_structs *s, char *line)
 	size_t	i;
 
 	s->cmds_size = nb_of_pipes(line) + 1;
-	s->cmds = ft_calloc(s->cmds_size + 1, sizeof(t_cmd));
+	s->cmds = ft_calloc(s->cmds_size, sizeof(t_cmd));
 	if (!s->cmds)
 		ft_exit(s, "malloc", EXIT_FAILURE);
 	i = 0;
@@ -123,7 +121,7 @@ void	parsing(t_structs *s, char *line)
 {
 	char	*tmp;
 
-	if (!(*line) || check_syntax_errors(line, "<>|"))
+	if (check_syntax_errors(line, "<>|"))
 	{
 		errno = 258;
 		return ;
@@ -131,7 +129,10 @@ void	parsing(t_structs *s, char *line)
 	init_cmds_struct(s, line);
 	tmp = replace_env_variables(s, ft_strdup(line));
 	if (!tmp)
+	{
+		perror("malloc");
 		return ;
+	}
 	if (fill_cmd_struct(s, tmp) == -1)
 	{
 		free(tmp);

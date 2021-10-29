@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 19:30:06 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 14:24:53 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,10 +129,7 @@ char	*replace_env_variables(t_structs *s, char *line)
 			var = find_var(s, &line[i + 1]);
 			line = replace_var(line, i, var);
 			if (!line)
-			{
-				perror("malloc");
 				return (NULL);
-			}
 		}
 		else if (line[i])
 			i++;
