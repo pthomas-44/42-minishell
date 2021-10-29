@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/29 18:18:59 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 18:25:16 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,15 +106,22 @@ void	bi_unset(t_structs *s, t_cmd current)
 void	bi_exit(t_structs *s, t_cmd current)
 {
 	if (!current.cmd[1])
-		ft_exit(s, "exit", errno);
+	{
+		free_all(s);
+		exit(errno);
+	}
 	else if (ft_str_isdigit(current.cmd[1]))
-		ft_exit(s, "exit", ft_atoi(current.cmd[1]));
+	{
+		free_all(s);
+		exit(errno);
+	}
 	else
 	{
 		errno = 255;
 		write(2, "potatoshell: exit: ", 19);
 		write(2, current.cmd[1], ft_strlen(current.cmd[1]));
 		write(2, ": numeric argument required\n", 28);
-		ft_exit(s, "exit", -1);
+		free_all(s);
+		exit(errno);
 	}
 }

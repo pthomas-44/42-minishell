@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:26:00 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 18:28:01 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 18:01:25 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ static char	*heredoc_loop(char *stop)
 			content = ft_strjoin_f1(content, "\n");
 		content = ft_strjoin_f3(content, line);
 		if (!content)
+		{
+			print_error("malloc: ", NULL, NULL, ENOMEM);
 			break ;
+		}
 	}
 	return (content);
 }
@@ -47,7 +50,7 @@ static int	heredoc_handler(t_structs *s, char *stop, int i)
 		return (-1);
 	if (pipe(pipe_fd) == -1)
 	{
-		perror("pipe");
+		print_error("pipe: ", NULL, NULL, errno);
 		free(content);
 		return (-1);
 	}
@@ -55,7 +58,7 @@ static int	heredoc_handler(t_structs *s, char *stop, int i)
 	free(content);
 	if (close(pipe_fd[STDOUT_FILENO]) == -1)
 	{
-		perror("close");
+		print_error("close: ", NULL, NULL, errno);
 		return (-1);
 	}
 	s->cmds[i].fd_in = pipe_fd[STDIN_FILENO];
@@ -70,7 +73,7 @@ int	get_outfile(t_structs *s, char **line, int i)
 
 	if (s->cmds[i].fd_out > 1 && close(s->cmds[i].fd_out) == -1)
 	{
-		perror("close");
+		print_error("close: ", NULL, NULL, errno);
 		return (-1);
 	}
 	tmp[0] = *line;
@@ -84,8 +87,8 @@ int	get_outfile(t_structs *s, char **line, int i)
 		s->cmds[i].fd_out = open(tmp[1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (s->cmds[i].fd_out == -1)
 	{
+		print_error("open: ", tmp[1], NULL, errno);
 		free(tmp[1]);
-		perror("open");
 		return (-1);
 	}
 	(*line) += ft_strlen(tmp[1]);
@@ -100,8 +103,8 @@ static int	get_infile_sequel(t_structs *s, int i, char **tmp)
 	s->cmds[i].fd_in = open(tmp[1], O_RDONLY);
 	if (s->cmds[i].fd_in == -1)
 	{
+		print_error("open: ", tmp[1], NULL, errno);
 		free(tmp[1]);
-		perror("open");
 		return (-1);
 	}
 	return (0);
@@ -115,7 +118,7 @@ int	get_infile(t_structs *s, char **line, int i)
 
 	if (s->cmds[i].fd_in > 0 && close(s->cmds[i].fd_in) == -1)
 	{
-		perror("close");
+		print_error("close: ", NULL, NULL, errno);
 		return (-1);
 	}
 	tmp[0] = *line;

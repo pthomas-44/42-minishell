@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:23:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 19:33:16 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 18:01:25 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ static void	prompt_loop(t_structs *s)
 		free(s->parse_line[1]);
 		s->parse_line[1] = s->parse_line[0];
 	}
-	ft_exit(s, "", EXIT_SUCCESS);
+	write(1, "exit\n", 6);
+	free_all(s);
+	exit(errno);
 }
 
 //~~ Initialisation de la structure de controle
@@ -49,15 +51,21 @@ static void	init_control_struct(t_structs *s, char **env)
 	s->parse_line[0] = NULL;
 	s->parse_line[1] = NULL;
 	s->cmds = NULL;
-	s->env = malloc(sizeof(t_env));
+	s->env = ft_calloc(1, sizeof(t_env));
 	if (!s->env)
-		ft_exit(s, "malloc", EXIT_FAILURE);
+	{
+		print_error("malloc: ", NULL, NULL, ENOMEM);
+		free_all(s);
+	}
 	s->env_size = 0;
 	i = 0;
 	while (env[i])
 	{
 		if (env_new(s, env[i]) == -1)
-			ft_exit(s, "malloc", EXIT_FAILURE);
+		{
+			print_error("malloc: ", NULL, NULL, ENOMEM);
+			free_all(s);
+		}
 		i++;
 	}
 }
@@ -74,10 +82,10 @@ int	main(int ac, char **av, char **env)
 	init_control_struct(&s, env);
 	if (ac != 1)
 	{
-		errno = E2BIG;
-		ft_exit(&s, "potatoshell", E2BIG);
+		print_error(NULL, NULL, NULL, E2BIG);
+		free_all(&s);
+		exit(errno);
 	}
 	prompt_loop(&s);
-	ft_exit(&s, "", 0);
 	return (0);
 }

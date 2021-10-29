@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:24:16 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 19:16:28 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 17:42:40 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,22 @@ static int	check_successive_operators(char **line, char *charset)
 	tmp = (*line) + 1;
 	skip_spaces(&tmp);
 	if (*tmp && ft_strchr(charset, *tmp) && (*(*line) != '|' || *tmp == '|')
-		&& (*tmp != *(*line) || tmp - 1 != (*line)))
+		&& (tmp != (*line) || tmp - 1 != (*line)))
 	{
-		write(2, "potatoshell: syntax error near unexpected token `", 49);
+		print_error(NULL, NULL, "syntax error near unexpected token `", 258);
 		write(2, tmp, 1);
-		write(2, "'\n", 3);
+		write(2, "'\n", 2);
 		return (-1);
 	}
-	else if (*tmp && ft_strchr(charset, *tmp) && *(*line) != '|')
+	else if (*tmp && ft_strchr(charset, *tmp++) && *(*line) != '|')
 	{
-		tmp++;
 		skip_spaces(&tmp);
 		if (*tmp && ft_strchr(charset, *tmp))
 		{
-			write(2, "potatoshell: syntax error near unexpected token `", 49);
+			print_error(NULL, NULL,
+				"syntax error near unexpected token `", 258);
 			write(2, tmp, 1);
-			write(2, "'\n", 3);
+			write(2, "'\n", 2);
 			return (-1);
 		}
 	}
@@ -75,20 +75,20 @@ int	check_syntax_errors(char *line, char *charset)
 	skip_spaces(&line);
 	if (*line == '|')
 	{
-		write(2, "potatoshell: syntax error near unexpected token `|'\n", 52);
+		print_error(NULL, NULL, "syntax error near unexpected token `|'\n", 258);
 		return (1);
 	}
 	if (syntax_loop(line, charset, &quote, &last_char) == -1)
 		return (1);
 	if (ft_strchr(charset, last_char))
 	{
-		write(2, "potatoshell: syntax error near \
-unexpected token `newline'\n", 58);
+		print_error(NULL, NULL,
+			"syntax error near unexpected token `newline'\n", 258);
 		return (1);
 	}
 	if (quote)
 	{
-		write(2, "potatoshell: unclosed quotes\n", 29);
+		print_error(NULL, NULL, "unclosed quotes\n", 258);
 		return (1);
 	}
 	return (0);

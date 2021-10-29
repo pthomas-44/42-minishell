@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/29 15:03:43 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 18:01:25 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,22 @@ static int	get_command(t_structs *s, char **line, int i)
 	char	*tmp;
 
 	tmp = get_args(*line, 0);
-	if (!s->cmds[i].cmd)
+	if (tmp && !s->cmds[i].cmd)
 	{
 		s->cmds[i].cmd = ft_split(tmp, 0);
 		if (!s->cmds[i].cmd)
 		{
 			free(tmp);
-			perror("malloc");
+			print_error("malloc: ", NULL, NULL, ENOMEM);
 			return (-1);
 		}
 	}
-	else
+	else if (tmp)
 		s->cmds[i].cmd[0] = ft_strjoin_f1(s->cmds[i].cmd[0], tmp);
 	if (!s->cmds[i].cmd[0])
 	{
 		free(tmp);
-		perror("malloc");
+		print_error("malloc: ", NULL, NULL, ENOMEM);
 		return (-1);
 	}
 	(*line) += ft_strlen(tmp);
@@ -95,14 +95,17 @@ static size_t	nb_of_pipes(char *line)
 
 // Initialisation de la structure t_cmd
 
-static void	init_cmds_struct(t_structs *s, char *line)
+static int	init_cmds_struct(t_structs *s, char *line)
 {
 	size_t	i;
 
 	s->cmds_size = nb_of_pipes(line) + 1;
 	s->cmds = ft_calloc(s->cmds_size, sizeof(t_cmd));
 	if (!s->cmds)
-		ft_exit(s, "malloc", EXIT_FAILURE);
+	{
+		print_error("malloc: ", NULL, NULL, ENOMEM);
+		return (-1);
+	}
 	i = 0;
 	while (i < s->cmds_size)
 	{
@@ -112,6 +115,7 @@ static void	init_cmds_struct(t_structs *s, char *line)
 		s->cmds[i].fd_out = 1;
 		i++;
 	}
+	return (0);
 }
 
 //~~ Le parsing, qui appel l'execution avec un tableau 
@@ -121,16 +125,12 @@ void	parsing(t_structs *s, char *line)
 {
 	char	*tmp;
 
-	if (check_syntax_errors(line, "<>|"))
-	{
-		errno = 258;
+	if (check_syntax_errors(line, "<>|") || init_cmds_struct(s, line) == -1)
 		return ;
-	}
-	init_cmds_struct(s, line);
 	tmp = replace_env_variables(s, ft_strdup(line));
 	if (!tmp)
 	{
-		perror("malloc");
+		print_error("malloc: ", NULL, NULL, ENOMEM);
 		return ;
 	}
 	if (fill_cmd_struct(s, tmp) == -1)

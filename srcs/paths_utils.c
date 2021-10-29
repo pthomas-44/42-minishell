@@ -6,7 +6,11 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/10/29 18:23:33 by mberne           ###   ########lyon.fr   */
+=======
+/*   Updated: 2021/10/29 18:21:51 by pthomas          ###   ########lyon.fr   */
+>>>>>>> 1a57e435d2cb07996cffbd50ad3992d4d9fd9c4e
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,34 +21,22 @@
 int	path_error_check(t_cmd *current)
 {
 	DIR	*dir;
+	int	tmp;
 
+	tmp = errno;
 	dir = opendir(current->path);
+	errno = tmp;
 	if (!current->path)
-	{
-		errno = 127;
-		write(2, "potatoshell: ", 13);
-		write(2, current->cmd[0], ft_strlen(current->cmd[0]));
-		write(2, ": command not found\n", 20);
-	}
+		print_error(NULL, current->cmd[0], ": command not found\n", 127);
 	else if (dir)
 	{
-		errno = EISDIR;
-		write(2, "potatoshell: ", 13);
-		perror(current->path);
+		print_error(NULL, current->path, NULL, EISDIR);
 		closedir(dir);
 	}
 	else if (open(current->path, O_RDONLY) == -1)
-	{
-		errno = ENOENT;
-		write(2, "potatoshell: ", 13);
-		perror(current->cmd[0]);
-	}
+		print_error(NULL, current->cmd[0], NULL, ENOENT);
 	else if (access(current->path, X_OK) == -1)
-	{
-		errno = EACCES;
-		write(2, "potatoshell: ", 13);
-		perror(current->cmd[0]);
-	}
+		print_error(NULL, current->cmd[0], NULL, EACCES);
 	else
 		return (0);
 	return (-1);
@@ -55,7 +47,7 @@ int	path_error_check(t_cmd *current)
 int	find_exe_path(t_structs *s, t_cmd *current)
 {
 	char	cwd[MAXPATHLEN];
-	char	*tmp;
+	int		nb_args;
 
 	current->path = replace_by_home_path(s, current->cmd[0]);
 	if (!current->path)
@@ -67,9 +59,16 @@ int	find_exe_path(t_structs *s, t_cmd *current)
 		if (!current->path)
 			return (-1);
 	}
-	tmp = ft_strrchr(current->path, '/');
+	nb_args = 0;
+	while (current->cmd[nb_args])
+		nb_args++;
 	free(current->cmd[0]);
 	current->cmd[0] = ft_strdup(ft_strrchr(current->path, '/') + 1);
+	if (!current->cmd[0])
+	{
+		free_tab(current->cmd, nb_args);
+		return (-1);
+	}
 	return (0);
 }
 
@@ -113,9 +112,10 @@ static char	**add_backslash(char **paths)
 		paths[i] = ft_strjoin_f1(paths[i], "/");
 		if (!paths[i])
 		{
+			print_error("malloc: ", NULL, NULL, ENOMEM);
 			free_tab(paths, paths_size);
 			paths = NULL;
-			return (paths);
+			return (NULL);
 		}
 		i++;
 	}
@@ -140,5 +140,7 @@ char	**get_env_paths(t_structs *s)
 		}
 		elem = elem->next;
 	}
+	if (!paths)
+		print_error("malloc: ", NULL, NULL, ENOMEM);
 	return (add_backslash(paths));
 }
