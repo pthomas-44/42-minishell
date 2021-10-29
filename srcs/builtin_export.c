@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/29 14:51:45 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 15:19:01 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,15 @@ static int	create_env_variable(t_structs *s, t_cmd current)
 	{
 		tmp = take_name(current.cmd[i]);
 		if (!tmp)
+		{
+			perror("malloc");
 			return (-1);
+		}
 		if (is_word(tmp))
 			create_variable(s, current.cmd[i], tmp);
 		else
 		{
-			errno = 1;
+			errno = EXIT_FAILURE;
 			write(2, "potatoshell: export: `", 22);
 			write(2, current.cmd[i], ft_strlen(current.cmd[i]));
 			write(2, "': not a valid identifier\n", 26);
