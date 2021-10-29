@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 19:28:26 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 14:12:59 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	find_path_in_sys(t_cmd *current, char **paths)
 
 // ~~ Ajoute un '/' a la fin des chemins
 
-char	**add_backslash(char **paths)
+static char	**add_backslash(char **paths)
 {
 	size_t	i;
 	size_t	paths_size;

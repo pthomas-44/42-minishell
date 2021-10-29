@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 19:27:55 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 14:13:10 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ void	bi_unset(t_structs *s, t_cmd current)
 		i++;
 	}
 }
+
+//~~ Built-in exit
 
 void	bi_exit(t_structs *s, t_cmd current)
 {

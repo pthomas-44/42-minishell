@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 19:09:18 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 10:46:21 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //~~ Change la variable d'environnement pwd
 
-int	set_pwd(t_structs *s)
+static int	set_pwd(t_structs *s)
 {
 	char	cwd[MAXPATHLEN];
 	t_env	*pwd;
@@ -36,7 +36,7 @@ int	set_pwd(t_structs *s)
 
 //~~ Change la variable d'environnement oldpwd
 
-int	set_oldpwd(t_structs *s)
+static int	set_oldpwd(t_structs *s)
 {
 	t_env	*pwd;
 	t_env	*old_pwd;
