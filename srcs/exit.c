@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:24:04 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 19:09:48 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 19:26:03 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ void	free_cmds_struct(t_structs *s)
 
 void	ft_exit(t_structs *s, char *errormsg, int status)
 {
-	if (status == EXIT_FAILURE)
-		perror(errormsg);
-	else if (status == EXIT_SUCCESS || !ft_strcmp(errormsg, "exit"))
+	if (status == EXIT_SUCCESS || !ft_strcmp(errormsg, "exit"))
 		write(1, "exit\n", 6);
+	else
+		perror(errormsg);
 	free(s->parse_line[0]);
 	s->parse_line[0] = NULL;
 	free(s->parse_line[1]);

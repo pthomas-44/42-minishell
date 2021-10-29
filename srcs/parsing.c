@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 12:57:45 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 19:31:50 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,10 @@ void	parsing(t_structs *s, char *line)
 	char	*tmp;
 
 	if (!(*line) || check_syntax_errors(line, "<>|"))
+	{
+		errno = 258;
 		return ;
+	}
 	init_cmds_struct(s, line);
 	tmp = replace_env_variables(s, ft_strdup(line));
 	if (!tmp)

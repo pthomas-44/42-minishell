@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:23:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 19:05:04 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 19:33:16 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,15 @@ t_signals	g_sigs;
 
 static void	prompt_loop(t_structs *s)
 {
+	int	tmp_errno;
+
 	signal(SIGINT, &sig_int);
 	signal(SIGQUIT, &sig_quit);
 	while (1)
 	{
+		tmp_errno = errno;
 		s->parse_line[0] = readline(PROMPT);
+		errno = tmp_errno;
 		if (!s->parse_line[0])
 			break ;
 		parsing(s, s->parse_line[0]);
@@ -71,7 +75,7 @@ int	main(int ac, char **av, char **env)
 	if (ac != 1)
 	{
 		errno = E2BIG;
-		ft_exit(&s, "potatoshell", EXIT_FAILURE);
+		ft_exit(&s, "potatoshell", E2BIG);
 	}
 	prompt_loop(&s);
 	ft_exit(&s, "", 0);

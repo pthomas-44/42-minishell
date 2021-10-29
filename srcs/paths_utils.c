@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 18:56:02 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 19:28:26 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,32 @@ int	path_error_check(t_cmd *current)
 	DIR	*dir;
 
 	dir = opendir(current->path);
-	if (!current->path || dir || open(current->path, O_RDONLY) == -1
-		|| access(current->path, X_OK) == -1)
-		write(2, "potatoshell: ", 13);
-	if (!current->path || open(
-			current->path, O_RDONLY) == -1 || access(current->path, X_OK) == -1)
-		write(2, current->cmd[0], ft_strlen(current->cmd[0]));
 	if (!current->path)
+	{
+		errno = 127;
+		write(2, "potatoshell: ", 13);
+		write(2, current->cmd[0], ft_strlen(current->cmd[0]));
 		write(2, ": command not found\n", 20);
+	}
 	else if (dir)
 	{
-		write(2, current->path, ft_strlen(current->path));
-		write(2, ": is a directory\n", 18);
+		errno = EISDIR;
+		write(2, "potatoshell: ", 13);
+		perror(current->path);
 		closedir(dir);
 	}
 	else if (open(current->path, O_RDONLY) == -1)
-		write(2, ": No such file or directory\n", 29);
+	{
+		errno = ENOENT;
+		write(2, "potatoshell: ", 13);
+		perror(current->cmd[0]);
+	}
 	else if (access(current->path, X_OK) == -1)
-		write(2, ": Permission denied\n", 21);
+	{
+		errno = EACCES;
+		write(2, "potatoshell: ", 13);
+		perror(current->cmd[0]);
+	}
 	else
 		return (0);
 	return (-1);
