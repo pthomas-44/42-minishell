@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/29 14:24:53 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 18:01:25 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,20 +94,19 @@ static t_env	*find_var(t_structs *s, char *line)
 	while (ft_isalnum(*name) || *name == '_')
 		name++;
 	name = ft_substr(line, 0, name - line);
+	if (!name)
+	{
+		print_error("malloc: ", NULL, NULL, ENOMEM);
+		return (NULL);
+	}
 	current = *s->env;
 	while (current->next
 		&& ft_strncmp(current->name, name, ft_strlen(name) + 1))
 		current = current->next;
 	if (ft_strncmp(current->name, line, ft_strlen(name)))
-	{
-		free(name);
-		return (NULL);
-	}
-	else
-	{
-		free(name);
-		return (current);
-	}
+		current = NULL;
+	free(name);
+	return (current);
 }
 
 //~~ Remplace les variables d'environnement pas leurs valeurs

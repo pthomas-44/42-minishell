@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/29 15:01:57 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 15:34:31 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ typedef struct s_structs
 /*** ~~ PROTOTYPES ~~ ***/
 
 // ~~ exit.c
+void			free_all(t_structs *s);
 void			free_cmds_struct(t_structs *s);
-void			ft_exit(t_structs *s, char *errormsg, int status);
 void			print_error(char *cmd, char *value, char *error, int status);
 // ~~ env_list.c
 int				env_new(t_structs *s, char *var);

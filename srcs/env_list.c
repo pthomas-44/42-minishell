@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:42:08 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/26 17:32:26 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 18:01:27 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	env_new(t_structs *s, char *var)
 	size_t	i;
 	t_env	*current;
 
-	new = malloc(sizeof(t_env));
+	new = ft_calloc(1, sizeof(t_env));
 	i = 0;
 	if (!new)
 		return (-1);
@@ -28,8 +28,6 @@ int	env_new(t_structs *s, char *var)
 	new->name = ft_substr(var, 0, i);
 	new->value = ft_substr(var + i, 0, ft_strlen(var));
 	new->next = NULL;
-	if (!new->name || !new->value)
-		return (-1);
 	if (s->env_size)
 	{
 		current = *s->env;
@@ -40,6 +38,8 @@ int	env_new(t_structs *s, char *var)
 	else
 		*s->env = new;
 	s->env_size++;
+	if (!new->name || !new->value)
+		return (-1);
 	return (0);
 }
 
@@ -94,7 +94,7 @@ char	**list_to_char(t_structs *s)
 	envp = ft_calloc(s->env_size + 1, sizeof(char *));
 	if (!envp)
 	{
-		perror("malloc");
+		print_error("malloc: ", NULL, NULL, ENOMEM);
 		return (NULL);
 	}
 	while (current)
@@ -102,7 +102,7 @@ char	**list_to_char(t_structs *s)
 		envp[i] = ft_strjoin_f0(current->name, current->value);
 		if (!envp[i++])
 		{
-			perror("malloc");
+			print_error("malloc: ", NULL, NULL, ENOMEM);
 			free_tab(envp, 0);
 			return (NULL);
 		}

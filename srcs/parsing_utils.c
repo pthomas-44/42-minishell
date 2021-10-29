@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:54:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/29 14:40:35 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 18:01:25 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ static char	*remove_char(char *str, size_t i)
 		new = ft_strdup("");
 	if (!new)
 	{
-		perror("malloc");
+		print_error("malloc: ", NULL, NULL, ENOMEM);
 		return (str);
 	}
 	new = ft_strjoin_f1(new, str + i + 1);
 	if (!new)
 	{
-		perror("malloc");
+		print_error("malloc: ", NULL, NULL, ENOMEM);
 		return (str);
 	}
 	free(str);
@@ -47,7 +47,7 @@ void	remove_quotes(char **cmd)
 
 	i = 0;
 	quote = 0;
-	while (cmd || cmd[i])
+	while (cmd && cmd[i])
 	{
 		j = 0;
 		while (cmd[i][j])
@@ -94,5 +94,8 @@ char	*get_args(char *line, bool is_file)
 			quote = 0;
 		line++;
 	}
-	return (ft_substr(start, 0, line - start));
+	start = ft_substr(start, 0, line - start);
+	if (!start)
+		print_error("malloc: ", NULL, NULL, ENOMEM);
+	return (start);
 }
