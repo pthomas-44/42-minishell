@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 18:29:03 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 10:48:29 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //~~ Index les variables d'environnement selon l'ordre ascii
 
-void	index_list(t_structs *s)
+static void	index_list(t_structs *s)
 {
 	t_env	*elem;
 	t_env	*next;
@@ -36,7 +36,7 @@ void	index_list(t_structs *s)
 
 //~~ Print les variables d'environnement triées selon l'ordre ascii
 
-void	print_export(t_structs *s)
+static void	print_export(t_structs *s)
 {
 	size_t	i;
 	t_env	*export;
@@ -67,7 +67,7 @@ void	print_export(t_structs *s)
 
 //~~ Crée une nouvelle variable d'environnement
 
-void	create_variable(t_structs *s, char *cmd, char *tmp)
+static void	create_variable(t_structs *s, char *cmd, char *tmp)
 {
 	t_env	*export;
 
@@ -85,7 +85,7 @@ void	create_variable(t_structs *s, char *cmd, char *tmp)
 
 //~~ Vérifie si la variable qu'on veut créer est valable
 
-int	create_env_variable(t_structs *s, t_cmd current)
+static int	create_env_variable(t_structs *s, t_cmd current)
 {
 	size_t	i;
 	char	*tmp;

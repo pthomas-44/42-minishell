@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 18:40:43 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 10:45:29 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //~~ Attend que tous les forks (pipes) aient fini leur exécution
 
-void	wait_child_process(t_structs *s)
+static void	wait_child_process(t_structs *s)
 {
 	size_t		i;
 
@@ -35,7 +35,7 @@ void	wait_child_process(t_structs *s)
 
 //~~ Lance la commande qu'elle reçoit
 
-void	launch_command(t_structs *s, int in, int out, t_cmd *current)
+static void	launch_command(t_structs *s, int in, int out, t_cmd *current)
 {
 	pid_t	pid;
 	char	**envp;
@@ -66,7 +66,7 @@ void	launch_command(t_structs *s, int in, int out, t_cmd *current)
 
 // ~~ Recupere le chemin d'une commande
 
-int	get_path(t_structs *s, t_cmd *current)
+static int	get_path(t_structs *s, t_cmd *current)
 {
 	char	**paths;
 

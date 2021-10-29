@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:24:04 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 19:09:48 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 10:53:01 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+// //~~ print les erreurs types du bash
+
+// void	print_error(char *prompt, char *value, char *error)
+// {
+// 	write(2, prompt, ft_strlen(prompt));
+// 	write(2, value, ft_strlen(value));
+// 	write(2, error, ft_strlen(value));
+// }
 
 //~~ Free la structure t_cmds
 

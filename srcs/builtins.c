@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/27 19:24:05 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 10:45:49 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ void	bi_unset(t_structs *s, t_cmd current)
 		i++;
 	}
 }
+
+//~~ Built-in exit
 
 void	bi_exit(t_structs *s, t_cmd current)
 {

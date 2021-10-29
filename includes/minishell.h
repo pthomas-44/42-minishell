@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/27 19:09:37 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 10:53:00 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_structs
 // ~~ exit.c
 void			free_cmds_struct(t_structs *s);
 void			ft_exit(t_structs *s, char *errormsg, int status);
+// void			print_error(char *prompt, char *value, char *error);
 // ~~ env_list.c
 int				env_new(t_structs *s, char *var);
 void			env_del(t_structs *s, t_env *elem);
@@ -131,14 +132,8 @@ void			bi_unset(t_structs *s, t_cmd current);
 void			bi_exit(t_structs *s, t_cmd current);
 // ~~ builtin_cd.c
 void			bi_cd(t_structs *s, t_cmd current);
-int				set_oldpwd(t_structs *s);
-int				set_pwd(t_structs *s);
 // ~~ builtin_export.c
 void			bi_export(t_structs *s, t_cmd current);
-int				create_env_variable(t_structs *s, t_cmd current);
-void			create_variable(t_structs *s, char *cmd, char *tmp);
-void			print_export(t_structs *s);
-void			index_list(t_structs *s);
 // ~~ builtins_utils.c
 char			*replace_by_home_path(t_structs *s, char *cmd);
 int				check_option_n(char *arg);
