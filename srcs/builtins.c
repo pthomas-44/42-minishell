@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/29 15:14:12 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 18:18:59 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	bi_echo(t_cmd current)
 	}
 	if (!option)
 		write(STDOUT_FILENO, "\n", 1);
+	errno = EXIT_SUCCESS;
 }
 
 //~~ Built-in pwd
@@ -50,6 +51,7 @@ void	bi_pwd(void)
 	getcwd(cwd, MAXPATHLEN);
 	write(STDOUT_FILENO, cwd, ft_strlen(cwd));
 	write(STDOUT_FILENO, "\n", 1);
+	errno = EXIT_SUCCESS;
 }
 
 //~~ Built-in env
@@ -69,6 +71,7 @@ void	bi_env(t_structs *s)
 		}
 		elem = elem->next;
 	}
+	errno = EXIT_SUCCESS;
 }
 
 //~~ Built-in unset
@@ -95,6 +98,7 @@ void	bi_unset(t_structs *s, t_cmd current)
 		}
 		i++;
 	}
+	errno = EXIT_SUCCESS;
 }
 
 //~~ Built-in exit

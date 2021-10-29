@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/29 10:46:21 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 17:42:35 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,5 @@ void	bi_cd(t_structs *s, t_cmd current)
 		errno = EXIT_FAILURE;
 		return ;
 	}
+	errno = EXIT_SUCCESS;
 }

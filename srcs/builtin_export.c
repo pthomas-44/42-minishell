@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/29 15:19:01 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 17:42:23 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,4 +131,5 @@ void	bi_export(t_structs *s, t_cmd current)
 		index_list(s);
 		print_export(s);
 	}
+	errno = EXIT_SUCCESS;
 }

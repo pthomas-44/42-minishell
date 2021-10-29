@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:54:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/29 14:40:35 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 17:10:30 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	remove_quotes(char **cmd)
 
 	i = 0;
 	quote = 0;
-	while (cmd || cmd[i])
+	while (cmd && cmd[i])
 	{
 		j = 0;
 		while (cmd[i][j])

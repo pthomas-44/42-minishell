@@ -6,21 +6,21 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:24:04 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/29 15:01:44 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 18:23:06 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-//~~ Print les erreurs types du bash
+// //~~ Print les erreurs types du bash
 
-void	print_error(char *cmd, char *value, char *error, int status)
-{
-	errno = status;
-	write(2, prompt, ft_strlen(prompt));
-	write(2, value, ft_strlen(value));
-	write(2, error, ft_strlen(value));
-}
+// void	print_error(char *cmd, char *value, char *error, int status)
+// {
+// 	errno = status;
+// 	write(2, cmd, ft_strlen(cmd));
+// 	write(2, value, ft_strlen(value));
+// 	write(2, error, ft_strlen(value));
+// }
 
 //~~ Free la structure t_cmds
 
