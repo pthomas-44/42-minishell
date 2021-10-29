@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:24:04 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/29 18:25:34 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 18:27:12 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	print_error(char *cmd, char *value, char *error, int status)
 		write(2, cmd, ft_strlen(cmd));
 	if (value)
 		write(2, value, ft_strlen(value));
-	if (errno != 258 && errno != EXIT_FAILURE && errno != 127)
+	if (errno != 258 && errno != EXIT_FAILURE && errno != 127 && errno != 255)
 		perror(NULL);
 	if (error)
 		write(2, error, ft_strlen(error));
