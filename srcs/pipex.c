@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/29 18:25:24 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 12:38:44 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ static int	get_path(t_structs *s, t_cmd *current)
 {
 	char	**paths;
 
+	if (!current->cmd)
+		return (-1);
 	paths = get_env_paths(s);
 	if (paths && !ft_strchr(current->cmd[0], '/')
 		&& find_path_in_sys(current, paths) == -1)
@@ -102,17 +104,18 @@ void	pipex(t_structs *s)
 	while (i < s->cmds_size)
 	{
 		if (i < s->cmds_size - 1 && pipe(pipefd) == -1)
-		{
-			print_error("pipe: ", NULL, NULL, errno);
 			return ;
-		}
-		if (s->cmds[i].fd_out == 1 && i < s->cmds_size - 1)
-			s->cmds[i].fd_out = pipefd[1];
+		if (s->cmds[i].fd_out == STDOUT_FILENO && i < s->cmds_size - 1)
+			s->cmds[i].fd_out = pipefd[STDOUT_FILENO];
 		if (is_builtin(s->cmds[i]) || get_path(s, &s->cmds[i]) != -1)
 			launch_command(s, s->cmds[i].fd_in, s->cmds[i].fd_out, &s->cmds[i]);
-		i++;
-		if (i < s->cmds_size && s->cmds[i].fd_in == 0)
-			s->cmds[i].fd_in = pipefd[0];
+		if (s->cmds[i].fd_out != 1
+			&& s->cmds[i].fd_out != pipefd[1] && close(pipefd[1]) == -1)
+			print_error("close: ", NULL, NULL, errno);
+		if (++i < s->cmds_size && s->cmds[i].fd_in == STDIN_FILENO)
+			s->cmds[i].fd_in = pipefd[STDIN_FILENO];
+		else if (i < s->cmds_size && close(pipefd[STDIN_FILENO]) == -1)
+			print_error("close: ", NULL, NULL, errno);
 	}
 	wait_child_process(s);
 }

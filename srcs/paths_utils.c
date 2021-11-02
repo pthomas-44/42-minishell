@@ -6,7 +6,11 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/10/29 18:29:45 by mberne           ###   ########lyon.fr   */
+=======
+/*   Updated: 2021/10/29 19:01:45 by pthomas          ###   ########lyon.fr   */
+>>>>>>> 119087eeec01b2511548118110e9a30ec7125bdd
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +27,7 @@ int	path_error_check(t_cmd *current)
 	dir = opendir(current->path);
 	errno = tmp;
 	if (!current->path)
-		print_error(NULL, current->cmd[0], ": command not found\n", 127);
+		print_error(NULL, current->cmd[0], "command not found\n", 127);
 	else if (dir)
 	{
 		print_error(NULL, current->path, NULL, EISDIR);

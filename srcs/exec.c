@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/29 17:44:04 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 18:52:39 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ void	builtins(t_structs *s, t_cmd current)
 
 int	is_builtin(t_cmd current)
 {
-	if (!ft_strcmp(current.cmd[0], "echo"))
+	if (!current.cmd)
+		return (0);
+	else if (!ft_strcmp(current.cmd[0], "echo"))
 		return (1);
 	else if (!ft_strcmp(current.cmd[0], "cd"))
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:24:16 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/29 17:42:40 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 20:25:30 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static int	check_successive_operators(char **line, char *charset)
 		&& (tmp != (*line) || tmp - 1 != (*line)))
 	{
 		print_error(NULL, NULL, "syntax error near unexpected token `", 258);
-		write(2, tmp, 1);
-		write(2, "'\n", 2);
+		write(STDERR_FILENO, tmp, 1);
+		write(STDERR_FILENO, "'\n", 2);
 		return (-1);
 	}
 	else if (*tmp && ft_strchr(charset, *tmp++) && *(*line) != '|')
@@ -35,8 +35,8 @@ static int	check_successive_operators(char **line, char *charset)
 		{
 			print_error(NULL, NULL,
 				"syntax error near unexpected token `", 258);
-			write(2, tmp, 1);
-			write(2, "'\n", 2);
+			write(STDERR_FILENO, tmp, 1);
+			write(STDERR_FILENO, "'\n", 2);
 			return (-1);
 		}
 	}
@@ -78,15 +78,15 @@ int	check_syntax_errors(char *line, char *charset)
 		print_error(NULL, NULL, "syntax error near unexpected token `|'\n", 258);
 		return (1);
 	}
-	if (syntax_loop(line, charset, &quote, &last_char) == -1)
+	if (*line && syntax_loop(line, charset, &quote, &last_char) == -1)
 		return (1);
-	if (ft_strchr(charset, last_char))
+	if (*line && ft_strchr(charset, last_char))
 	{
 		print_error(NULL, NULL,
 			"syntax error near unexpected token `newline'\n", 258);
 		return (1);
 	}
-	if (quote)
+	if (*line && quote)
 	{
 		print_error(NULL, NULL, "unclosed quotes\n", 258);
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:23:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/29 18:01:25 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 12:37:54 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static void	prompt_loop(t_structs *s)
 		errno = tmp_errno;
 		if (!s->parse_line[0])
 			break ;
-		parsing(s, s->parse_line[0]);
+		if (s->parse_line[0][0])
+			parsing(s, s->parse_line[0]);
 		if (s->parse_line[0][0]
 			&& ft_strcmp(s->parse_line[0], s->parse_line[1]))
 			add_history(s->parse_line[0]);

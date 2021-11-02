@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/29 17:42:35 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 12:38:52 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	bi_cd(t_structs *s, t_cmd current)
 	if (chdir(current.path) == -1)
 	{
 		errno = ENOENT;
-		write(2, "potatoshell: cd: ", 17);
+		write(STDERR_FILENO, "potatoshell: cd: ", 17);
 		perror(current.path);
 		return ;
 	}
