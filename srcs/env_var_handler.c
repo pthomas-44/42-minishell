@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/02 14:08:37 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 16:33:10 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ char	*replace_var(char *line, size_t i, t_env *var)
 	}
 	else if (var)
 	{
-		new = ft_strjoin_f3(new, handle_operands(var->value + 1, "<>|"));
+		new = ft_strjoin_f3(new, ft_strjoin_f2("\"", ft_strjoin_f1(
+						handle_operands(var->value + 1, "<>|"), "\"")));
 		new = ft_strjoin_f1(new, &line[i] + ft_strlen(var->name) + 1);
 	}
 	else

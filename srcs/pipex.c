@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/02 16:34:17 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 16:36:33 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ static void	launch_command(t_structs *s, int in, int out, t_cmd *current)
 		print_error("fork: ", NULL, NULL, errno);
 	else if (pid == 0)
 	{
+		tcsetattr(STDIN_FILENO, TCSANOW, &s->term.basic);
+		signal(SIGINT, &child_sig_int);
+		signal(SIGQUIT, &child_sig_quit);
 		envp = list_to_char(s);
 		if (in != 0 && dup2(in, STDIN_FILENO) == -1)
 			print_error("dup2: ", NULL, NULL, errno);
@@ -68,6 +71,7 @@ static void	launch_command(t_structs *s, int in, int out, t_cmd *current)
 	}
 	else if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))
 		print_error("close: ", NULL, NULL, errno);
+	tcsetattr(STDIN_FILENO, TCSANOW, &s->term.new);
 }
 
 // ~~ Recupere le chemin d'une commande
@@ -113,7 +117,7 @@ void	pipex(t_structs *s)
 			return ;
 		if (s->cmds[i].fd_out == STDOUT_FILENO && i < s->cmds_size - 1)
 			s->cmds[i].fd_out = pipefd[STDOUT_FILENO];
-		if (/*is_builtin(s->cmds[i]) || */get_path(s, &s->cmds[i]) != -1)
+		if (is_builtin(s->cmds[i]) || get_path(s, &s->cmds[i]) != -1)
 			launch_command(s, s->cmds[i].fd_in, s->cmds[i].fd_out, &s->cmds[i]);
 		if (i < s->cmds_size - 1 && s->cmds[i].fd_out != 1
 			&& s->cmds[i].fd_out != pipefd[1] && close(pipefd[1]) == -1)
