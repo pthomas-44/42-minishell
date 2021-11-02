@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:24:04 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/29 21:00:37 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 16:20:10 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	free_cmds_struct(t_structs *s)
 
 void	free_all(t_structs *s)
 {
-	// tcsetattr(STDIN_FILENO, TCSANOW, &(s->term.basic));
+	tcsetattr(STDIN_FILENO, TCSANOW, &s->term.basic);
 	free(s->parse_line[0]);
 	s->parse_line[0] = NULL;
 	free(s->parse_line[1]);

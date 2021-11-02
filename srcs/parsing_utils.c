@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:54:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/29 18:01:25 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 16:24:31 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //~~ Enleve le caractere str[i] de la chaine
 
-static char	*remove_char(char *str, size_t i)
+char	*remove_char(char *str, size_t i)
 {
 	char	*new;
 

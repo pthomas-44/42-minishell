@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/29 20:55:57 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 16:24:37 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ typedef struct s_structs
 	t_env		**env;
 	size_t		env_size;
 	t_term		term;
-
 }				t_structs;
 
 /*** ~~ PROTOTYPES ~~ ***/
@@ -108,6 +107,7 @@ char			check_quotes(char c, char quote);
 void			remove_quotes(char **cmd);
 void			skip_spaces(char **line);
 char			*get_args(char *line, bool is_file);
+char			*remove_char(char *str, size_t i);
 // ~~ file_handler.c
 int				get_infile(t_structs *s, char **line, int i);
 int				get_outfile(t_structs *s, char **line, int i);

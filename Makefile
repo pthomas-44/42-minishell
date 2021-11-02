@@ -6,7 +6,7 @@
 #    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/11/02 14:46:41 by pthomas          ###   ########lyon.fr    #
+#    Updated: 2021/11/02 15:13:21 by pthomas          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ INCS		=	$(addprefix $(PATH_INCS)/, minishell.h)
 #~~~~ Macros ~~~~#
 
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror #-fsanitize=address
 LIBS		=	$(PATH_LIBFT)/libft.a
 RM			=	rm -f
 

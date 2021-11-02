@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/29 19:01:45 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 15:41:04 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,11 +132,11 @@ char	**get_env_paths(t_structs *s)
 		if (!ft_strcmp(elem->name, "PATH"))
 		{
 			paths = ft_split(elem->value + 1, ':');
+			if (!paths)
+				print_error("malloc: ", NULL, NULL, ENOMEM);
 			break ;
 		}
 		elem = elem->next;
 	}
-	if (!paths)
-		print_error("malloc: ", NULL, NULL, ENOMEM);
 	return (add_backslash(paths));
 }
