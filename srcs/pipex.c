@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/02 16:36:33 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 16:50:34 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,9 @@ static void	wait_child_process(t_structs *s)
 				print_error("waitpid: ", NULL, NULL, errno);
 				return ;
 			}
+			dprintf(2, "%d\n", status);
 			if (WIFEXITED(status))
-			{
 				errno = WEXITSTATUS(status);
-				dprintf(2, "%d\n", errno);
-			}
 		}
 		i++;
 	}
