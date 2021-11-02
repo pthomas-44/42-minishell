@@ -6,13 +6,13 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:24:04 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/02 16:20:10 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 16:34:32 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-//~~ Print les erreurs types du bash
+// //~~ Print les erreurs types du bash
 
 void	print_error(char *cmd, char *value, char *error, int status)
 {

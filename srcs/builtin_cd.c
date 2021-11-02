@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/02 16:33:17 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 16:34:25 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,5 @@ void	bi_cd(t_structs *s, t_cmd current)
 		errno = EXIT_FAILURE;
 		return ;
 	}
+	errno = EXIT_SUCCESS;
 }
