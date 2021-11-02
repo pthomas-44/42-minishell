@@ -6,13 +6,11 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:23:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/02 16:20:36 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 17:00:17 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-t_signals	g_sigs;
 
 //~~ La loop qui affiche le prompt et envoie l'entree standard dans le parsing
 
@@ -36,7 +34,7 @@ static void	prompt_loop(t_structs *s)
 		free(s->parse_line[1]);
 		s->parse_line[1] = s->parse_line[0];
 	}
-	write(1, "exit\n", 6);
+	write(2, "exit\n", 6);
 	free_all(s);
 	exit(errno);
 }

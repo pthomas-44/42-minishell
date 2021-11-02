@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/02 16:33:39 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 16:43:31 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,6 @@ typedef struct s_env
 	size_t		index;
 	void		*next;
 }				t_env;
-
-typedef struct s_signals
-{
-	bool		sig_int;
-	bool		sig_quit;
-	pid_t		*pid;
-}				t_signals;
 
 typedef struct s_term
 {
