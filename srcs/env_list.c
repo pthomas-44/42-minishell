@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:42:08 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/02 14:51:41 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 15:08:40 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	env_new(t_structs *s, char *var)
 	if (!new)
 		return (-1);
 	new->name = ft_substr(var, 0, ft_strchr(var, '=') - var);
-	if (*(ft_strchr(var, '=')))
+	if (ft_strchr(var, '='))
 		new->value = ft_strjoin_f2("=\"", ft_strjoin_f1(ft_substr(
 						ft_strchr(var, '=') + 1, 0, ft_strlen(var)), "\""));
 	else
