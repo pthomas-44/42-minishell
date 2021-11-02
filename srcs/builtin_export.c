@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/02 14:49:50 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 14:51:51 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,9 @@ static void	print_export(t_structs *s)
 				write(STDOUT_FILENO, export->name, ft_strlen(export->name));
 				if (ft_strlen(export->value) > 0)
 				{
-					write(STDOUT_FILENO, "=\"", 2);
+					write(STDOUT_FILENO, "=", 1);
 					write(STDOUT_FILENO, export->value + 1,
 						ft_strlen(export->value) - 1);
-					write(STDOUT_FILENO, "\"", 1);
 				}
 				write(STDOUT_FILENO, "\n", 1);
 			}

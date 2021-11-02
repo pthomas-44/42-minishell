@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/02 14:50:48 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 15:27:53 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void	bi_env(t_structs *s)
 		if (ft_strlen(elem->value) > 0)
 		{
 			write(STDOUT_FILENO, elem->name, ft_strlen(elem->name));
-			write(STDOUT_FILENO, elem->value, ft_strlen(elem->value));
+			write(STDOUT_FILENO, "=", 1);
+			write(STDOUT_FILENO, elem->value + 2, ft_strlen(elem->value) - 3);
 			write(STDOUT_FILENO, "\n", 1);
 		}
 		elem = elem->next;
@@ -105,6 +106,8 @@ void	bi_unset(t_structs *s, t_cmd current)
 
 void	bi_exit(t_structs *s, t_cmd current)
 {
+	char	**tmp;
+
 	write(STDERR_FILENO, "exit\n", 5);
 	if (!current.cmd[1])
 	{
@@ -119,6 +122,25 @@ void	bi_exit(t_structs *s, t_cmd current)
 		errno = ft_atoi(current.cmd[1]);
 		free_all(s);
 		exit(errno);
+	}
+	else if (ft_str_isprint(current.cmd[1]))
+	{
+		tmp = ft_split(current.cmd[1], ' ');
+		if (!tmp)
+			return ;
+		if (!tmp[1] && ft_str_isdigit(tmp[0]))
+		{
+			errno = ft_atoi(tmp[0]);
+			free_all(s);
+			exit(errno);
+		}
+		else
+		{
+			print_error("exit: ", current.cmd[1],
+				"numeric argument required\n", 255);
+			free_all(s);
+			exit(errno);
+		}
 	}
 	else
 	{
