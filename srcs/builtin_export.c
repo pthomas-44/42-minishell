@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/02 16:34:19 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 16:41:05 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,10 @@ static void	print_export(t_structs *s)
 				write(STDOUT_FILENO, export->name, ft_strlen(export->name));
 				if (ft_strlen(export->value) > 0)
 				{
-					write(STDOUT_FILENO, "=", 1);
+					write(STDOUT_FILENO, "=\"", 2);
 					write(STDOUT_FILENO, export->value + 1,
 						ft_strlen(export->value) - 1);
+					write(STDOUT_FILENO, "\"", 1);
 				}
 				write(STDOUT_FILENO, "\n", 1);
 			}

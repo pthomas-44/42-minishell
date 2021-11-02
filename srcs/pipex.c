@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/02 16:41:37 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 17:11:33 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,20 @@
 static void	wait_child_process(t_structs *s)
 {
 	size_t		i;
+	int			status;
 
 	i = 0;
 	while (i < s->cmds_size)
 	{
 		if (is_builtin(s->cmds[i]) || (s->cmds[i].path && s->cmds[i].cmd))
 		{
-			if (waitpid(-1, NULL, WUNTRACED) == -1)
+			if (waitpid(-1, &status, WUNTRACED) == -1)
 			{
 				print_error("waitpid: ", NULL, NULL, errno);
 				return ;
 			}
+			if (WIFEXITED(status))
+				errno = WEXITSTATUS(status);
 		}
 		i++;
 	}

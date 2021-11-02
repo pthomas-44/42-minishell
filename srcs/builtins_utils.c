@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 16:16:01 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/02 16:33:19 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 17:08:24 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,26 @@ char	*take_name(char *arg)
 	if (!name)
 		return (NULL);
 	return (name);
+}
+
+//~~ Récupère l'exit status dans une string s'il n'y en a bien qu'un
+
+int	ft_atoi_exit(char *arg, int *exit_status)
+{
+	int	i;
+
+	*(exit_status) = 0;
+	i = 0;
+	while (arg[i] == ' ')
+		i++;
+	while (arg[i] >= '0' && arg[i] <= '9')
+	{
+		*(exit_status) = *(exit_status) * 10 + (arg[i] - '0');
+		i++;
+	}
+	while (arg[i] == ' ')
+		i++;
+	if (arg[i])
+		return (-1);
+	return (0);
 }

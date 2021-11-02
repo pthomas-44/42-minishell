@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/02 16:43:31 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 17:53:00 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,5 +132,6 @@ char			*replace_by_home_path(t_structs *s, char *cmd);
 int				check_option_n(char *arg);
 int				is_word(char *str);
 char			*take_name(char *arg);
+int				ft_atoi_exit(char *arg, int *exit_status);
 
 #endif
