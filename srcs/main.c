@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:23:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/02 12:37:54 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 14:37:29 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static void	init_control_struct(t_structs *s, char **env)
 		print_error("malloc: ", NULL, NULL, ENOMEM);
 		free_all(s);
 	}
+	*s->env = NULL;
 	s->env_size = 0;
 	i = 0;
 	while (env[i])
@@ -69,6 +70,20 @@ static void	init_control_struct(t_structs *s, char **env)
 		}
 		i++;
 	}
+}
+
+void	set_shlvl(t_structs *s)
+{
+	t_env		*elem;
+	char		*tmp;
+
+	elem = *s->env;
+	while (ft_strcmp(elem->name, "SHLVL"))
+		elem = elem->next;
+	tmp = ft_strjoin_f0("=",
+			ft_nbtobase(ft_atoi(elem->value + 1) + 1, "0123456789"));
+	free(elem->value);
+	elem->value = tmp;
 }
 
 int	main(int ac, char **av, char **env)
@@ -87,6 +102,7 @@ int	main(int ac, char **av, char **env)
 		free_all(&s);
 		exit(errno);
 	}
+	set_shlvl(&s);
 	prompt_loop(&s);
 	return (0);
 }

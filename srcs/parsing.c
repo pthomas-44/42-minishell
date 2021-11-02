@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/02 12:36:19 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 14:22:19 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ void	parsing(t_structs *s, char *line)
 	if (check_syntax_errors(line, "<>|") || init_cmds_struct(s, line) == -1)
 		return ;
 	tmp = replace_env_variables(s, ft_strdup(line));
+	// printf("%s\n", (*s->env)->value);
 	if (!tmp)
 	{
 		print_error("malloc: ", NULL, NULL, ENOMEM);
@@ -139,6 +140,7 @@ void	parsing(t_structs *s, char *line)
 		free_cmds_struct(s);
 		return ;
 	}
+	// printf("%s\n", s->cmds->cmd[0]);
 	free(tmp);
 	exec(s);
 	free_cmds_struct(s);

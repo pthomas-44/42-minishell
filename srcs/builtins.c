@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/29 18:26:49 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 13:34:54 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,10 @@ void	bi_exit(t_structs *s, t_cmd current)
 		free_all(s);
 		exit(errno);
 	}
-	else if (ft_str_isdigit(current.cmd[1]))
+	else if ((current.cmd[1][0] == '-' || ft_isdigit(current.cmd[1][0]))
+	&& ft_str_isdigit(current.cmd[1] + 1))
 	{
+		errno = ft_atoi(current.cmd[1]);
 		free_all(s);
 		exit(errno);
 	}
