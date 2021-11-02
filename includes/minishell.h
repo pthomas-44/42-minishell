@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/02 17:53:00 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 18:23:00 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@
 /*** ~~ MACROS ~~ ***/
 
 # define PROMPT "potatoshell >$ "
+# define OLD 0
+# define NEW 1
 
 /*** ~~ STRUCTURES ~~ ***/
 
@@ -63,15 +65,16 @@ typedef struct s_term
 	struct termios	new;
 }				t_term;
 
+
 typedef struct s_structs
 {
-	char		*parse_line[2];
-	t_cmd		*cmds;
-	size_t		cmds_size;
-	t_env		**env;
-	size_t		env_size;
-	t_term		term;
-}				t_structs;
+	char				*parse_line[2];
+	t_cmd				*cmds;
+	size_t				cmds_size;
+	t_env				**env;
+	size_t				env_size;
+	struct termios		term[2];
+}						t_structs;
 
 /*** ~~ PROTOTYPES ~~ ***/
 

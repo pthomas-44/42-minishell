@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:23:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/02 17:00:17 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 23:32:04 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	prompt_loop(t_structs *s)
 	int	tmp_errno;
 
 	signal(SIGINT, &sig_int);
+	signal(SIGQUIT, &sig_quit);
 	while (1)
 	{
 		tmp_errno = errno;
@@ -39,6 +40,15 @@ static void	prompt_loop(t_structs *s)
 	exit(errno);
 }
 
+static void	set_new_terminal(t_structs *s)
+{
+	tcgetattr(STDIN_FILENO, &s->term[OLD]);
+	tcgetattr(STDIN_FILENO, &s->term[NEW]);
+	s->term[NEW].c_cc[VQUIT] = 0;
+	s->term[NEW].c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &s->term[NEW]);
+}
+
 //~~ Initialisation de la structure de controle
 
 static void	init_control_struct(t_structs *s, char **env)
@@ -46,11 +56,7 @@ static void	init_control_struct(t_structs *s, char **env)
 	size_t	i;
 
 	ft_bzero(s, sizeof(t_structs));
-	tcgetattr(STDIN_FILENO, &s->term.basic);
-	tcgetattr(STDIN_FILENO, &s->term.new);
-	s->term.new.c_cc[VQUIT] = 0;
-	s->term.new.c_lflag &= ~ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &s->term.new);
+	set_new_terminal(s);
 	s->parse_line[0] = NULL;
 	s->parse_line[1] = NULL;
 	s->cmds = NULL;

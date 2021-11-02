@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/02 17:11:33 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 20:00:56 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,6 @@ static void	launch_command(t_structs *s, int in, int out, t_cmd *current)
 		print_error("fork: ", NULL, NULL, errno);
 	else if (pid == 0)
 	{
-		// tcsetattr(STDIN_FILENO, TCSANOW, &s->term.basic);
-		// signal(SIGINT, &child_sig_int);
-		// signal(SIGQUIT, &child_sig_quit);
 		envp = list_to_char(s);
 		if (in != 0 && dup2(in, STDIN_FILENO) == -1)
 			print_error("dup2: ", NULL, NULL, errno);
@@ -68,9 +65,6 @@ static void	launch_command(t_structs *s, int in, int out, t_cmd *current)
 	}
 	else if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))
 		print_error("close: ", NULL, NULL, errno);
-	// tcsetattr(STDIN_FILENO, TCSANOW, &s->term.new);
-	// signal(SIGINT, &sig_int);
-	// signal(SIGQUIT, &sig_quit);
 }
 
 // ~~ Recupere le chemin d'une commande

@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/02 14:21:47 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 19:35:30 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,13 @@ void	exec(t_structs *s)
 	if (s->cmds_size == 1 && is_builtin(s->cmds[0]))
 		builtins(s, s->cmds[0]);
 	else
+	{
+		tcsetattr(STDIN_FILENO, TCSANOW, &s->term[OLD]);
+		signal(SIGINT, &child_sig_int);
+		signal(SIGQUIT, &child_sig_quit);
 		pipex(s);
+		tcsetattr(STDIN_FILENO, TCSANOW, &s->term[NEW]);
+		signal(SIGINT, &sig_int);
+		signal(SIGQUIT, &sig_quit);
+	}
 }
