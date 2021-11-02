@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/10/29 15:19:01 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 20:25:30 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,9 @@ static int	create_env_variable(t_structs *s, t_cmd current)
 		else
 		{
 			errno = EXIT_FAILURE;
-			write(2, "potatoshell: export: `", 22);
-			write(2, current.cmd[i], ft_strlen(current.cmd[i]));
-			write(2, "': not a valid identifier\n", 26);
+			write(STDERR_FILENO, "potatoshell: export: `", 22);
+			write(STDERR_FILENO, current.cmd[i], ft_strlen(current.cmd[i]));
+			write(STDERR_FILENO, "': not a valid identifier\n", 26);
 		}
 		free(tmp);
 		i++;
