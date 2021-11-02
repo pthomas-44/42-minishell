@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:42:08 by pthomas           #+#    #+#             */
-/*   Updated: 2021/10/29 18:01:27 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 14:48:40 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,44 @@
 
 //~~ Cree et ajoute un nouvel element a la liste env
 
+// int	env_new(t_structs *s, char *var)
+// {
+// 	t_env	*new;
+// 	size_t	i;
+// 	t_env	*current;
+
+// 	new = ft_calloc(1, sizeof(t_env));
+// 	i = 0;
+// 	if (!new)
+// 		return (-1);
+// 	i = ft_strchr(var, '=') - var;
+// 	new->name = ft_substr(var, 0, i);
+// 	new->next = NULL;
+// 	current = *s->env;
+// 	while (current)
+// 		current = current->next;
+// 	current = new;
+// 	s->env_size++;
+// 	if (!new->name || !new->value)
+// 		return (-1);
+// 	return (0);
+// }
+
+
 int	env_new(t_structs *s, char *var)
 {
 	t_env	*new;
-	size_t	i;
 	t_env	*current;
 
 	new = ft_calloc(1, sizeof(t_env));
-	i = 0;
 	if (!new)
 		return (-1);
-	i = ft_strchr(var, '=') - var;
-	new->name = ft_substr(var, 0, i);
-	new->value = ft_substr(var + i, 0, ft_strlen(var));
+	new->name = ft_substr(var, 0, ft_strchr(var, '=') - var);
+	if (*(ft_strchr(var, '=')))
+		new->value = ft_strjoin_f2("=\"", ft_strjoin_f1(ft_substr(
+						ft_strchr(var, '=') + 1, 0, ft_strlen(var)), "\""));
+	else
+		new->value = ft_substr(ft_strchr(var, '='), 0, ft_strlen(var));
 	new->next = NULL;
 	if (s->env_size)
 	{

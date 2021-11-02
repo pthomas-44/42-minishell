@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/02 12:38:44 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 14:49:46 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,15 +107,15 @@ void	pipex(t_structs *s)
 			return ;
 		if (s->cmds[i].fd_out == STDOUT_FILENO && i < s->cmds_size - 1)
 			s->cmds[i].fd_out = pipefd[STDOUT_FILENO];
-		if (is_builtin(s->cmds[i]) || get_path(s, &s->cmds[i]) != -1)
+		if (/*is_builtin(s->cmds[i]) || */get_path(s, &s->cmds[i]) != -1)
 			launch_command(s, s->cmds[i].fd_in, s->cmds[i].fd_out, &s->cmds[i]);
-		if (s->cmds[i].fd_out != 1
+		if (i < s->cmds_size - 1 && s->cmds[i].fd_out != 1
 			&& s->cmds[i].fd_out != pipefd[1] && close(pipefd[1]) == -1)
-			print_error("close: ", NULL, NULL, errno);
+			print_error("inclose: ", NULL, NULL, errno);
 		if (++i < s->cmds_size && s->cmds[i].fd_in == STDIN_FILENO)
 			s->cmds[i].fd_in = pipefd[STDIN_FILENO];
 		else if (i < s->cmds_size && close(pipefd[STDIN_FILENO]) == -1)
-			print_error("close: ", NULL, NULL, errno);
+			print_error("outclose: ", NULL, NULL, errno);
 	}
 	wait_child_process(s);
 }
