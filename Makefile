@@ -6,7 +6,7 @@
 #    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/11/02 16:52:37 by pthomas          ###   ########lyon.fr    #
+#    Updated: 2021/11/02 23:56:40 by pthomas          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,9 @@ NAME		=	minishell
 
 #~~~~ Paths ~~~~#
 
-PATH_INCS	=	includes
-PATH_SRCS	=	srcs
-PATH_OBJS	=	objs
+PATH_INCS	=	include
+PATH_SRCS	=	src
+PATH_OBJS	=	obj
 PATH_LIBFT	=	libft
 
 #~~~~ Sources ~~~~#
