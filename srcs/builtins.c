@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 16:01:23 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/02 15:27:53 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 16:05:39 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ void	bi_exit(t_structs *s, t_cmd current)
 		if (!tmp[1] && ft_str_isdigit(tmp[0]))
 		{
 			errno = ft_atoi(tmp[0]);
+			free_tab(tmp, 0);
 			free_all(s);
 			exit(errno);
 		}
