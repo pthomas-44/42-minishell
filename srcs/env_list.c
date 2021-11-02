@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:42:08 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/02 14:48:40 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 15:08:40 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@
 // 	return (0);
 // }
 
-
 int	env_new(t_structs *s, char *var)
 {
 	t_env	*new;
@@ -47,13 +46,13 @@ int	env_new(t_structs *s, char *var)
 	if (!new)
 		return (-1);
 	new->name = ft_substr(var, 0, ft_strchr(var, '=') - var);
-	if (*(ft_strchr(var, '=')))
+	if (ft_strchr(var, '='))
 		new->value = ft_strjoin_f2("=\"", ft_strjoin_f1(ft_substr(
 						ft_strchr(var, '=') + 1, 0, ft_strlen(var)), "\""));
 	else
 		new->value = ft_substr(ft_strchr(var, '='), 0, ft_strlen(var));
 	new->next = NULL;
-	if (s->env_size)
+	if (s->env_size++)
 	{
 		current = *s->env;
 		while (current->next)
@@ -62,7 +61,6 @@ int	env_new(t_structs *s, char *var)
 	}
 	else
 		*s->env = new;
-	s->env_size++;
 	if (!new->name || !new->value)
 		return (-1);
 	return (0);
