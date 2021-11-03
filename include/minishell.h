@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 01:54:37 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 03:42:04 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void			bi_cd(t_structs *s, t_cmd current);
 // ~~ builtin_export.c
 void			bi_export(t_structs *s, t_cmd current);
 // ~~ builtins_utils.c
+int				check_option_n(char *arg);
 char			*replace_by_home_path(t_structs *s, char *cmd);
 int				is_word(char *str);
 char			*take_name(char *arg);
