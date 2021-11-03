@@ -1,13 +1,11 @@
 # Perso
 .vscode
 minishell
-printargs
-printargs.c
+obj
 in
 in2
 out
 out2
-.vscode
 
 # Prerequisites
 *.d

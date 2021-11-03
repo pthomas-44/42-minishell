@@ -6,7 +6,7 @@
 #    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/11/02 16:34:57 by pthomas          ###   ########lyon.fr    #
+#    Updated: 2021/11/03 10:31:01 by pthomas          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,15 +20,15 @@ NAME		=	minishell
 
 #~~~~ Paths ~~~~#
 
-PATH_INCS	=	includes
-PATH_SRCS	=	srcs
-PATH_OBJS	=	objs
+VPATH		=	src:src/util:src/signal:src/parsing:src/exec:src/builtin:include
+PATH_OBJ	=	obj
 PATH_LIBFT	=	libft
 
 #~~~~ Sources ~~~~#
  
 SRCS		=	main.c				\
 				exit.c				\
+				init.c				\
 				env_list.c			\
 				signals.c			\
 				parsing.c			\
@@ -40,25 +40,28 @@ SRCS		=	main.c				\
 				exec.c				\
 				pipex.c				\
 				paths_utils.c		\
-				builtins.c			\
-				builtin_cd.c		\
-				builtin_export.c	\
-				builtins_utils.c
+				bi_echo.c			\
+				bi_cd.c				\
+				bi_pwd.c			\
+				bi_export.c			\
+				bi_unset.c			\
+				bi_env.c			\
+				bi_exit.c
 
 #~~~~ Objects ~~~~#
 
-OBJS		=	$(addprefix $(PATH_OBJS)/, $(SRCS:.c=.o))
+OBJS		=	$(addprefix $(PATH_OBJ)/, $(SRCS:.c=.o))
 
 #~~~~ Includes ~~~~#
 
-INCS		=	$(addprefix $(PATH_INCS)/, minishell.h)
+INCS		 =	minishell.h
 
 #~~~~ Macros ~~~~#
 
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror #-fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -fsanitize=address
 LIBS		=	$(PATH_LIBFT)/libft.a
-RM			=	rm -f
+RM			=	rm -rf
 
 #========================================#
 #=============== TARGETS ================#
@@ -81,25 +84,19 @@ run :			re
 
 #~~~~ Compilation Rules ~~~~#
 
-$(PATH_OBJS)/%.o :	$(PATH_SRCS)/%.c $(INCS) $(LIBS)
-					@ mkdir -p $(PATH_OBJS)
+$(PATH_OBJ)/%.o :	%.c $(INCS) $(LIBS)
+					@mkdir -p $(dir $@);
 					$(CC) $(CFLAGS) -I $(INCS) -c $< -o $@
-
-#~~~~ Norminette ~~~~#
-
-norminette :
-				$(MAKE) norminette -C $(PATH_LIBFT)
-				norminette $(PATH_SRCS) $(PATH_BSRCS) $(PATH_INCS)
 
 #~~~~ Cleaning Rules ~~~~#
 
 clean :
+				$(RM) $(PATH_OBJ)
 				$(MAKE) clean -C $(PATH_LIBFT)
-				$(RM) -r $(PATH_OBJS)
 
 fclean :		
 				$(MAKE) fclean -C $(PATH_LIBFT)
-				$(RM) -r $(PATH_OBJS) $(NAME) $(CHECKER)
+				$(RM) $(PATH_OBJ) $(NAME)
 
 #~~~~ Eugene ~~~~#
 

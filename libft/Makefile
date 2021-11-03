@@ -6,7 +6,7 @@
 #    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/24 08:57:58 by pthomas           #+#    #+#              #
-#    Updated: 2021/10/29 20:14:46 by pthomas          ###   ########lyon.fr    #
+#    Updated: 2021/11/03 01:23:50 by pthomas          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,9 @@ NAME		= libft.a
 
 #~~~~ Paths ~~~~#
 
-PATH_INCS	=	includes
-PATH_SRCS	=	srcs
-PATH_OBJS	=	objs
+PATH_INCS	=	include
+PATH_SRCS	=	src
+PATH_OBJS	=	obj
 
 #~~~~ Sources ~~~~#
 
@@ -40,8 +40,6 @@ SRCS		=	ft_mem1.c				\
 				ft_strjoin.c			\
 				ft_split.c				\
 				ft_put.c				\
-				ft_lst1.c				\
-				ft_lst2.c				\
 				get_next_line.c			\
 				get_next_line_utils.c	
 
@@ -75,7 +73,7 @@ $(NAME):	$(OBJS)
 #~~~~ Compilation Rule ~~~~#
 
 $(PATH_OBJS)/%.o :	$(PATH_SRCS)/%.c  $(INCS)
-					${CC} ${CFLAGS} -O3 -I $(INCS) -c $< -o $@
+					${CC} ${CFLAGS} -I $(INCS) -c $< -o $@
 
 #~~~~ Norminette ~~~~#
 
