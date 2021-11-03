@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*   bi_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/03 01:15:50 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 04:30:48 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,46 +41,44 @@ static void	print_export(t_structs *s)
 	size_t	i;
 	t_env	*export;
 
-	i = 0;
-	while (++i <= s->env_size)
+	i = 1;
+	while (i <= s->env_size)
 	{
 		export = *s->env;
 		while (export)
 		{
 			if (i == export->index)
 			{
-				write(STDOUT_FILENO, "declare -x ", 11);
-				write(STDOUT_FILENO, export->name, ft_strlen(export->name));
+				ft_putstr_fd("declare -x ", STDOUT_FILENO);
+				ft_putstr_fd(export->name, STDOUT_FILENO);
 				if (ft_strlen(export->value) > 0)
 				{
-					write(STDOUT_FILENO, "=\"", 2);
-					write(STDOUT_FILENO, export->value + 1,
-						ft_strlen(export->value) - 1);
-					write(STDOUT_FILENO, "\"", 1);
+					ft_putstr_fd("=\"", STDOUT_FILENO);
+					ft_putstr_fd(export->value + 1, STDOUT_FILENO);
+					ft_putchar_fd('"', STDOUT_FILENO);
 				}
-				write(STDOUT_FILENO, "\n", 1);
+				ft_putchar_fd('\n', STDOUT_FILENO);
 			}
 			export = export->next;
 		}
+		i++;
 	}
 }
 
 //~~ Crée une nouvelle variable d'environnement
 
-static void	create_variable(t_structs *s, char *cmd, char *tmp)
+static int	create_variable(t_structs *s, char *cmd, char *name)
 {
 	t_env	*export;
 
 	export = *s->env;
-	while (export)
-	{
-		if (!ft_strncmp(tmp, export->name, ft_strlen(export->name) + 1))
-			break ;
+	while (export && ft_strcmp(name, export->name))
 		export = export->next;
-	}
 	if (export)
 		env_del(s, export);
-	env_new(s, cmd);
+	if (env_new(s, cmd) == -1)
+		return (-1);
+	return (0);
 }
 
 //~~ Vérifie si la variable qu'on veut créer est valable
@@ -88,27 +86,27 @@ static void	create_variable(t_structs *s, char *cmd, char *tmp)
 static int	create_env_variable(t_structs *s, t_cmd current)
 {
 	size_t	i;
-	char	*tmp;
+	char	*name;
 
 	i = 1;
 	while (current.cmd[i])
 	{
-		tmp = take_name(current.cmd[i]);
-		if (!tmp)
-		{
-			perror("malloc");
-			return (-1);
-		}
-		if (is_word(tmp))
-			create_variable(s, current.cmd[i], tmp);
+		if (!ft_strchr(current.cmd[i], '='))
+			name = ft_strdup(current.cmd[i]);
 		else
+			name = ft_substr(current.cmd[i], 0,
+					ft_strchr(current.cmd[i], '=') - current.cmd[i]);
+		if (!name)
+			return (-1);
+		if (current.cmd[i][0] != '=' && is_word(name))
 		{
-			errno = EXIT_FAILURE;
-			write(STDERR_FILENO, "potatoshell: export: `", 22);
-			write(STDERR_FILENO, current.cmd[i], ft_strlen(current.cmd[i]));
-			write(STDERR_FILENO, "': not a valid identifier\n", 26);
+			if (create_variable(s, current.cmd[i], name) == -1)
+				return (-1);
 		}
-		free(tmp);
+		else
+			print_error("export: ", current.cmd[i],
+				"not a valid identifier\n", EXIT_FAILURE);
+		free(name);
 		i++;
 	}
 	return (0);
@@ -122,6 +120,7 @@ void	bi_export(t_structs *s, t_cmd current)
 	{
 		if (create_env_variable(s, current) == -1)
 		{
+			print_error("malloc: ", NULL, NULL, ENOMEM);
 			errno = EXIT_FAILURE;
 			return ;
 		}

@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/03 01:15:50 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 10:28:01 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,18 @@ static void	launch_command(t_structs *s, int in, int out, t_cmd *current)
 	else if (pid == 0)
 	{
 		envp = list_to_char(s);
-		if (in != 0 && dup2(in, STDIN_FILENO) == -1)
-			print_error("dup2: ", NULL, NULL, errno);
-		else if (out != 1 && dup2(out, STDOUT_FILENO) == -1)
+		if ((in != 0 && dup2(in, STDIN_FILENO) == -1)
+			|| (out != 1 && dup2(out, STDOUT_FILENO) == -1))
 			print_error("dup2: ", NULL, NULL, errno);
 		else if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))
 			print_error("close: ", NULL, NULL, errno);
 		else if (!is_builtin(*current)
 			&& execve(current->path, current->cmd, envp) == -1)
 			print_error("execve: ", NULL, NULL, errno);
-		free_tab(envp, 0);
-		if (is_builtin(*current))
+		else if (is_builtin(*current))
 			builtins(s, *current);
+		free_tab(envp, 0);
+		free_all(s, 1);
 		exit(errno);
 	}
 	else if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))
@@ -114,11 +114,11 @@ void	pipex(t_structs *s)
 			launch_command(s, s->cmds[i].fd_in, s->cmds[i].fd_out, &s->cmds[i]);
 		if (i < s->cmds_size - 1 && s->cmds[i].fd_out != 1
 			&& s->cmds[i].fd_out != pipefd[1] && close(pipefd[1]) == -1)
-			print_error("inclose: ", NULL, NULL, errno);
+			print_error("close: ", NULL, NULL, errno);
 		if (++i < s->cmds_size && s->cmds[i].fd_in == STDIN_FILENO)
 			s->cmds[i].fd_in = pipefd[STDIN_FILENO];
 		else if (i < s->cmds_size && close(pipefd[STDIN_FILENO]) == -1)
-			print_error("outclose: ", NULL, NULL, errno);
+			print_error("close: ", NULL, NULL, errno);
 	}
 	wait_child_process(s);
 }

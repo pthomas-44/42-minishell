@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:26:00 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 01:58:08 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 10:15:37 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ static char	*heredoc_loop(char *stop)
 
 	line = NULL;
 	content = NULL;
-	while (ft_strcmp(line, stop))
+	signal(SIGINT, &heredoc_sig_int);
+	while (1)
 	{
-		ft_putstr_fd("> ", STDIN_FILENO);
-		if (get_next_line(0, &line) == -1 || !line)
+		line = readline("> ");
+		if (!line || !ft_strcmp(line, stop))
 			break ;
 		if (content)
 			content = ft_strjoin_f1(content, "\n");
@@ -35,6 +36,7 @@ static char	*heredoc_loop(char *stop)
 			break ;
 		}
 	}
+	signal(SIGINT, &sig_int);
 	return (content);
 }
 

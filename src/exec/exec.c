@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/03 01:39:07 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 10:29:28 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,13 @@ void	exec(t_structs *s)
 		builtins(s, s->cmds[0]);
 	else
 	{
-		tcsetattr(STDIN_FILENO, TCSANOW, &s->term[OLD]);
+		if (tcsetattr(STDIN_FILENO, TCSANOW, &s->term[OLD]) == -1)
+			print_error("termios: ", NULL, NULL, errno);
 		signal(SIGINT, &child_sig_int);
 		signal(SIGQUIT, &child_sig_quit);
 		pipex(s);
-		tcsetattr(STDIN_FILENO, TCSANOW, &s->term[NEW]);
+		if (tcsetattr(STDIN_FILENO, TCSANOW, &s->term[NEW]) == -1)
+			print_error("termios: ", NULL, NULL, errno);
 		signal(SIGINT, &sig_int);
 	}
 }

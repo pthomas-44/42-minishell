@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:51:28 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 01:15:50 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 09:41:22 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,62 +31,63 @@ static size_t	ft_countwords(const char *s)
 	return (nb);
 }
 
-// ~~ Recupere le prochain mot dans la chaine
+// ~~ Recupere le prochain mot
 
-static char	**get_word(char *s, char **split, size_t *i, size_t *j)
+char	*get_next_word(char **str)
 {
-	const char	*start;
-	char		quote;
+	char	*start;
+	char	quote;
 
 	quote = 0;
-	while (s[*j] && s[*j] == ' ' && !quote)
-		quote = check_quotes(s[(*j)++], quote);
-	start = &s[*j];
-	while (s[*j] && (s[*j] != ' ' || quote))
-		quote = check_quotes(s[(*j)++], quote);
-	if (&s[*j] != start)
+	while (*(*str) && *(*str) == ' ' && !quote)
+		quote = check_quotes(*(*str)++, quote);
+	start = (*str);
+	while (*(*str) && (*(*str) != ' ' || quote))
+		quote = check_quotes(*(*str)++, quote);
+	return (ft_substr(start, 0, (*str) - start));
+}
+
+// ~~ Initialise split
+
+char	**init(char **cmd, size_t *nb_of_words)
+{
+	char	**split;
+
+	if (!cmd || !cmd[0])
 	{
-		split[*i] = malloc(sizeof(char) * (&s[*j] - start + 1));
-		if (!split[*i])
-		{
-			perror("malloc");
-			free_tab(split, 0);
-			return (NULL);
-		}
-		ft_strlcpy(split[(*i)++], start, &s[*j] - start + 1);
+		free_tab(cmd, 0);
+		return (NULL);
+	}
+	*nb_of_words = ft_countwords(cmd[0]);
+	split = malloc(sizeof(char *) * (*nb_of_words + 1));
+	if (!split)
+	{
+		print_error("malloc: ", NULL, NULL, ENOMEM);
+		free_tab(cmd, 0);
+		return (NULL);
 	}
 	return (split);
 }
 
-// ~~ Split en prenant en compte les quotes
+// ~~ Split la commande et ses arguments
 
 char	**split_cmd(char **cmd)
 {
 	char		**split;
+	size_t		nb_of_words;
 	size_t		i;
-	size_t		j;
+	char		*str;
 
+	split = init(cmd, &nb_of_words);
+	str = cmd[0];
 	i = 0;
-	j = 0;
-	if (!cmd || !cmd[0])
-		return (NULL);
-	split = malloc(sizeof(char *) * (ft_countwords(cmd[0]) + 1));
-	if (!split)
+	while (i < nb_of_words)
 	{
-		perror("malloc");
-		return (NULL);
+		split[i] = get_next_word(&str);
+		str++;
+		i++;
 	}
-	while ((cmd[0])[j])
-	{
-		split = get_word((cmd[0]), split, &i, &j);
-		if (!split)
-		{
-			free_tab(cmd, 0);
-			cmd = NULL;
-			return (NULL);
-		}
-	}
-	split[i] = 0;
+	split[i] = NULL;
 	free_tab(cmd, 0);
 	return (split);
 }

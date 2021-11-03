@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/03 01:15:50 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 06:35:39 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@
 
 int	path_error_check(t_cmd *current)
 {
-	DIR	*dir;
 	int	tmp;
+	DIR	*dir;
+	int	fd;
 
 	tmp = errno;
 	dir = opendir(current->path);
+	fd = open(current->path, O_RDONLY);
 	errno = tmp;
 	if (!current->path)
 		print_error(NULL, current->cmd[0], "command not found\n", 127);
@@ -29,7 +31,7 @@ int	path_error_check(t_cmd *current)
 		print_error(NULL, current->path, NULL, EISDIR);
 		closedir(dir);
 	}
-	else if (open(current->path, O_RDONLY) == -1)
+	else if (fd == -1 || close(fd) == -1)
 		print_error(NULL, current->cmd[0], NULL, ENOENT);
 	else if (access(current->path, X_OK) == -1)
 		print_error(NULL, current->cmd[0], NULL, EACCES);
@@ -73,6 +75,7 @@ int	find_exe_path(t_structs *s, t_cmd *current)
 int	find_path_in_sys(t_cmd *current, char **paths)
 {
 	size_t	i;
+	int		fd;
 
 	i = 0;
 	while (paths[i])
@@ -80,8 +83,13 @@ int	find_path_in_sys(t_cmd *current, char **paths)
 		current->path = ft_strjoin_f0(paths[i], current->cmd[0]);
 		if (!current->path)
 			return (-1);
-		if (open(current->path, O_RDONLY) != -1)
+		fd = open(current->path, O_RDONLY);
+		if (fd != -1)
+		{
+			if (close(fd) == -1)
+				print_error("close: ", NULL, NULL, errno);
 			break ;
+		}
 		else
 		{
 			free(current->path);
