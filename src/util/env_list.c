@@ -6,36 +6,13 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:42:08 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 01:15:50 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 04:26:30 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 //~~ Cree et ajoute un nouvel element a la liste env
-
-// int	env_new(t_structs *s, char *var)
-// {
-// 	t_env	*new;
-// 	size_t	i;
-// 	t_env	*current;
-
-// 	new = ft_calloc(1, sizeof(t_env));
-// 	i = 0;
-// 	if (!new)
-// 		return (-1);
-// 	i = ft_strchr(var, '=') - var;
-// 	new->name = ft_substr(var, 0, i);
-// 	new->next = NULL;
-// 	current = *s->env;
-// 	while (current)
-// 		current = current->next;
-// 	current = new;
-// 	s->env_size++;
-// 	if (!new->name || !new->value)
-// 		return (-1);
-// 	return (0);
-// }
 
 int	env_new(t_structs *s, char *var)
 {
@@ -57,7 +34,7 @@ int	env_new(t_structs *s, char *var)
 	}
 	else
 		*s->env = new;
-	if (!new->name || !new->value)
+	if (!new->name)
 		return (-1);
 	return (0);
 }
