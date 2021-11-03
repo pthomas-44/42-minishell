@@ -6,24 +6,42 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 01:15:50 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 14:24:05 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-//~~ Gestion des quotes
-
-char	check_quotes(char c, char quote)
-{
-	if ((c == '"' || c == '\'') && quote == 0)
-		quote = c;
-	else if (c == quote)
-		quote = 0;
-	return (quote);
-}
-
 //~~ Inhibe les operateurs dans les noms de variables
+
+// static char	*handle_operands(char *value, char *charset)
+// {
+// 	char	*new;
+// 	size_t	i;
+
+// 	new = NULL;
+// 	while (*value)
+// 	{
+// 		i = 0;
+// 		while (value[i] && !ft_strchr(charset, value[i]))
+// 			i++;
+// 		if (value[i])
+// 		{
+// 			new = ft_substr(value, 0, i);
+// 			new = ft_strjoin_f3(new, ft_strjoin_f2("\"",
+// 						ft_strjoin_f1(ft_substr(&value[i], 0, 1), "\"")));
+// 			value += i + 1;
+// 		}
+// 		else
+// 		{
+// 			new = ft_strjoin_f1(new, value);
+// 			break ;
+// 		}
+// 	}
+// 	if (!new)
+// 		perror("malloc");
+// 	return (new);
+// }
 
 static char	*handle_operands(char *value, char *charset)
 {
@@ -37,10 +55,17 @@ static char	*handle_operands(char *value, char *charset)
 		while (value[i] && !ft_strchr(charset, value[i]))
 			i++;
 		if (value[i])
+			new = ft_strjoin_f3(new, ft_substr(value, 0, i));
+		if (value[i] && value[i] != '\"')
 		{
-			new = ft_substr(value, 0, i);
 			new = ft_strjoin_f3(new, ft_strjoin_f2("\"",
 						ft_strjoin_f1(ft_substr(&value[i], 0, 1), "\"")));
+			value += i + 1;
+		}
+		else if (value[i] && value[i] == '\"')
+		{
+			new = ft_strjoin_f3(new, ft_strjoin_f2("\'",
+						ft_strjoin_f1(ft_substr(&value[i], 0, 1), "\'")));
 			value += i + 1;
 		}
 		else
@@ -54,9 +79,23 @@ static char	*handle_operands(char *value, char *charset)
 	return (new);
 }
 
-//~~ Remplace la variable par sa valeur
+//~~ Remplace la variable d'environnement par sa valeur
 
-char	*replace_var(char *line, size_t i, t_env *var)
+static char	*replace_by_var(char *line, size_t i, t_env *var, char *new)
+{
+	if (*(var->value + 1) == '\'')
+		new = ft_strjoin_f3(new, ft_strjoin_f2("\"", ft_strjoin_f1(
+						handle_operands(var->value + 1, "<>|"), "\"")));
+	else if (*(var->value + 1) == '\"')
+		new = ft_strjoin_f3(new, ft_strjoin_f2("\'", ft_strjoin_f1(
+						handle_operands(var->value + 1, "<>|"), "\'")));
+	else
+		new = ft_strjoin_f3(new, handle_operands(var->value + 1, "<>|"));
+	new = ft_strjoin_f1(new, &line[i] + ft_strlen(var->name) + 1);
+	return (new);
+}
+
+static char	*replace_name(char *line, size_t i, t_env *var)
 {
 	char	*new;
 
@@ -67,11 +106,7 @@ char	*replace_var(char *line, size_t i, t_env *var)
 		new = ft_strjoin_f1(new, &line[i + 2]);
 	}
 	else if (var)
-	{
-		new = ft_strjoin_f3(new, ft_strjoin_f2("\"", ft_strjoin_f1(
-						handle_operands(var->value + 1, "<>|"), "\"")));
-		new = ft_strjoin_f1(new, &line[i] + ft_strlen(var->name) + 1);
-	}
+		new = replace_by_var(line, i, var, new);
 	else
 	{
 		i++;
@@ -124,10 +159,10 @@ char	*replace_env_variables(t_structs *s, char *line)
 	{
 		quote = check_quotes(line[i], quote);
 		if (line[i] == '$' && (ft_isalpha(line[i + 1])
-				|| line[i + 1] == '_' || line[i + 1] == '?'))
+				|| line[i + 1] == '_' || line[i + 1] == '?') && quote != '\'')
 		{
 			var = find_var(s, &line[i + 1]);
-			line = replace_var(line, i, var);
+			line = replace_name(line, i, var);
 			if (!line)
 				return (NULL);
 		}

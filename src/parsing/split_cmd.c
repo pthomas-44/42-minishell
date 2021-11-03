@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:51:28 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 09:41:22 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 12:50:38 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,11 @@ char	**split_cmd(char **cmd)
 	char		*str;
 
 	split = init(cmd, &nb_of_words);
+	if (!split)
+	{
+		free_tab(cmd, 0);
+		return (NULL);
+	}
 	str = cmd[0];
 	i = 0;
 	while (i < nb_of_words)

@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 01:51:53 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 06:01:05 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 11:37:43 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	bi_exit(t_structs *s, t_cmd current)
 		ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (current.cmd[1] && !is_arg_numeric(current.cmd[1]))
 	{
-		errno = 255;
 		print_error("exit: ", current.cmd[1],
 			"numeric argument required\n", 255);
 	}
@@ -46,7 +45,7 @@ void	bi_exit(t_structs *s, t_cmd current)
 		return ;
 	}
 	else if (current.cmd[1])
-		errno = ft_atoi(current.cmd[1]);
+		errno = ft_atoi(ft_strchrstr(current.cmd[1], "-0123456789"));
 	free_all(s, s->cmds_size - 1);
 	exit(errno);
 }
