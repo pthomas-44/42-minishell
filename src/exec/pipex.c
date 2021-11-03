@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-<<<<<<< HEAD:srcs/pipex.c
-/*   Updated: 2021/11/02 17:33:37 by mberne           ###   ########lyon.fr   */
-=======
-/*   Updated: 2021/11/03 10:28:01 by pthomas          ###   ########lyon.fr   */
->>>>>>> 79b42d7e917244397a5d5b204c007de8d9ec5a39:src/exec/pipex.c
+/*   Updated: 2021/11/03 10:50:11 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
