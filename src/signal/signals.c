@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:48 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 01:15:50 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 02:00:10 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,10 @@ void	sig_int(int sig)
 {
 	(void)sig;
 	rl_replace_line("", 1);
-	write(1, "\n", 1);
+	ft_putchar_fd('\n', STDERR_FILENO);
 	rl_on_new_line();
 	rl_redisplay();
-}
-
-//~~ La fonction qui s'occupe de gérer les 'CTRL'+'\'
-
-void	sig_quit(int sig)
-{
-	(void)sig;
+	errno = 1;
 }
 
 //~~ La fonction qui s'occupe de gérer les 'CTRL'+'C' dans le processe enfant
@@ -35,8 +29,9 @@ void	sig_quit(int sig)
 void	child_sig_int(int sig)
 {
 	(void)sig;
-	write(1, "\n", 1);
-	rl_redisplay();
+	ft_putchar_fd('\n', STDERR_FILENO);
+	if (errno)
+		errno = 130;
 }
 
 //~~ La fonction qui s'occupe de gérer les 'CTRL'+'\' dans le processe enfant
@@ -44,6 +39,7 @@ void	child_sig_int(int sig)
 void	child_sig_quit(int sig)
 {
 	(void)sig;
-	write(2, "Quit: 3\n", 8);
-	rl_redisplay();
+	ft_putstr_fd("Quit: 3\n", STDERR_FILENO);
+	if (errno)
+		errno = 131;
 }

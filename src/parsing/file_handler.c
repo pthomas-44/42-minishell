@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:26:00 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 01:15:50 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 01:58:08 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*heredoc_loop(char *stop)
 	content = NULL;
 	while (ft_strcmp(line, stop))
 	{
-		write (1, "> ", 2);
+		ft_putstr_fd("> ", STDIN_FILENO);
 		if (get_next_line(0, &line) == -1 || !line)
 			break ;
 		if (content)
@@ -54,7 +54,7 @@ static int	heredoc_handler(t_structs *s, char *stop, int i)
 		free(content);
 		return (-1);
 	}
-	write(pipe_fd[STDOUT_FILENO], content, ft_strlen(content));
+	ft_putstr_fd(content, pipe_fd[STDOUT_FILENO]);
 	free(content);
 	if (close(pipe_fd[STDOUT_FILENO]) == -1)
 	{

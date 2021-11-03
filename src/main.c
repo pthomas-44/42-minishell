@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:23:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 01:16:00 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 01:56:41 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	prompt_loop(t_structs *s)
 		free(s->parse_line[1]);
 		s->parse_line[1] = s->parse_line[0];
 	}
-	write(2, "exit\n", 6);
+	ft_putstr_fd("exit\n", STDERR_FILENO);
 	free_all(s);
 	exit(errno);
 }
@@ -79,7 +79,6 @@ static void	set_new_terminal(t_structs *s)
 	s->term[NEW].c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &s->term[NEW]);
 	signal(SIGINT, &sig_int);
-	signal(SIGQUIT, &sig_quit);
 }
 
 //~~ Initialisation de la structure de controle

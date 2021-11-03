@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/03 01:15:50 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 01:39:07 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,5 @@ void	exec(t_structs *s)
 		pipex(s);
 		tcsetattr(STDIN_FILENO, TCSANOW, &s->term[NEW]);
 		signal(SIGINT, &sig_int);
-		signal(SIGQUIT, &sig_quit);
 	}
 }

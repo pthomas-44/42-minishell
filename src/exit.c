@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:24:04 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 01:15:59 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 02:01:42 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,19 @@
 void	print_error(char *cmd, char *value, char *error, int status)
 {
 	errno = status;
-	write(STDERR_FILENO, "potatoshell: ", 13);
+	ft_putstr_fd("potatoshell: ", STDERR_FILENO);
 	if (cmd)
-		write(STDERR_FILENO, cmd, ft_strlen(cmd));
+		ft_putstr_fd(cmd, STDERR_FILENO);
 	if (value)
 	{
-		write(STDERR_FILENO, value, ft_strlen(value));
-		write(STDERR_FILENO, ": ", 2);
+		ft_putstr_fd(value, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
 	}
 	if (errno != 258 && errno != EXIT_FAILURE
 		&& errno != 127 && errno != 255 && errno != 3)
 		perror(NULL);
 	if (error)
-		write(STDERR_FILENO, error, ft_strlen(error));
+		ft_putstr_fd(error, STDERR_FILENO);
 }
 
 //~~ Free la structure t_cmds

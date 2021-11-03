@@ -6,7 +6,7 @@
 #    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/11/03 01:21:22 by pthomas          ###   ########lyon.fr    #
+#    Updated: 2021/11/03 01:54:13 by pthomas          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,10 +39,14 @@ SRCS		=	main.c				\
 				exec.c				\
 				pipex.c				\
 				paths_utils.c		\
-				builtins.c			\
-				builtin_cd.c		\
-				builtin_export.c	\
-				builtins_utils.c
+				bi_echo.c			\
+				bi_cd.c				\
+				bi_pwd.c			\
+				bi_export.c			\
+				bi_unset.c			\
+				bi_env.c			\
+				bi_exit.c			\
+				bi_utils.c
 
 #~~~~ Objects ~~~~#
 
