@@ -6,7 +6,7 @@
 #    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/11/02 23:56:40 by pthomas          ###   ########lyon.fr    #
+#    Updated: 2021/11/03 01:21:22 by pthomas          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,7 @@ NAME		=	minishell
 
 #~~~~ Paths ~~~~#
 
-PATH_INCS	=	include
-PATH_SRCS	=	src
+VPATH		=	src:src/util:src/signal:src/parsing:src/exec:src/builtin:include
 PATH_OBJS	=	obj
 PATH_LIBFT	=	libft
 
@@ -51,14 +50,14 @@ OBJS		=	$(addprefix $(PATH_OBJS)/, $(SRCS:.c=.o))
 
 #~~~~ Includes ~~~~#
 
-INCS		=	$(addprefix $(PATH_INCS)/, minishell.h)
+INCS		 =	minishell.h
 
 #~~~~ Macros ~~~~#
 
 CC			=	gcc
 CFLAGS		=	-Wall -Wextra -Werror -fsanitize=address
 LIBS		=	$(PATH_LIBFT)/libft.a
-RM			=	rm -f
+RM			=	rm -rf
 
 #========================================#
 #=============== TARGETS ================#
@@ -81,25 +80,19 @@ run :			re
 
 #~~~~ Compilation Rules ~~~~#
 
-$(PATH_OBJS)/%.o :	$(PATH_SRCS)/%.c $(INCS) $(LIBS)
-					@ mkdir -p $(PATH_OBJS)
+$(PATH_OBJS)/%.o :	%.c $(INCS) $(LIBS)
+					@mkdir -p $(dir $@);
 					$(CC) $(CFLAGS) -I $(INCS) -c $< -o $@
-
-#~~~~ Norminette ~~~~#
-
-norminette :
-				$(MAKE) norminette -C $(PATH_LIBFT)
-				norminette $(PATH_SRCS) $(PATH_BSRCS) $(PATH_INCS)
 
 #~~~~ Cleaning Rules ~~~~#
 
 clean :
+				$(RM) $(PATH_OBJS)
 				$(MAKE) clean -C $(PATH_LIBFT)
-				$(RM) -r $(PATH_OBJS)
 
 fclean :		
 				$(MAKE) fclean -C $(PATH_LIBFT)
-				$(RM) -r $(PATH_OBJS) $(NAME) $(CHECKER)
+				$(RM) $(PATH_OBJS) $(NAME)
 
 #~~~~ Eugene ~~~~#
 

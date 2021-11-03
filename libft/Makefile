@@ -6,7 +6,7 @@
 #    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/24 08:57:58 by pthomas           #+#    #+#              #
-#    Updated: 2021/11/02 23:56:33 by pthomas          ###   ########lyon.fr    #
+#    Updated: 2021/11/03 01:23:50 by pthomas          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,7 +73,7 @@ $(NAME):	$(OBJS)
 #~~~~ Compilation Rule ~~~~#
 
 $(PATH_OBJS)/%.o :	$(PATH_SRCS)/%.c  $(INCS)
-					${CC} ${CFLAGS} -O3 -I $(INCS) -c $< -o $@
+					${CC} ${CFLAGS} -I $(INCS) -c $< -o $@
 
 #~~~~ Norminette ~~~~#
 

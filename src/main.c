@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:23:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 00:23:03 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 01:16:00 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ static void	prompt_loop(t_structs *s)
 {
 	int	tmp_errno;
 
-	signal(SIGINT, &sig_int);
-	signal(SIGQUIT, &sig_quit);
 	while (1)
 	{
 		tmp_errno = errno;
@@ -80,6 +78,8 @@ static void	set_new_terminal(t_structs *s)
 	s->term[NEW].c_cc[VQUIT] = 0;
 	s->term[NEW].c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &s->term[NEW]);
+	signal(SIGINT, &sig_int);
+	signal(SIGQUIT, &sig_quit);
 }
 
 //~~ Initialisation de la structure de controle

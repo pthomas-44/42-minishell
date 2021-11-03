@@ -7,7 +7,7 @@ in
 in2
 out
 out2
-obj
+bin
 
 # Prerequisites
 *.d

@@ -6,11 +6,11 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/02 23:49:38 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 01:15:50 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 //~~ Index les variables d'environnement selon l'ordre ascii
 
