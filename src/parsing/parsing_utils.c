@@ -6,11 +6,22 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:54:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 01:15:50 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 13:12:47 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+//~~ Gestion des quotes
+
+char	check_quotes(char c, char quote)
+{
+	if ((c == '"' || c == '\'') && quote == 0)
+		quote = c;
+	else if (c == quote)
+		quote = 0;
+	return (quote);
+}
 
 //~~ Enleve le caractere str[i] de la chaine
 
