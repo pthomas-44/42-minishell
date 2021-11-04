@@ -6,42 +6,13 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 14:24:05 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 15:58:27 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 //~~ Inhibe les operateurs dans les noms de variables
-
-// static char	*handle_operands(char *value, char *charset)
-// {
-// 	char	*new;
-// 	size_t	i;
-
-// 	new = NULL;
-// 	while (*value)
-// 	{
-// 		i = 0;
-// 		while (value[i] && !ft_strchr(charset, value[i]))
-// 			i++;
-// 		if (value[i])
-// 		{
-// 			new = ft_substr(value, 0, i);
-// 			new = ft_strjoin_f3(new, ft_strjoin_f2("\"",
-// 						ft_strjoin_f1(ft_substr(&value[i], 0, 1), "\"")));
-// 			value += i + 1;
-// 		}
-// 		else
-// 		{
-// 			new = ft_strjoin_f1(new, value);
-// 			break ;
-// 		}
-// 	}
-// 	if (!new)
-// 		perror("malloc");
-// 	return (new);
-// }
 
 static char	*handle_operands(char *value, char *charset)
 {
@@ -89,8 +60,10 @@ static char	*replace_by_var(char *line, size_t i, t_env *var, char *new)
 	else if (*(var->value + 1) == '\"')
 		new = ft_strjoin_f3(new, ft_strjoin_f2("\'", ft_strjoin_f1(
 						handle_operands(var->value + 1, "<>|"), "\'")));
+	else if (line[i - 1] == '\"')
+		new = ft_strjoin_f3(new, handle_operands(var->value + 1, "\"<>|"));
 	else
-		new = ft_strjoin_f3(new, handle_operands(var->value + 1, "<>|"));
+		new = ft_strjoin_f3(new, handle_operands(var->value + 1, "\'\"<>|"));
 	new = ft_strjoin_f1(new, &line[i] + ft_strlen(var->name) + 1);
 	return (new);
 }
