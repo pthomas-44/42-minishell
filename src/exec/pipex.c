@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/05 10:09:06 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 10:10:19 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	launch_command(t_structs *s, int in, int out, t_cmd *current)
 			print_error("dup2: ", NULL, NULL, errno);
 		else if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))
 			print_error("close: ", NULL, NULL, errno);
-		if (!is_builtin(*current)
+		else if (!is_builtin(*current)
 			&& execve(current->path, current->cmd, envp) == -1)
 			print_error("execve: ", NULL, NULL, errno);
 		else if (is_builtin(*current))
