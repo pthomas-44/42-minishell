@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/05 16:35:05 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 17:54:26 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,15 @@ static void	wait_child_process(t_structs *s)
 	i = 0;
 	while (i < s->cmds_size)
 	{
-		if (is_builtin(s->cmds[i]) || (s->cmds[i].path && s->cmds[i].cmd))
+		// dprintf(2, "%s | %p\n", s->cmds[i].path, s->cmds[i].cmd);
+		if (is_builtin(s->cmds[i]) || s->cmds[i].cmd)
 		{
 			if (waitpid(-1, &status, WUNTRACED) == -1)
 			{
 				print_error("waitpid: ", NULL, NULL, errno);
 				return ;
 			}
+			// dprintf(2, "bonjour0\n");
 			if (WIFEXITED(status))
 				g_numberr = WEXITSTATUS(status);
 		}
@@ -82,11 +84,11 @@ static int	get_path(t_structs *s, t_cmd *current)
 	else if ((!paths || ft_strchr(current->cmd[0], '/'))
 		&& !current->path && find_exe_path(s, current) == -1)
 		print_error("malloc: ", NULL, NULL, ENOMEM);
-	else if (path_error_check(current) == -1)
-	{
-		free(current->path);
-		current->path = NULL;
-	}
+	// else if (path_error_check(current) == -1)
+	// {
+	// 	free(current->path);
+	// 	current->path = NULL;
+	// }
 	else
 	{
 		free_tab(paths, 0);
@@ -140,7 +142,12 @@ void	child(t_structs *s, t_cmd *current, size_t i)
 		|| (current->fd_out == 1 && i != s->cmds_size - 1
 			&& dup2(current->pipefd[1], 1) == -1))
 		print_error("dup2: ", NULL, NULL, errno);
-	if (!is_builtin(*current) && get_path(s, &s->cmds[i]) != -1
+	if (!is_builtin(*current) && path_error_check(current) == -1)
+	{
+		free(current->path);
+		current->path = NULL;
+	}
+	if (!is_builtin(*current) && current->path
 		&& execve(current->path, current->cmd, envp) == -1)
 		print_error("execve: ", NULL, NULL, errno);
 	else if (is_builtin(*current))
@@ -192,6 +199,8 @@ void	pipex(t_structs *s)
 	}
 	while (i < s->cmds_size)
 	{
+		if (!is_builtin(s->cmds[i]))
+			get_path(s, &s->cmds[i]);
 		pid = fork();
 		if (pid == -1)
 			print_error("fork: ", NULL, NULL, errno);
@@ -205,4 +214,5 @@ void	pipex(t_structs *s)
 		return ;
 	}
 	wait_child_process(s);
+	// dprintf(2, "bonjour1\n");
 }
