@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:54:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 13:12:47 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 15:48:03 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ void	remove_quotes(char **cmd)
 		j = 0;
 		while (cmd[i][j])
 		{
-			if (!quote && (cmd[i][j] == '"' || cmd[i][j] == '\''))
+			if (cmd[i][j] == '\\')
+				cmd[i] = remove_char(cmd[i], j);
+			else if (!quote && (cmd[i][j] == '"' || cmd[i][j] == '\''))
 			{
 				quote = cmd[i][j];
 				cmd[i] = remove_char(cmd[i], j--);

@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 15:58:27 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 15:15:09 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,61 +14,51 @@
 
 //~~ Inhibe les operateurs dans les noms de variables
 
+static size_t	get_new_size(char *value, char *charset)
+{
+	size_t	i;
+	size_t	size;
+
+	i = 0;
+	size = 0;
+	while (value[i])
+	{
+		if (!ft_strchr(charset, value[i]))
+			size++;
+		size++;
+		i++;
+	}
+	return (size);
+}
+
 static char	*handle_operands(char *value, char *charset)
 {
-	char	*new;
 	size_t	i;
+	size_t	j;
+	char	*new;
 
-	new = NULL;
-	while (*value)
-	{
-		i = 0;
-		while (value[i] && !ft_strchr(charset, value[i]))
-			i++;
-		if (value[i])
-			new = ft_strjoin_f3(new, ft_substr(value, 0, i));
-		if (value[i] && value[i] != '\"')
-		{
-			new = ft_strjoin_f3(new, ft_strjoin_f2("\"",
-						ft_strjoin_f1(ft_substr(&value[i], 0, 1), "\"")));
-			value += i + 1;
-		}
-		else if (value[i] && value[i] == '\"')
-		{
-			new = ft_strjoin_f3(new, ft_strjoin_f2("\'",
-						ft_strjoin_f1(ft_substr(&value[i], 0, 1), "\'")));
-			value += i + 1;
-		}
-		else
-		{
-			new = ft_strjoin_f1(new, value);
-			break ;
-		}
-	}
+	i = 0;
+	j = 0;
+	new = ft_calloc(get_new_size(value, charset), sizeof(char));
 	if (!new)
-		perror("malloc");
+		print_error("malloc: ", NULL, NULL, ENOMEM);
+	while (value[i])
+	{
+		if (ft_strchr(charset, value[i]))
+		{
+			new[j] = '\\';
+			j++;
+		}
+		new[j] = value[i];
+		j++;
+		i++;
+	}
 	return (new);
 }
 
 //~~ Remplace la variable d'environnement par sa valeur
 
-static char	*replace_by_var(char *line, size_t i, t_env *var, char *new)
-{
-	if (*(var->value + 1) == '\'')
-		new = ft_strjoin_f3(new, ft_strjoin_f2("\"", ft_strjoin_f1(
-						handle_operands(var->value + 1, "<>|"), "\"")));
-	else if (*(var->value + 1) == '\"')
-		new = ft_strjoin_f3(new, ft_strjoin_f2("\'", ft_strjoin_f1(
-						handle_operands(var->value + 1, "<>|"), "\'")));
-	else if (line[i - 1] == '\"')
-		new = ft_strjoin_f3(new, handle_operands(var->value + 1, "\"<>|"));
-	else
-		new = ft_strjoin_f3(new, handle_operands(var->value + 1, "\'\"<>|"));
-	new = ft_strjoin_f1(new, &line[i] + ft_strlen(var->name) + 1);
-	return (new);
-}
-
-static char	*replace_name(char *line, size_t i, t_env *var)
+static char	*replace_var(char *line, size_t i, t_env *var)
 {
 	char	*new;
 
@@ -79,7 +69,7 @@ static char	*replace_name(char *line, size_t i, t_env *var)
 		new = ft_strjoin_f1(new, &line[i + 2]);
 	}
 	else if (var)
-		new = replace_by_var(line, i, var, new);
+		new = ft_strjoin_f3(new, handle_operands(ft_strdup(var->value + 1), "\"\'\\<>|"));
 	else
 	{
 		i++;
@@ -135,7 +125,7 @@ char	*replace_env_variables(t_structs *s, char *line)
 				|| line[i + 1] == '_' || line[i + 1] == '?') && quote != '\'')
 		{
 			var = find_var(s, &line[i + 1]);
-			line = replace_name(line, i, var);
+			line = replace_var(line, i, var);
 			if (!line)
 				return (NULL);
 		}
