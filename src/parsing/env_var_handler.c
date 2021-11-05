@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/05 16:16:10 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 17:39:22 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,11 @@ static char	*replace_var(char *line, size_t i, t_env *var)
 		new = ft_strjoin_f1(new, &line[i + 2]);
 	}
 	else if (var)
+	{
 		new = ft_strjoin_f3(new,
 				handle_operands(ft_strdup(var->value + 1), "\"\'\\<>|"));
+		new = ft_strjoin_f1(new, &line[i] + ft_strlen(var->name) + 1);
+	}
 	else
 	{
 		i++;
@@ -119,9 +122,11 @@ char	*replace_env_variables(t_structs *s, char *line)
 
 	i = 0;
 	quote = 0;
+	printf("|%s|\n", line);
 	while (line && line[i])
 	{
-		quote = check_quotes(line[i], quote);
+		if (i == 0 || line[i - 1] != '\\')
+			quote = check_quotes(line[i], quote);
 		if (line[i] == '$' && (ft_isalpha(line[i + 1])
 				|| line[i + 1] == '_' || line[i + 1] == '?') && quote != '\'')
 		{
@@ -133,5 +138,6 @@ char	*replace_env_variables(t_structs *s, char *line)
 		else if (line[i])
 			i++;
 	}
+	printf("|%s|\n", line);
 	return (line);
 }

@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:51:28 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 17:56:03 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 17:19:04 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,19 @@
 static size_t	ft_countwords(const char *s)
 {
 	size_t	nb;
+	size_t	i;
 	char	quote;
 
 	nb = 0;
+	i = 0;
 	quote = 0;
-	while (*s)
+	while (s[i])
 	{
-		quote = check_quotes(*s, quote);
-		if (*s && *s != ' ' && (*(s + 1) == ' ' || *(s + 1) == 0) && !quote)
+		if (i == 0 || s[i - 1] != '\\')
+			quote = check_quotes(s[i], quote);
+		if (s[i] && s[i] != ' ' && (s[i + 1] == ' ' || s[i + 1]  == 0) && !quote)
 			nb++;
-		s++;
+		i++;
 	}
 	return (nb);
 }
@@ -35,17 +38,43 @@ static size_t	ft_countwords(const char *s)
 
 static char	*get_next_word(char **str)
 {
+	size_t	i;
 	char	*start;
 	char	quote;
 
+	i = 0;
 	quote = 0;
-	while (*(*str) && *(*str) == ' ' && !quote)
-		quote = check_quotes(*(*str)++, quote);
-	start = (*str);
-	while (*(*str) && (*(*str) != ' ' || quote))
-		quote = check_quotes(*(*str)++, quote);
+	while ((*str)[i] && (*str)[i] == ' ' && !quote)
+	{
+		if (i == 0 || (*str)[i - 1] != '\\')
+			quote = check_quotes((*str)[i], quote);
+		i++;
+	}
+	start = (*str) + i;
+	while ((*str)[i] && ((*str)[i] != ' ' || quote))
+	{
+		if (i == 0 || (*str)[i - 1] != '\\')
+			quote = check_quotes((*str)[i], quote);
+		i++;
+	}
+	(*str) += i;
 	return (ft_substr(start, 0, (*str) - start));
 }
+
+// static char	*get_next_word(char **str)
+// {
+// 	char	*start;
+// 	char	quote;
+
+// 	quote = 0;
+// 	while (*(*str) && *(*str) == ' ' && !quote)
+// 		quote = check_quotes(*(*str)++, quote);
+// 	start = (*str);
+// 	printf("%s | %s\n", *str, start);
+// 	while (*(*str) && (*(*str) != ' ' || quote))
+// 		quote = check_quotes(*(*str)++, quote);
+// 	return (ft_substr(start, 0, (*str) - start));
+// }
 
 // ~~ Initialise split
 
