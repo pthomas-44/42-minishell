@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:51:28 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 12:50:38 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 17:56:03 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static size_t	ft_countwords(const char *s)
 
 // ~~ Recupere le prochain mot
 
-char	*get_next_word(char **str)
+static char	*get_next_word(char **str)
 {
 	char	*start;
 	char	quote;
@@ -49,7 +49,7 @@ char	*get_next_word(char **str)
 
 // ~~ Initialise split
 
-char	**init(char **cmd, size_t *nb_of_words)
+static char	**init(char **cmd, size_t *nb_of_words)
 {
 	char	**split;
 

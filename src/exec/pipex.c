@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/04 17:09:10 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 10:09:06 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,60 +129,3 @@ void	pipex(t_structs *s)
 	}
 	wait_child_process(s);
 }
-
-// void	pipex(t_structs *s)
-// {
-// 	int			pipefd[2];
-// 	size_t		i;
-
-// 	i = 0;
-// 	while (i < s->cmds_size)
-// 	{
-// 		if (i < s->cmds_size - 1 && pipe(pipefd) == -1)
-// 			return ;
-// 		if (s->cmds[i].fd_out == STDOUT_FILENO && i < s->cmds_size - 1)
-// 			s->cmds[i].fd_out = pipefd[STDOUT_FILENO];
-// 		if (is_builtin(s->cmds[i]) || get_path(s, &s->cmds[i]) != -1)
-// 			launch_command(s, s->cmds[i].fd_in, s->cmds[i].fd_out, &s->cmds[i]);
-// 		else if ((s->cmds[i].fd_in != 0 && close(s->cmds[i].fd_in) == -1)
-// 			|| (s->cmds[i].fd_out != 1 && close(s->cmds[i].fd_out) == -1))
-// 			print_error("close: ", NULL, NULL, errno);
-// 		if (i < s->cmds_size - 1 && s->cmds[i].fd_out != 1
-// 			&& s->cmds[i].fd_out != pipefd[STDOUT_FILENO]
-// 			&& close(pipefd[STDOUT_FILENO]) == -1)
-// 			print_error("close: ", NULL, NULL, errno);
-// 		if (++i < s->cmds_size && s->cmds[i].fd_in == STDIN_FILENO)
-// 			s->cmds[i].fd_in = pipefd[STDIN_FILENO];
-// 		else if (i < s->cmds_size && close(pipefd[STDIN_FILENO]) == -1)
-// 			print_error("close: ", NULL, NULL, errno);
-// 	}
-// 	wait_child_process(s);
-// }
-
-// pipex original
-
-// void	pipex(t_struct *s)
-// {
-// 	int			pipefd[2];
-// 	int			in;
-// 	int			i;
-
-// 	in = s->fd_infile;
-// 	i = 0;
-// 	while (i < s->num_cmd - 1)
-// 	{
-// 		if (pipe(pipefd) == -1)
-// 			ft_exit(s, "pipe", EXIT_FAILURE);
-// 		s->pid[i] = launch_command(s, in, pipefd[1], i);
-// 		in = pipefd[0];
-// 		i++;
-// 	}
-// 	s->pid[i] = launch_command(s, in, s->fd_outfile, i);
-// 	i = 0;
-// 	while (i < s->num_cmd)
-// 	{
-// 		if (waitpid(s->pid[i], NULL, WUNTRACED) == -1)
-// 			ft_exit(s, "waitpid", EXIT_FAILURE);
-// 		i++;
-// 	}
-// }
