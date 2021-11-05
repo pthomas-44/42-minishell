@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 01:51:53 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 15:13:51 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 16:14:11 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	bi_exit(t_structs *s, t_cmd current)
 		return ;
 	}
 	else if (current.cmd[1])
-		errno = ft_atoi(ft_strchrstr(current.cmd[1], "-0123456789"));
+		g_numberr = ft_atoi(ft_strchrstr(current.cmd[1], "-0123456789"));
 	free_all(s, s->cmds_size - 1);
-	exit(errno);
+	exit(g_numberr);
 }

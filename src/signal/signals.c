@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:48 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 10:17:54 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 16:16:41 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	sig_int(int sig)
 	ft_putchar_fd('\n', STDERR_FILENO);
 	rl_on_new_line();
 	rl_redisplay();
-	errno = 1;
+	g_numberr = 1;
 }
 
 //~~ La fonction qui s'occupe de gérer les 'CTRL'+'C' dans le heredoc
@@ -30,7 +30,7 @@ void	heredoc_sig_int(int sig)
 {
 	(void)sig;
 	rl_line_buffer = NULL;
-	errno = 1;
+	g_numberr = 1;
 }
 
 //~~ La fonction qui s'occupe de gérer les 'CTRL'+'C' dans le processe enfant
@@ -39,8 +39,8 @@ void	child_sig_int(int sig)
 {
 	(void)sig;
 	ft_putchar_fd('\n', STDERR_FILENO);
-	if (errno)
-		errno = 130;
+	if (g_numberr)
+		g_numberr = 130;
 }
 
 //~~ La fonction qui s'occupe de gérer les 'CTRL'+'\' dans le processe enfant
@@ -49,6 +49,6 @@ void	child_sig_quit(int sig)
 {
 	(void)sig;
 	ft_putstr_fd("Quit: 3\n", STDERR_FILENO);
-	if (errno)
-		errno = 131;
+	if (g_numberr)
+		g_numberr = 131;
 }

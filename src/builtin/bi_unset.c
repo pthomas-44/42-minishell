@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 01:51:34 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 10:06:13 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 16:14:20 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	bi_unset(t_structs *s, t_cmd current)
 	size_t	i;
 
 	i = 1;
-	errno = EXIT_SUCCESS;
+	g_numberr = EXIT_SUCCESS;
 	while (current.cmd[i])
 	{
 		if (!is_word(current.cmd[i]))

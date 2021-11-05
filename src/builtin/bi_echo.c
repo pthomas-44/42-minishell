@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 01:49:55 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 04:30:46 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 16:14:00 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,5 @@ void	bi_echo(t_cmd current)
 	}
 	if (!option)
 		ft_putchar_fd('\n', STDOUT_FILENO);
-	errno = EXIT_SUCCESS;
+	g_numberr = EXIT_SUCCESS;
 }
