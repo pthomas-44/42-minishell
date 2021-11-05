@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/05 10:10:19 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 12:13:15 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,3 +129,25 @@ void	pipex(t_structs *s)
 	}
 	wait_child_process(s);
 }
+
+// int	open_pipe(t_structs *s)
+// {
+// 	size_t	i;
+
+// 	i = 0;
+// 	while (i < s->cmds_size)
+// 	{
+// 		if (pipe(s->cmds[i].pipefd) == -1)
+// 			return (-1);
+// 	}
+// 	return (0);
+// }
+
+// void	pipex(t_structs *s)
+// {
+// 	if (open_pipe(s) == -1)
+// 	{
+// 		print_error("pipe: ", NULL, NULL, errno);
+// 		return ;
+// 	}
+// }

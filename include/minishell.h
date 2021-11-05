@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 13:13:48 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 12:24:26 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,10 @@
 typedef struct s_cmd
 {
 	int			fd_in;
+	int			fd_out;
+	int			pipefd[2];
 	char		**cmd;
 	char		*path;
-	int			fd_out;
 }				t_cmd;
 
 // ~~ Env variables struct
@@ -115,6 +116,6 @@ void			bi_exit(t_structs *s, t_cmd current);
 void			bi_cd(t_structs *s, t_cmd current);
 void			bi_export(t_structs *s, t_cmd current);
 int				is_word(char *str);
-char			*replace_by_home_path(t_structs *s, char *cmd);
+int				replace_by_home_path(t_structs *s, char *cmd, char **new);
 
 #endif

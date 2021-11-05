@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/03 06:35:39 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 12:24:50 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	find_exe_path(t_structs *s, t_cmd *current)
 	char	cwd[MAXPATHLEN];
 	int		nb_args;
 
-	current->path = replace_by_home_path(s, current->cmd[0]);
+	replace_by_home_path(s, current->cmd[0], &current->path);
 	if (!current->path)
 		return (-1);
 	if (current->path[0] != '/')
