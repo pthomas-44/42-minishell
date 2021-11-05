@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/05 12:24:26 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 16:09:57 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@
 # define PROMPT "potatoshell >$ "
 # define OLD 0
 # define NEW 1
+
+/*** ~~ GLOBALS ~~ ***/
+
+// ~~ Error var
+
+int	g_numberr;
 
 /*** ~~ STRUCTURES ~~ ***/
 

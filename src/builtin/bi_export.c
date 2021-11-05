@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/05 15:48:50 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 16:14:16 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	bi_export(t_structs *s, t_cmd current)
 		if (create_env_variable(s, current) == -1)
 		{
 			print_error("malloc: ", NULL, NULL, ENOMEM);
-			errno = EXIT_FAILURE;
+			g_numberr = EXIT_FAILURE;
 			return ;
 		}
 	}
@@ -130,5 +130,5 @@ void	bi_export(t_structs *s, t_cmd current)
 		index_list(s);
 		print_export(s);
 	}
-	errno = EXIT_SUCCESS;
+	g_numberr = EXIT_SUCCESS;
 }

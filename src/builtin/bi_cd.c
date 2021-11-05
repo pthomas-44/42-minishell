@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/05 12:27:24 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 16:13:50 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	bi_cd(t_structs *s, t_cmd current)
 {
 	char	cwd[MAXPATHLEN];
 
-	errno = EXIT_SUCCESS;
+	g_numberr = EXIT_SUCCESS;
 	getcwd(cwd, MAXPATHLEN);
 	if (!current.cmd[1] || current.cmd[1][0] == '~')
 	{
@@ -85,11 +85,11 @@ void	bi_cd(t_structs *s, t_cmd current)
 	if (current.path && chdir(current.path) == -1)
 	{
 		print_error("cd: ", NULL, NULL, ENOENT);
-		errno = EXIT_FAILURE;
+		g_numberr = EXIT_FAILURE;
 	}
 	else if (!current.path || set_pwd(s, cwd) == -1)
 	{
 		print_error("malloc: ", NULL, NULL, ENOMEM);
-		errno = EXIT_FAILURE;
+		g_numberr = EXIT_FAILURE;
 	}
 }

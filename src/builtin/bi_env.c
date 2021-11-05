@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 01:51:20 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 04:30:47 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 16:14:05 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,5 @@ void	bi_env(t_structs *s)
 		}
 		elem = elem->next;
 	}
-	errno = EXIT_SUCCESS;
+	g_numberr = EXIT_SUCCESS;
 }

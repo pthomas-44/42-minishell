@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/05 12:24:50 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 16:16:50 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,11 @@
 
 int	path_error_check(t_cmd *current)
 {
-	int	tmp;
 	DIR	*dir;
 	int	fd;
 
-	tmp = errno;
 	dir = opendir(current->path);
 	fd = open(current->path, O_RDONLY);
-	errno = tmp;
 	if (!current->path)
 		print_error(NULL, current->cmd[0], "command not found\n", 127);
 	else if (dir)

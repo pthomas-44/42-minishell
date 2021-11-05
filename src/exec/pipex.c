@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/05 15:52:46 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 16:35:05 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	wait_child_process(t_structs *s)
 				return ;
 			}
 			if (WIFEXITED(status))
-				errno = WEXITSTATUS(status);
+				g_numberr = WEXITSTATUS(status);
 		}
 		i++;
 	}
@@ -61,7 +61,7 @@ static void	wait_child_process(t_structs *s)
 // 			builtins(s, *current);
 // 		free_tab(envp, 0);
 // 		free_all(s, 1);
-// 		exit(errno);
+// 		exit(g_numberr);
 // 	}
 // 	else if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))
 // 		print_error("close: ", NULL, NULL, errno);

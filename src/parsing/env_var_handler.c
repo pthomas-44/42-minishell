@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/05 15:15:09 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 16:16:10 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,12 @@ static char	*replace_var(char *line, size_t i, t_env *var)
 	new = ft_substr(line, 0, i);
 	if (line[i + 1] == '?')
 	{
-		new = ft_strjoin_f3(new, ft_nbtobase(errno, "0123456789"));
+		new = ft_strjoin_f3(new, ft_nbtobase(g_numberr, "0123456789"));
 		new = ft_strjoin_f1(new, &line[i + 2]);
 	}
 	else if (var)
-		new = ft_strjoin_f3(new, handle_operands(ft_strdup(var->value + 1), "\"\'\\<>|"));
+		new = ft_strjoin_f3(new,
+				handle_operands(ft_strdup(var->value + 1), "\"\'\\<>|"));
 	else
 	{
 		i++;

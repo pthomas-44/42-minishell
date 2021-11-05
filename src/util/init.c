@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 04:34:49 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/05 11:26:52 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 16:09:47 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static void	set_new_terminal(t_structs *s)
 
 void	init_control_struct(t_structs *s, char **env)
 {
+	g_numberr = 0;
 	ft_bzero(s, sizeof(t_structs));
 	set_new_terminal(s);
 	s->parse_line[0] = NULL;
