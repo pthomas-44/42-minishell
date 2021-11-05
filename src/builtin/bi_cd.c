@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/03 04:55:29 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 12:27:24 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 // ~~ Remplace le '~' par le HOME
 
-char	*replace_by_home_path(t_structs *s, char *cmd)
+int	replace_by_home_path(t_structs *s, char *cmd, char **new)
 {
 	t_env	*elem;
-	char	*new;
 
 	elem = *s->env;
 	while (elem)
@@ -26,13 +25,16 @@ char	*replace_by_home_path(t_structs *s, char *cmd)
 			break ;
 		elem = elem->next;
 	}
-	if (cmd && (cmd[0] != '~' || ft_strcmp(elem->name, "HOME")))
-		return (ft_strdup(cmd));
+	if (!elem || (cmd && cmd[0] != '~'))
+	{
+		*(new) = ft_strdup(cmd);
+		return (-1);
+	}
 	if (cmd)
-		new = ft_strjoin_f0(elem->value + 1, cmd + 1);
+		*(new) = ft_strjoin_f0(elem->value + 1, cmd + 1);
 	else
-		new = ft_strdup(elem->value + 1);
-	return (new);
+		*(new) = ft_strdup(elem->value + 1);
+	return (0);
 }
 
 //~~ Set les variables d'environnement PWD et OLDPWD
@@ -71,20 +73,21 @@ void	bi_cd(t_structs *s, t_cmd current)
 	errno = EXIT_SUCCESS;
 	getcwd(cwd, MAXPATHLEN);
 	if (!current.cmd[1] || current.cmd[1][0] == '~')
-		current.path = replace_by_home_path(s, current.cmd[1]);
+	{
+		if (replace_by_home_path(s, current.cmd[1], &current.path) == -1)
+		{
+			print_error("cd: ", NULL, "HOME not set\n", EXIT_FAILURE);
+			return ;
+		}
+	}
 	else
 		current.path = ft_strdup(current.cmd[1]);
-	if (!current.path)
-	{
-		print_error("malloc: ", NULL, NULL, ENOMEM);
-		errno = EXIT_FAILURE;
-	}
-	else if (chdir(current.path) == -1)
+	if (current.path && chdir(current.path) == -1)
 	{
 		print_error("cd: ", NULL, NULL, ENOENT);
 		errno = EXIT_FAILURE;
 	}
-	else if (set_pwd(s, cwd) == -1)
+	else if (!current.path || set_pwd(s, cwd) == -1)
 	{
 		print_error("malloc: ", NULL, NULL, ENOMEM);
 		errno = EXIT_FAILURE;

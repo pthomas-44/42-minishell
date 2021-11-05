@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/04 15:56:43 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 12:13:15 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,15 @@ static void	launch_command(t_structs *s, int in, int out, t_cmd *current)
 {
 	pid_t	pid;
 	char	**envp;
+	// int		error;
 
+	// error = errno;
 	pid = fork();
 	if (pid == -1)
 		print_error("fork: ", NULL, NULL, errno);
 	else if (pid == 0)
 	{
+		// errno = error;
 		envp = list_to_char(s);
 		if ((in != 0 && dup2(in, STDIN_FILENO) == -1)
 			|| (out != 1 && dup2(out, STDOUT_FILENO) == -1))
@@ -112,8 +115,12 @@ void	pipex(t_structs *s)
 			s->cmds[i].fd_out = pipefd[STDOUT_FILENO];
 		if (is_builtin(s->cmds[i]) || get_path(s, &s->cmds[i]) != -1)
 			launch_command(s, s->cmds[i].fd_in, s->cmds[i].fd_out, &s->cmds[i]);
+		else if ((s->cmds[i].fd_in != 0 && close(s->cmds[i].fd_in) == -1)
+			|| (s->cmds[i].fd_out != 1 && close(s->cmds[i].fd_out) == -1))
+			print_error("close: ", NULL, NULL, errno);
 		if (i < s->cmds_size - 1 && s->cmds[i].fd_out != 1
-			&& s->cmds[i].fd_out != pipefd[1] && close(pipefd[1]) == -1)
+			&& s->cmds[i].fd_out != pipefd[STDOUT_FILENO]
+			&& close(pipefd[STDOUT_FILENO]) == -1)
 			print_error("close: ", NULL, NULL, errno);
 		if (++i < s->cmds_size && s->cmds[i].fd_in == STDIN_FILENO)
 			s->cmds[i].fd_in = pipefd[STDIN_FILENO];
@@ -122,3 +129,25 @@ void	pipex(t_structs *s)
 	}
 	wait_child_process(s);
 }
+
+// int	open_pipe(t_structs *s)
+// {
+// 	size_t	i;
+
+// 	i = 0;
+// 	while (i < s->cmds_size)
+// 	{
+// 		if (pipe(s->cmds[i].pipefd) == -1)
+// 			return (-1);
+// 	}
+// 	return (0);
+// }
+
+// void	pipex(t_structs *s)
+// {
+// 	if (open_pipe(s) == -1)
+// 	{
+// 		print_error("pipe: ", NULL, NULL, errno);
+// 		return ;
+// 	}
+// }

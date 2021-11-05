@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stralloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 06:55:11 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/02 23:49:38 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 12:19:08 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	*ft_strdup(const char *s1)
 	char	*cpy;
 	int		i;
 
+	if (!s1)
+		return (NULL);
 	i = -1;
 	cpy = malloc(sizeof(char) * (ft_strlen(s1) + 1));
 	if (!cpy)
