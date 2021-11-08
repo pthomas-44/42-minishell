@@ -6,7 +6,7 @@
 #    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/11/03 10:31:01 by pthomas          ###   ########lyon.fr    #
+#    Updated: 2021/11/05 18:49:19 by pthomas          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,9 +79,6 @@ libs :
 
 re :			fclean all
 
-run :			re
-				./$(NAME)
-
 #~~~~ Compilation Rules ~~~~#
 
 $(PATH_OBJ)/%.o :	%.c $(INCS) $(LIBS)
@@ -134,5 +131,5 @@ eugene :
 			@ echo "               ,'           )     \`.         |"
 			@ echo "                7____,,..--'      /          |"
 			@ echo "                                  \`---.__,--.'"
-								  
+
 .PHONY:		all libs norminette clean fclean re eugene

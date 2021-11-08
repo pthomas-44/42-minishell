@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/05 16:16:50 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 10:25:40 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ int	path_error_check(t_cmd *current)
 	dir = opendir(current->path);
 	fd = open(current->path, O_RDONLY);
 	if (!current->path)
+	{
 		print_error(NULL, current->cmd[0], "command not found\n", 127);
+		if (dir)
+			closedir(dir);
+	}
 	else if (dir)
 	{
 		print_error(NULL, current->path, NULL, EISDIR);
@@ -75,7 +79,8 @@ int	find_path_in_sys(t_cmd *current, char **paths)
 	int		fd;
 
 	i = 0;
-	while (paths[i])
+	while (paths[i]
+		&& ft_strcmp(current->cmd[0], "..") && ft_strcmp(current->cmd[0], "."))
 	{
 		current->path = ft_strjoin_f0(paths[i], current->cmd[0]);
 		if (!current->path)
