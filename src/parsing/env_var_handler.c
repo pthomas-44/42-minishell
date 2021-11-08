@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env_var_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 15:59:11 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 19:19:36 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//~~ Inhibe les operateurs dans les noms de variables
-
-static size_t	get_new_size(char *value, char *charset)
+static size_t	get_new_size(char *value, char *quotes, char *operands)
 {
 	size_t	i;
 	size_t	size;
@@ -23,15 +21,19 @@ static size_t	get_new_size(char *value, char *charset)
 	size = 0;
 	while (value[i])
 	{
-		if (!ft_strchr(charset, value[i]))
+		if (ft_strchr(quotes, value[i]))
 			size++;
+		else if (ft_strchr(operands, value[i]))
+			size += 2;
 		size++;
 		i++;
 	}
 	return (size);
 }
 
-static char	*handle_operands(char *value, char *charset)
+//~~ Inhibe les operateurs dans les noms de variables
+
+static char	*handle_operands(char *value, char *quotes, char *operands)
 {
 	size_t	i;
 	size_t	j;
@@ -39,17 +41,18 @@ static char	*handle_operands(char *value, char *charset)
 
 	i = 0;
 	j = 0;
-	new = ft_calloc(get_new_size(value, charset), sizeof(char));
+	new = ft_calloc(get_new_size(value, quotes, operands), sizeof(char));
 	if (!new)
 		print_error("malloc: ", NULL, NULL, ENOMEM);
 	while (value[i])
 	{
-		if (ft_strchr(charset, value[i]))
-		{
-			new[j] = '\\';
-			j++;
-		}
+		if (ft_strchr(quotes, value[i]))
+			new[j++] = '\\';
+		else if (ft_strchr(operands, value[i]))
+			new[j++] = '\'';
 		new[j] = value[i];
+		if (ft_strchr(operands, value[i]))
+			new[++j] = '\'';
 		j++;
 		i++;
 	}
@@ -71,7 +74,7 @@ static char	*replace_var(char *line, size_t i, t_env *var)
 	else if (var)
 	{
 		new = ft_strjoin_f3(new,
-				handle_operands(ft_strdup(var->value + 1), "\"\'\\<>|"));
+				handle_operands(ft_strdup(var->value + 1), "\"\'\\", "<>|"));
 		new = ft_strjoin_f1(new, &line[i] + ft_strlen(var->name) + 1);
 	}
 	else
