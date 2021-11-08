@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 11:32:01 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 11:42:47 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void			skip_spaces(char **line);
 char			*get_args(char *line, bool is_file);
 char			*remove_char(char *str, size_t i);
 int				get_infile(t_structs *s, char **line, int i);
+int				heredoc_handler(t_structs *s, t_cmd *current, char *stop);
 int				get_outfile(t_structs *s, char **line, int i);
 char			**split_cmd(char **cmd);
 // ~~ exec.c

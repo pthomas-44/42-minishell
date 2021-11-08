@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/08 11:36:39 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 11:46:08 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,12 @@ static void	launch_command(t_structs *s, int in, int out, t_cmd *current)
 {
 	pid_t	pid;
 	char	**envp;
-	// int		error;
 
-	// error = errno;
 	pid = fork();
 	if (pid == -1)
 		print_error("fork: ", NULL, NULL, errno);
 	else if (pid == 0)
 	{
-		// errno = error;
 		envp = list_to_char(s);
 		if ((in != 0 && dup2(in, STDIN_FILENO) == -1)
 			|| (out != 1 && dup2(out, STDOUT_FILENO) == -1))

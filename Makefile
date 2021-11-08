@@ -6,7 +6,7 @@
 #    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/11/05 18:49:19 by pthomas          ###   ########lyon.fr    #
+#    Updated: 2021/11/08 11:38:34 by pthomas          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRCS		=	main.c				\
 				signals.c			\
 				parsing.c			\
 				file_handler.c		\
+				heredoc.c		\
 				syntax_checker.c	\
 				env_var_handler.c	\
 				parsing_utils.c		\
