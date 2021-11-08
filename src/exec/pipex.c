@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/08 13:30:35 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 13:57:14 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,13 @@ static void	wait_child_process(t_structs *s)
 	i = 0;
 	while (i < s->cmds_size)
 	{
-		// if (is_builtin(s->cmds[i]) || (s->cmds[i].path && s->cmds[i].cmd))
-		// {
-			if (waitpid(-1, &status, WUNTRACED) == -1)
-			{
-				print_error("waitpid: ", NULL, NULL, errno);
-				return ;
-			}
-			if (WIFEXITED(status))
-				g_numberr = WEXITSTATUS(status);
-		// }
+		if (waitpid(-1, &status, WUNTRACED) == -1)
+		{
+			print_error("waitpid: ", NULL, NULL, errno);
+			return ;
+		}
+		if (WIFEXITED(status))
+			g_numberr = WEXITSTATUS(status);
 		i++;
 	}
 }
@@ -69,12 +66,12 @@ static void	wait_child_process(t_structs *s)
 
 // ~~ Recupere le chemin d'une commande
 
-static int	get_path(t_structs *s, t_cmd *current)
+static void	get_path(t_structs *s, t_cmd *current)
 {
 	char	**paths;
 
 	if (!current->cmd)
-		return (-1);
+		return ;
 	paths = get_env_paths(s);
 	if (paths && !ft_strchr(current->cmd[0], '/')
 		&& find_path_in_sys(current, paths) == -1)
@@ -82,13 +79,7 @@ static int	get_path(t_structs *s, t_cmd *current)
 	else if ((!paths || ft_strchr(current->cmd[0], '/'))
 		&& !current->path && find_exe_path(s, current) == -1)
 		print_error("malloc: ", NULL, NULL, ENOMEM);
-	else
-	{
-		free_tab(&paths, 0);
-		return (0);
-	}
 	free_tab(&paths, 0);
-	return (-1);
 }
 
 //~~ Exécute plusieurs commandes
@@ -156,18 +147,16 @@ void	child(t_structs *s, t_cmd *current, size_t i)
 			&& dup2(current->pipefd[STDOUT_FILENO], STDOUT_FILENO) == -1))
 		print_error("dup2: ", NULL, NULL, errno);
 	close_pipe(s);
-	if (!is_builtin(*current) && path_error_check(current) == -1)
+	if (is_builtin(*current) != 1 && path_error_check(current) == -1)
 	{
 		free(current->path);
 		current->path = NULL;
 	}
-	else if (is_builtin(*current))
+	else if (is_builtin(*current) == 1)
 		builtins(s, *current);
 	else if (current->path && execve(current->path, current->cmd, envp) == -1)
 		print_error("execve: ", NULL, NULL, errno);
-	dprintf(2, "before | %p\n", envp);
 	free_tab(&envp, 0);
-	dprintf(2, "after | %p\n", envp);
 	free_all(s, 1);
 	exit(g_numberr);
 }
@@ -181,9 +170,7 @@ void	pipex(t_structs *s)
 	while (i < s->cmds_size)
 	{
 		if (!is_builtin(s->cmds[i]))
-		{
 			get_path(s, &s->cmds[i]);
-		}
 		pid = fork();
 		if (pid == -1)
 			print_error("fork: ", NULL, NULL, errno);

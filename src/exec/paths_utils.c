@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/08 13:27:55 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 13:53:19 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	path_error_check(t_cmd *current)
 	DIR	*dir;
 	int	fd;
 
+	if (!current->path && !current->cmd)
+		return (-1);
 	dir = opendir(current->path);
 	fd = open(current->path, O_RDONLY);
 	if (!current->path)
