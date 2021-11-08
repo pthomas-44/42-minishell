@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/08 15:59:11 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 16:08:04 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,13 @@ void	exec(t_structs *s)
 		builtins(s, s->cmds[0]);
 	else
 	{
-		if (tcsetattr(STDIN_FILENO, TCSANOW, &s->term[OLD]) == -1)
-			print_error("termios: ", NULL, NULL, errno);
-		signal(SIGINT, &child_sig_int);
-		signal(SIGQUIT, &child_sig_quit);
+		// if (tcsetattr(STDIN_FILENO, TCSANOW, &s->term[OLD]) == -1)
+			// print_error("termios: ", NULL, NULL, errno);
+		// signal(SIGINT, &child_sig_int);
+		// signal(SIGQUIT, &child_sig_quit);
 		pipex(s);
-		if (tcsetattr(STDIN_FILENO, TCSANOW, &s->term[NEW]) == -1)
-			print_error("termios: ", NULL, NULL, errno);
-		signal(SIGINT, &sig_int);
+		// if (tcsetattr(STDIN_FILENO, TCSANOW, &s->term[NEW]) == -1)
+			// print_error("termios: ", NULL, NULL, errno);
+		// signal(SIGINT, &sig_int);
 	}
 }
