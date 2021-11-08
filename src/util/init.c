@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 04:34:49 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 15:59:11 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 18:16:57 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	set_shlvl(t_structs *s)
 		elem = elem->next;
 	if (elem && !ft_strcmp(elem->name, "SHLVL"))
 	{
-		tmp = ft_strjoin_f0("=",
+		tmp = ft_strjoin_f2("=",
 				ft_nbtobase(ft_atoi(elem->value + 1) + 1, "0123456789"));
 		free(elem->value);
 		elem->value = tmp;
