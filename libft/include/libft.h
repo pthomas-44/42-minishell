@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 16:00:37 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/03 00:03:42 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 13:31:06 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void		*ft_memccpy(void *dst, const void *src, int c, size_t n);
 void		*ft_memmove(void *dst, const void *src, size_t len);
 void		*ft_memchr(const void *s, int c, size_t n);
 int			ft_memcmp(const void *s1, const void *s2, size_t n);
-void		free_tab(char **split, size_t size);
+void		free_tab(char ***split, size_t size);
 // ~~ ft_strinfo1.c
 size_t		ft_strlen(const char *s);
 char		*ft_strchr(const char *s, int c);
