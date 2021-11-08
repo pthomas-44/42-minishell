@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/08 16:08:04 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 18:43:40 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,12 @@ void	exec(t_structs *s)
 	if (s->cmds_size == 1 && is_builtin(s->cmds[0]) == 1)
 		builtins(s, s->cmds[0]);
 	else
-	{
-		// if (tcsetattr(STDIN_FILENO, TCSANOW, &s->term[OLD]) == -1)
-			// print_error("termios: ", NULL, NULL, errno);
-		// signal(SIGINT, &child_sig_int);
-		// signal(SIGQUIT, &child_sig_quit);
+	{			
+		if (tcsetattr(STDIN_FILENO, TCSANOW, &s->term[OLD]) == -1)
+			print_error("termios: ", NULL, NULL, errno);
 		pipex(s);
-		// if (tcsetattr(STDIN_FILENO, TCSANOW, &s->term[NEW]) == -1)
-			// print_error("termios: ", NULL, NULL, errno);
-		// signal(SIGINT, &sig_int);
+		if (tcsetattr(STDIN_FILENO, TCSANOW, &s->term[NEW]) == -1)
+			print_error("termios: ", NULL, NULL, errno);
+		signal(SIGINT, &sig_int);
 	}
 }

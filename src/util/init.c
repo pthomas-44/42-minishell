@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 04:34:49 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 16:08:10 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 18:45:43 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	set_shlvl(t_structs *s)
 		elem = elem->next;
 	if (elem && !ft_strcmp(elem->name, "SHLVL"))
 	{
-		tmp = ft_strjoin_f0("=",
+		tmp = ft_strjoin_f2("=",
 				ft_nbtobase(ft_atoi(elem->value + 1) + 1, "0123456789"));
 		free(elem->value);
 		elem->value = tmp;
@@ -66,15 +66,14 @@ static void	set_env_list(t_structs *s, char **env)
 
 static void	set_new_terminal(t_structs *s)
 {
-	(void)s;
-	// if (tcgetattr(STDIN_FILENO, &s->term[OLD]) == -1)
-	// 	print_error("termios: ", NULL, NULL, errno);
-	// if (tcgetattr(STDIN_FILENO, &s->term[NEW]) == -1)
-	// 	print_error("termios: ", NULL, NULL, errno);
-	// s->term[NEW].c_cc[VQUIT] = 0;
-	// s->term[NEW].c_lflag &= ~ECHOCTL;
-	// if (tcsetattr(STDIN_FILENO, TCSANOW, &s->term[NEW]) == -1)
-	// 	print_error("termios: ", NULL, NULL, errno);
+	if (tcgetattr(STDIN_FILENO, &s->term[OLD]) == -1)
+		print_error("termios: ", NULL, NULL, errno);
+	if (tcgetattr(STDIN_FILENO, &s->term[NEW]) == -1)
+		print_error("termios: ", NULL, NULL, errno);
+	s->term[NEW].c_cc[VQUIT] = 0;
+	s->term[NEW].c_lflag &= ~ECHOCTL;
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &s->term[NEW]) == -1)
+		print_error("termios: ", NULL, NULL, errno);
 	signal(SIGINT, &sig_int);
 	signal(SIGQUIT, SIG_IGN);
 }

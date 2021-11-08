@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/08 16:08:07 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 18:46:27 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,16 @@ static void	wait_child_process(t_structs *s)
 		}
 		if (WIFEXITED(status))
 			g_numberr = WEXITSTATUS(status);
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		{
+			ft_putchar_fd('\n', STDERR_FILENO);
+			g_numberr = 130;
+		}
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+		{
+			ft_putstr_fd("Quit: 3\n", STDERR_FILENO);
+			g_numberr = 131;
+		}
 		i++;
 	}
 }
@@ -111,7 +121,6 @@ void	pipex(t_structs *s)
 	pid_t	pid;
 
 	i = 0;
-	signal(SIGINT, SIG_IGN);
 	while (i < s->cmds_size)
 	{
 		if (!is_builtin(s->cmds[i]))
@@ -121,13 +130,14 @@ void	pipex(t_structs *s)
 			print_error("fork: ", NULL, NULL, errno);
 		else if (pid == 0)
 		{
-			signal(SIGINT, &child_sig_int);
-			signal(SIGQUIT, &child_sig_quit);
+			signal(SIGINT, NULL);
+			signal(SIGQUIT, NULL);
 			child(s, &s->cmds[i], i);
 		}
+		else
+			signal(SIGINT, SIG_IGN);
 		i++;
 	}
 	close_pipe(s);
 	wait_child_process(s);
-	signal(SIGINT, &sig_int);
 }

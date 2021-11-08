@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 14:05:55 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 18:42:32 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ void			init_control_struct(t_structs *s, char **env);
 // ~~ signal
 void			sig_int(int sig);
 void			heredoc_sig_int(int sig);
-void			child_sig_int(int sig);
-void			child_sig_quit(int sig);
 // ~~ parsing
 void			parsing(t_structs *s, char *line);
 int				check_syntax_errors(char *line, char *charset);
