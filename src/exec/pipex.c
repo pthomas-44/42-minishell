@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/08 10:34:47 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 13:14:15 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,16 @@ static void	wait_child_process(t_structs *s)
 	i = 0;
 	while (i < s->cmds_size)
 	{
-		dprintf(2, "%s | %p\n", s->cmds[i].path, s->cmds[i].cmd);
-		if (is_builtin(s->cmds[i]) || s->cmds[i].path)
-		{
+		// if (is_builtin(s->cmds[i]) || (s->cmds[i].path && s->cmds[i].cmd))
+		// {
 			if (waitpid(-1, &status, WUNTRACED) == -1)
 			{
 				print_error("waitpid: ", NULL, NULL, errno);
 				return ;
 			}
-			dprintf(2, "bonjour0\n");
 			if (WIFEXITED(status))
 				g_numberr = WEXITSTATUS(status);
-		}
+		// }
 		i++;
 	}
 }
@@ -84,11 +82,6 @@ static int	get_path(t_structs *s, t_cmd *current)
 	else if ((!paths || ft_strchr(current->cmd[0], '/'))
 		&& !current->path && find_exe_path(s, current) == -1)
 		print_error("malloc: ", NULL, NULL, ENOMEM);
-	else if (path_error_check(current) == -1)
-	{
-		free(current->path);
-		current->path = NULL;
-	}
 	else
 	{
 		free_tab(paths, 0);
@@ -129,6 +122,26 @@ static int	get_path(t_structs *s, t_cmd *current)
 // 	wait_child_process(s);
 // }
 
+void	close_pipe(t_structs *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < s->cmds_size)
+	{
+		if (s->cmds[i].fd_in != STDIN_FILENO
+			&& close(s->cmds[i].fd_in) == -1)
+			print_error("close: ", NULL, NULL, errno);
+		if (s->cmds[i].fd_out != STDOUT_FILENO
+			&& close(s->cmds[i].fd_out) == -1)
+			print_error("close: ", NULL, NULL, errno);
+		if (close(s->cmds[i].pipefd[STDIN_FILENO]) == -1
+			|| close(s->cmds[i].pipefd[STDOUT_FILENO]) == -1)
+			print_error("close: ", NULL, NULL, errno);
+		i++;
+	}
+}
+
 void	child(t_structs *s, t_cmd *current, size_t i)
 {
 	char	**envp;
@@ -140,50 +153,23 @@ void	child(t_structs *s, t_cmd *current, size_t i)
 	else if ((current->fd_in == 0 && i != 0
 			&& dup2(s->cmds[i - 1].pipefd[STDIN_FILENO], STDIN_FILENO) == -1)
 		|| (current->fd_out == 1 && i != s->cmds_size - 1
-			&& dup2(current->pipefd[1], 1) == -1))
+			&& dup2(current->pipefd[STDOUT_FILENO], STDOUT_FILENO) == -1))
 		print_error("dup2: ", NULL, NULL, errno);
+	close_pipe(s);
 	if (!is_builtin(*current) && path_error_check(current) == -1)
 	{
 		free(current->path);
 		current->path = NULL;
 	}
-	if (!is_builtin(*current) && current->path
-		&& execve(current->path, current->cmd, envp) == -1)
-		print_error("execve: ", NULL, NULL, errno);
 	else if (is_builtin(*current))
 		builtins(s, *current);
+	else if (current->path && execve(current->path, current->cmd, envp) == -1)
+		print_error("execve: ", NULL, NULL, errno);
+	dprintf(2, "before | %p\n", envp);
 	free_tab(envp, 0);
+	dprintf(2, "after | %p\n", envp);
 	free_all(s, 1);
-	exit(errno);
-}
-
-int	close_pipe(t_structs *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < s->cmds_size)
-	{
-		if (close(s->cmds[i].pipefd[0]) == -1
-			|| close(s->cmds[i].pipefd[1]) == -1)
-			return (-1);
-		i++;
-	}
-	return (0);
-}
-
-int	open_pipe(t_structs *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < s->cmds_size)
-	{
-		if (pipe(s->cmds[i].pipefd) == -1)
-			return (-1);
-		i++;
-	}
-	return (0);
+	exit(g_numberr);
 }
 
 void	pipex(t_structs *s)
@@ -192,15 +178,12 @@ void	pipex(t_structs *s)
 	pid_t	pid;
 
 	i = 0;
-	if (open_pipe(s) == -1)
-	{
-		print_error("pipe: ", NULL, NULL, errno);
-		return ;
-	}
 	while (i < s->cmds_size)
 	{
 		if (!is_builtin(s->cmds[i]))
+		{
 			get_path(s, &s->cmds[i]);
+		}
 		pid = fork();
 		if (pid == -1)
 			print_error("fork: ", NULL, NULL, errno);
@@ -208,11 +191,6 @@ void	pipex(t_structs *s)
 			child(s, &s->cmds[i], i);
 		i++;
 	}
-	if (close_pipe(s) == -1)
-	{
-		print_error("close: ", NULL, NULL, errno);
-		return ;
-	}
+	close_pipe(s);
 	wait_child_process(s);
-	dprintf(2, "bonjour1\n");
 }

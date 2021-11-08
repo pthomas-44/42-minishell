@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:24:04 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 10:30:51 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 11:30:18 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,10 @@ void	free_cmds_struct(t_structs *s)
 	i = 0;
 	while (s->cmds && i < s->cmds_size)
 	{
-		if (s->cmds[i].fd_in != STDIN_FILENO
-			&& close(s->cmds[i].fd_in) == -1)
-			print_error("close: ", NULL, NULL, errno);
+
 		free_tab(s->cmds[i].cmd, 0);
 		free(s->cmds[i].path);
 		s->cmds[i].path = NULL;
-		if (s->cmds[i].fd_out != STDOUT_FILENO
-			&& close(s->cmds[i].fd_out) == -1)
-			print_error("close: ", NULL, NULL, errno);
-		if (close(s->cmds[i].pipefd[STDIN_FILENO]) == -1
-			|| close(s->cmds[i].pipefd[STDOUT_FILENO]) == -1)
-			print_error("close: ", NULL, NULL, errno);
 		i++;
 	}
 	free(s->cmds);

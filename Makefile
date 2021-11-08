@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
+#    By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/11/05 18:49:19 by pthomas          ###   ########lyon.fr    #
+#    Updated: 2021/11/08 13:06:32 by mberne           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
