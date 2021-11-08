@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/05 17:39:22 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 10:13:41 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ char	*replace_env_variables(t_structs *s, char *line)
 
 	i = 0;
 	quote = 0;
-	printf("|%s|\n", line);
+	// printf("|%s|\n", line);
 	while (line && line[i])
 	{
 		if (i == 0 || line[i - 1] != '\\')
@@ -138,6 +138,6 @@ char	*replace_env_variables(t_structs *s, char *line)
 		else if (line[i])
 			i++;
 	}
-	printf("|%s|\n", line);
+	// printf("|%s|\n", line);
 	return (line);
 }
