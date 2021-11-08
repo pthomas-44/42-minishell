@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 11:38:48 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 11:44:09 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 14:37:39 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*heredoc_loop(char *stop)
 
 //~~ Ecrit le contenu du heredoc dans le pipe
 
-static void	heredoc(t_cmd *current, char *stop, int pipe_fd[2])
+static void	heredoc(char *stop, int pipe_fd[2])
 {
 	char	*content;
 
@@ -53,13 +53,11 @@ static void	heredoc(t_cmd *current, char *stop, int pipe_fd[2])
 		print_error("close: ", NULL, NULL, errno);
 		return ;
 	}
-	current->fd_in = pipe_fd[STDIN_FILENO];
 }
 
 //~~ Cree un process enfant pour faire fonctionner le heredoc
 
-static void	heredoc_process_init(t_structs *s,
-		t_cmd *current, char *stop, int pipe_fd[2])
+static void	heredoc_process_init(t_structs *s, char *stop, int pipe_fd[2])
 {
 	pid_t	pid;
 	int		status;
@@ -73,7 +71,7 @@ static void	heredoc_process_init(t_structs *s,
 	else if (pid == 0)
 	{
 		signal(SIGINT, &heredoc_sig_int);
-		heredoc(current, stop, pipe_fd);
+		heredoc(stop, pipe_fd);
 		free_all(s, 1);
 		exit(g_numberr);
 	}
@@ -98,8 +96,9 @@ int	heredoc_handler(t_structs *s, t_cmd *current, char *stop)
 		return (-1);
 	}
 	signal(SIGINT, SIG_IGN);
-	heredoc_process_init(s, current, stop, pipe_fd);
+	heredoc_process_init(s, stop, pipe_fd);
 	signal(SIGINT, &sig_int);
+	current->fd_in = pipe_fd[STDIN_FILENO];
 	if (close(pipe_fd[STDOUT_FILENO]) == -1)
 	{
 		print_error("close: ", NULL, NULL, errno);
