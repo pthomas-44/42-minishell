@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   bi_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 01:49:55 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/05 16:14:00 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 15:59:11 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 //~~ Vérifie l'option -n pour echo
 

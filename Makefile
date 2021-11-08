@@ -6,7 +6,7 @@
 #    By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/11/08 13:24:01 by mberne           ###   ########lyon.fr    #
+#    Updated: 2021/11/08 16:06:58 by mberne           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,10 @@ NAME		=	minishell
 
 #~~~~ Paths ~~~~#
 
-VPATH		=	src:src/util:src/signal:src/parsing:src/exec:src/builtin:include
-PATH_OBJ	=	obj
-PATH_LIBFT	=	libft
+VPATH		=	src/:src/util/:src/signal/:src/parsing/:src/exec/:src/builtin/
+PATH_OBJ	=	obj/
+PATH_LIBFT	=	libft/
+PATH_INC	=	include/
 
 #~~~~ Sources ~~~~#
  
@@ -51,17 +52,17 @@ SRCS		=	main.c				\
 
 #~~~~ Objects ~~~~#
 
-OBJS		=	$(addprefix $(PATH_OBJ)/, $(SRCS:.c=.o))
+OBJS		=	$(addprefix $(PATH_OBJ), $(SRCS:.c=.o))
 
 #~~~~ Includes ~~~~#
 
-INCS		 =	minishell.h
+INCS		=	$(addprefix $(PATH_INC), minishell.h)
 
 #~~~~ Macros ~~~~#
 
 CC			=	gcc
 CFLAGS		=	-Wall -Wextra -Werror -fsanitize=address
-LIBS		=	$(PATH_LIBFT)/libft.a
+LIBS		=	$(PATH_LIBFT)libft.a
 RM			=	rm -rf
 
 #========================================#
@@ -72,8 +73,8 @@ RM			=	rm -rf
 
 all :			libs $(NAME)
 
-$(NAME) :	$(OBJS) $(LIBS)
-				$(CC) $(CFLAGS) -lreadline -I $(INCS) $(OBJS) $(LIBS) -o $(NAME)
+$(NAME) :		$(OBJS) $(LIBS)
+				$(CC) $(CFLAGS) -lreadline $(OBJS) $(LIBS) -o $(NAME) -I $(PATH_INC)
 
 libs :		
 				$(MAKE) -C $(PATH_LIBFT)
@@ -82,9 +83,9 @@ re :			fclean all
 
 #~~~~ Compilation Rules ~~~~#
 
-$(PATH_OBJ)/%.o :	%.c $(INCS) $(LIBS)
+$(PATH_OBJ)%.o :	%.c $(INCS) $(LIBS)
 					@mkdir -p $(dir $@);
-					$(CC) $(CFLAGS) -I $(INCS) -c $< -o $@
+					$(CC) $(CFLAGS) -c $< -o $@ -I $(PATH_INC)
 
 #~~~~ Cleaning Rules ~~~~#
 

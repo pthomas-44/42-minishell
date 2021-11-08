@@ -6,11 +6,11 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/08 14:06:13 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 15:49:26 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 //~~ Attend que tous les forks (pipes) aient fini leur exécution
 

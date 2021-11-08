@@ -6,11 +6,11 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/08 13:55:12 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 15:59:11 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 //~~ Lance le built-in qui correspond à la commande
 

@@ -6,11 +6,11 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 10:33:21 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 15:59:11 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 //~~ Inhibe les operateurs dans les noms de variables
 
