@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:42:08 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/05 16:12:42 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 13:28:10 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ char	**list_to_char(t_structs *s)
 		if (!envp[i++])
 		{
 			print_error("malloc: ", NULL, NULL, ENOMEM);
-			free_tab(envp, 0);
+			free_tab(&envp, 0);
 			return (NULL);
 		}
 		current = current->next;

@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/08 13:26:09 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 13:30:35 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,10 @@ static int	get_path(t_structs *s, t_cmd *current)
 		print_error("malloc: ", NULL, NULL, ENOMEM);
 	else
 	{
-		free_tab(paths, 0);
+		free_tab(&paths, 0);
 		return (0);
 	}
-	free_tab(paths, 0);
+	free_tab(&paths, 0);
 	return (-1);
 }
 
@@ -166,7 +166,7 @@ void	child(t_structs *s, t_cmd *current, size_t i)
 	else if (current->path && execve(current->path, current->cmd, envp) == -1)
 		print_error("execve: ", NULL, NULL, errno);
 	dprintf(2, "before | %p\n", envp);
-	free_tab(envp, 0);
+	free_tab(&envp, 0);
 	dprintf(2, "after | %p\n", envp);
 	free_all(s, 1);
 	exit(g_numberr);
