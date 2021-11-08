@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
+#    By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/11/08 11:38:34 by pthomas          ###   ########lyon.fr    #
+#    Updated: 2021/11/08 13:24:01 by mberne           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ SRCS		=	main.c				\
 				signals.c			\
 				parsing.c			\
 				file_handler.c		\
-				heredoc.c		\
+				heredoc.c			\
 				syntax_checker.c	\
 				env_var_handler.c	\
 				parsing_utils.c		\
