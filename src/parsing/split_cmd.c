@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:51:28 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/05 17:19:04 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 11:47:20 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static size_t	ft_countwords(const char *s)
 	{
 		if (i == 0 || s[i - 1] != '\\')
 			quote = check_quotes(s[i], quote);
-		if (s[i] && s[i] != ' ' && (s[i + 1] == ' ' || s[i + 1]  == 0) && !quote)
+		if (s[i] && s[i] != ' ' && (s[i + 1] == ' '
+				|| s[i + 1] == 0) && !quote)
 			nb++;
 		i++;
 	}
@@ -60,21 +61,6 @@ static char	*get_next_word(char **str)
 	(*str) += i;
 	return (ft_substr(start, 0, (*str) - start));
 }
-
-// static char	*get_next_word(char **str)
-// {
-// 	char	*start;
-// 	char	quote;
-
-// 	quote = 0;
-// 	while (*(*str) && *(*str) == ' ' && !quote)
-// 		quote = check_quotes(*(*str)++, quote);
-// 	start = (*str);
-// 	printf("%s | %s\n", *str, start);
-// 	while (*(*str) && (*(*str) != ' ' || quote))
-// 		quote = check_quotes(*(*str)++, quote);
-// 	return (ft_substr(start, 0, (*str) - start));
-// }
 
 // ~~ Initialise split
 

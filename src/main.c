@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:23:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/05 16:09:27 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 11:45:52 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 
 static void	prompt_loop(t_structs *s)
 {
-
 	while (1)
 	{
 		s->parse_line[0] = readline(PROMPT);

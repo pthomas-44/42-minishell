@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 13:21:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 13:16:17 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 13:22:21 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,24 +51,13 @@ void	free_tab(char **split, size_t size)
 	size_t	i;
 
 	i = 0;
-	if (split && size)
+	if (split)
 	{
-		while (size && --size >= 0)
-		{
-			free(split[size]);
-			split[size] = NULL;
-		}
-		free(split);
-		split = NULL;
-	}
-	else if (split)
-	{
-		while (split[i])
-			i++;
-		while (i && i-- >= 0)
+		while (split[i] || i < size)
 		{
 			free(split[i]);
 			split[i] = NULL;
+			i++;
 		}
 		free(split);
 		split = NULL;

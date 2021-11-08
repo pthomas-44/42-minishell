@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:24:04 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 11:30:18 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 13:23:48 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	free_cmds_struct(t_structs *s)
 	i = 0;
 	while (s->cmds && i < s->cmds_size)
 	{
-
 		free_tab(s->cmds[i].cmd, 0);
 		free(s->cmds[i].path);
 		s->cmds[i].path = NULL;
