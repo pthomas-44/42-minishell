@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/11/08 10:24:13 by pthomas          ###   ########lyon.fr   */
+=======
+/*   Updated: 2021/11/05 18:02:23 by mberne           ###   ########lyon.fr   */
+>>>>>>> b677430a3a5eb999830a4fedffaec36064e17469
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +26,15 @@ static void	wait_child_process(t_structs *s)
 	i = 0;
 	while (i < s->cmds_size)
 	{
-		if (is_builtin(s->cmds[i]) || (s->cmds[i].path && s->cmds[i].cmd))
+		// dprintf(2, "%s | %p\n", s->cmds[i].path, s->cmds[i].cmd);
+		if (is_builtin(s->cmds[i]) || s->cmds[i].cmd)
 		{
 			if (waitpid(-1, &status, WUNTRACED) == -1)
 			{
 				print_error("waitpid: ", NULL, NULL, errno);
 				return ;
 			}
+			// dprintf(2, "bonjour0\n");
 			if (WIFEXITED(status))
 				g_numberr = WEXITSTATUS(status);
 		}
@@ -130,6 +136,49 @@ void	pipex(t_structs *s)
 	wait_child_process(s);
 }
 
+// void	child(t_structs *s, t_cmd *current, size_t i)
+// {
+// 	char	**envp;
+
+// 	envp = list_to_char(s);
+// 	if ((current->fd_in != 0 && dup2(current->fd_in, STDIN_FILENO) == -1)
+// 		|| (current->fd_out != 1 && dup2(current->fd_out, STDOUT_FILENO) == -1))
+// 		print_error("dup2: ", NULL, NULL, errno);
+// 	else if ((current->fd_in == 0 && i != 0
+// 			&& dup2(s->cmds[i - 1].pipefd[STDIN_FILENO], STDIN_FILENO) == -1)
+// 		|| (current->fd_out == 1 && i != s->cmds_size - 1
+// 			&& dup2(current->pipefd[1], 1) == -1))
+// 		print_error("dup2: ", NULL, NULL, errno);
+// 	if (!is_builtin(*current) && path_error_check(current) == -1)
+// 	{
+// 		free(current->path);
+// 		current->path = NULL;
+// 	}
+// 	if (!is_builtin(*current) && current->path
+// 		&& execve(current->path, current->cmd, envp) == -1)
+// 		print_error("execve: ", NULL, NULL, errno);
+// 	else if (is_builtin(*current))
+// 		builtins(s, *current);
+// 	free_tab(envp, 0);
+// 	free_all(s, 1);
+// 	exit(errno);
+// }
+
+// int	close_pipe(t_structs *s)
+// {
+// 	size_t	i;
+
+// 	i = 0;
+// 	while (i < s->cmds_size)
+// 	{
+// 		if (close(s->cmds[i].pipefd[0]) == -1
+// 			|| close(s->cmds[i].pipefd[1]) == -1)
+// 			return (-1);
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
 // int	open_pipe(t_structs *s)
 // {
 // 	size_t	i;
@@ -139,15 +188,38 @@ void	pipex(t_structs *s)
 // 	{
 // 		if (pipe(s->cmds[i].pipefd) == -1)
 // 			return (-1);
+// 		i++;
 // 	}
 // 	return (0);
 // }
 
 // void	pipex(t_structs *s)
 // {
+// 	size_t	i;
+// 	pid_t	pid;
+
+// 	i = 0;
 // 	if (open_pipe(s) == -1)
 // 	{
 // 		print_error("pipe: ", NULL, NULL, errno);
 // 		return ;
 // 	}
+// 	while (i < s->cmds_size)
+// 	{
+// 		if (!is_builtin(s->cmds[i]))
+// 			get_path(s, &s->cmds[i]);
+// 		pid = fork();
+// 		if (pid == -1)
+// 			print_error("fork: ", NULL, NULL, errno);
+// 		else if (pid == 0)
+// 			child(s, &s->cmds[i], i);
+// 		i++;
+// 	}
+// 	if (close_pipe(s) == -1)
+// 	{
+// 		print_error("close: ", NULL, NULL, errno);
+// 		return ;
+// 	}
+// 	wait_child_process(s);
+// 	// dprintf(2, "bonjour1\n");
 // }
