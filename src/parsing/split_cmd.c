@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   split_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:51:28 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 13:28:26 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 15:59:11 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 // ~~ Recupere le nombre de mots dans la chaine
 

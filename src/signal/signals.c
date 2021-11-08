@@ -6,11 +6,11 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:48 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 16:02:25 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 16:08:01 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
 //~~ La fonction qui s'occupe de gérer les 'CTRL'+'C'
 
