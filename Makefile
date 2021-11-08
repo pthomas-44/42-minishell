@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
+#    By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/11/08 16:08:00 by pthomas          ###   ########lyon.fr    #
+#    Updated: 2021/11/08 18:35:54 by mberne           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,7 @@ INCS		=	$(addprefix $(PATH_INC), minishell.h)
 #~~~~ Macros ~~~~#
 
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror
 LIBS		=	$(PATH_LIBFT)libft.a
 RM			=	rm -rf
 

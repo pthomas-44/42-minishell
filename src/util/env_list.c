@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:42:08 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 15:59:11 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 18:18:18 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	env_new(t_structs *s, char *var)
 	if (!new)
 		return (-1);
 	new->name = ft_substr(var, 0, ft_strchr(var, '=') - var);
-	new->value = ft_substr(ft_strchr(var, '='), 0, ft_strlen(var));
+	if (ft_strchr(var, '='))
+		new->value = ft_substr(ft_strchr(var, '='), 0, ft_strlen(var));
 	new->next = NULL;
 	if (s->env_size++)
 	{
