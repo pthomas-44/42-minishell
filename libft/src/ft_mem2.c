@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/18 13:21:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 13:20:56 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 13:26:49 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,20 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 	return (0);
 }
 
-void	free_tab(char **split, size_t size)
+void	free_tab(char ***split, size_t size)
 {
 	size_t	i;
 
 	i = 0;
-	if (split)
+	if ((*split))
 	{
-		while (split[i] || i < size)
+		while ((*split)[i] || i < size)
 		{
-			free(split[i]);
-			split[i] = NULL;
+			free((*split)[i]);
+			(*split)[i] = NULL;
 			i++;
 		}
-		free(split);
-		split = NULL;
+		free((*split));
+		(*split) = NULL;
 	}
 }

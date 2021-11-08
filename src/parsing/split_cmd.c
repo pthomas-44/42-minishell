@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:51:28 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 11:47:20 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 13:28:26 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static char	**init(char **cmd, size_t *nb_of_words)
 
 	if (!cmd || !cmd[0])
 	{
-		free_tab(cmd, 0);
+		free_tab(&cmd, 0);
 		return (NULL);
 	}
 	*nb_of_words = ft_countwords(cmd[0]);
@@ -78,7 +78,7 @@ static char	**init(char **cmd, size_t *nb_of_words)
 	if (!split)
 	{
 		print_error("malloc: ", NULL, NULL, ENOMEM);
-		free_tab(cmd, 0);
+		free_tab(&cmd, 0);
 		return (NULL);
 	}
 	return (split);
@@ -96,7 +96,7 @@ char	**split_cmd(char **cmd)
 	split = init(cmd, &nb_of_words);
 	if (!split)
 	{
-		free_tab(cmd, 0);
+		free_tab(&cmd, 0);
 		return (NULL);
 	}
 	str = cmd[0];
@@ -108,6 +108,6 @@ char	**split_cmd(char **cmd)
 		i++;
 	}
 	split[i] = NULL;
-	free_tab(cmd, 0);
+	free_tab(&cmd, 0);
 	return (split);
 }

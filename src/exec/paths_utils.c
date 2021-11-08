@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/08 10:25:40 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 13:27:55 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	find_exe_path(t_structs *s, t_cmd *current)
 	current->cmd[0] = ft_strdup(ft_strrchr(current->path, '/') + 1);
 	if (!current->cmd[0])
 	{
-		free_tab(current->cmd, nb_args);
+		free_tab(&current->cmd, nb_args);
 		return (-1);
 	}
 	return (0);
@@ -119,7 +119,7 @@ static char	**add_backslash(char **paths)
 		if (!paths[i])
 		{
 			print_error("malloc: ", NULL, NULL, ENOMEM);
-			free_tab(paths, paths_size);
+			free_tab(&paths, paths_size);
 			paths = NULL;
 			return (NULL);
 		}

@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/08 11:46:08 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 13:28:04 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	launch_command(t_structs *s, int in, int out, t_cmd *current)
 			print_error("execve: ", NULL, NULL, errno);
 		else if (is_builtin(*current))
 			builtins(s, *current);
-		free_tab(envp, 0);
+		free_tab(&envp, 0);
 		free_all(s, 1);
 		exit(errno);
 	}
@@ -89,10 +89,10 @@ static int	get_path(t_structs *s, t_cmd *current)
 	}
 	else
 	{
-		free_tab(paths, 0);
+		free_tab(&paths, 0);
 		return (0);
 	}
-	free_tab(paths, 0);
+	free_tab(&paths, 0);
 	return (-1);
 }
 
