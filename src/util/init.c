@@ -6,18 +6,37 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 04:34:49 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 11:15:55 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 15:31:26 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+//~~ Initialisation du niveau de shell
+
+static void	set_shlvl(t_structs *s)
+{
+	t_env		*elem;
+	char		*tmp;
+
+	elem = *s->env;
+	while (elem && ft_strcmp(elem->name, "SHLVL"))
+		elem = elem->next;
+	if (elem && !ft_strcmp(elem->name, "SHLVL"))
+	{
+		tmp = ft_strjoin_f0("=",
+				ft_nbtobase(ft_atoi(elem->value + 1) + 1, "0123456789"));
+		free(elem->value);
+		elem->value = tmp;
+	}
+	else
+		env_new(s, "SHLVL=1");
+}
+
 //~~ Initialisation de la liste de variables d'environnement
 
 static void	set_env_list(t_structs *s, char **env)
 {
-	char		*tmp;
-	t_env		*elem;
 	size_t		i;
 
 	*s->env = NULL;
@@ -25,22 +44,22 @@ static void	set_env_list(t_structs *s, char **env)
 	i = 0;
 	while (env[i])
 	{
-		if (env_new(s, env[i++]) == -1)
+		if (!ft_strncmp(env[i], "OLDPWD=", 7))
+		{
+			if (env_new(s, "OLDPWD") == -1)
+			{
+				print_error("malloc: ", NULL, NULL, ENOMEM);
+				free_all(s, 0);
+			}
+			i++;
+		}
+		else if (env_new(s, env[i++]) == -1)
 		{
 			print_error("malloc: ", NULL, NULL, ENOMEM);
 			free_all(s, 0);
 		}
 	}
-	elem = *s->env;
-	while (elem && ft_strcmp(elem->name, "SHLVL"))
-		elem = elem->next;
-	if (!ft_strcmp(elem->name, "SHLVL"))
-	{
-		tmp = ft_strjoin_f0("=",
-				ft_nbtobase(ft_atoi(elem->value + 1) + 1, "0123456789"));
-		free(elem->value);
-		elem->value = tmp;
-	}
+	set_shlvl(s);
 }
 
 //~~ Initialisation des parametres du terminal

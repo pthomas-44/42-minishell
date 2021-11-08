@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/08 13:53:19 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 15:40:21 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	find_path_in_sys(t_cmd *current, char **paths)
 	int		fd;
 
 	i = 0;
-	while (paths[i]
+	while (paths[i] && ft_strcmp(current->cmd[0], "")
 		&& ft_strcmp(current->cmd[0], "..") && ft_strcmp(current->cmd[0], "."))
 	{
 		current->path = ft_strjoin_f0(paths[i], current->cmd[0]);
