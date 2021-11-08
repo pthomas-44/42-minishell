@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 04:34:49 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 15:31:26 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 15:47:08 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,17 @@ static void	set_env_list(t_structs *s, char **env)
 
 static void	set_new_terminal(t_structs *s)
 {
-	if (tcgetattr(STDIN_FILENO, &s->term[OLD]) == -1)
-		print_error("termios: ", NULL, NULL, errno);
-	if (tcgetattr(STDIN_FILENO, &s->term[NEW]) == -1)
-		print_error("termios: ", NULL, NULL, errno);
-	s->term[NEW].c_cc[VQUIT] = 0;
-	s->term[NEW].c_lflag &= ~ECHOCTL;
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &s->term[NEW]) == -1)
-		print_error("termios: ", NULL, NULL, errno);
+	(void)s;
+	// if (tcgetattr(STDIN_FILENO, &s->term[OLD]) == -1)
+	// 	print_error("termios: ", NULL, NULL, errno);
+	// if (tcgetattr(STDIN_FILENO, &s->term[NEW]) == -1)
+	// 	print_error("termios: ", NULL, NULL, errno);
+	// s->term[NEW].c_cc[VQUIT] = 0;
+	// s->term[NEW].c_lflag &= ~ECHOCTL;
+	// if (tcsetattr(STDIN_FILENO, TCSANOW, &s->term[NEW]) == -1)
+	// 	print_error("termios: ", NULL, NULL, errno);
 	signal(SIGINT, &sig_int);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 //~~ Initialisation de la structure de controle

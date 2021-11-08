@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/08 14:06:13 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 15:48:44 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void	pipex(t_structs *s)
 	pid_t	pid;
 
 	i = 0;
+	signal(SIGINT, SIG_IGN);
 	while (i < s->cmds_size)
 	{
 		if (!is_builtin(s->cmds[i]))
@@ -119,9 +120,14 @@ void	pipex(t_structs *s)
 		if (pid == -1)
 			print_error("fork: ", NULL, NULL, errno);
 		else if (pid == 0)
+		{
+			signal(SIGINT, &child_sig_int);
+			signal(SIGQUIT, &child_sig_quit);
 			child(s, &s->cmds[i], i);
+		}
 		i++;
 	}
 	close_pipe(s);
 	wait_child_process(s);
+	signal(SIGINT, &sig_int);
 }
