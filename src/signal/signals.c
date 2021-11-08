@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:48 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/05 19:31:20 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 11:36:50 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ void	sig_int(int sig)
 void	heredoc_sig_int(int sig)
 {
 	(void)sig;
-	rl_replace_line("oskour\n", 0);
+	ft_putchar_fd('\n', STDERR_FILENO);
 	g_numberr = 1;
 	exit(g_numberr);
 }
 
-//~~ La fonction qui s'occupe de gérer les 'CTRL'+'C' dans le processe enfant
+//~~ La fonction qui s'occupe de gérer les 'CTRL'+'C' dans le process enfant
 
 void	child_sig_int(int sig)
 {
@@ -44,7 +44,7 @@ void	child_sig_int(int sig)
 		g_numberr = 130;
 }
 
-//~~ La fonction qui s'occupe de gérer les 'CTRL'+'\' dans le processe enfant
+//~~ La fonction qui s'occupe de gérer les 'CTRL'+'\' dans le process enfant
 
 void	child_sig_quit(int sig)
 {
