@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 04:34:49 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 18:49:28 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 19:38:38 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ void	init_control_struct(t_structs *s, char **env)
 	{
 		print_error("malloc: ", NULL, NULL, ENOMEM);
 		free_all(s, 0);
+		g_numberr = 1;
+		exit(g_numberr);
 	}
 	set_env_list(s, env);
 }

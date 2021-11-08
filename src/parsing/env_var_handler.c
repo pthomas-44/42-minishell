@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 19:19:36 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 19:31:48 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ static char	*handle_operands(char *value, char *quotes, char *operands)
 	j = 0;
 	new = ft_calloc(get_new_size(value, quotes, operands), sizeof(char));
 	if (!new)
+	{
 		print_error("malloc: ", NULL, NULL, ENOMEM);
+		return (NULL);
+	}
 	while (value[i])
 	{
 		if (ft_strchr(quotes, value[i]))

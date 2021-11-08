@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:51:28 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 15:59:11 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 19:34:12 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,10 @@ static char	**init(char **cmd, size_t *nb_of_words)
 		return (NULL);
 	}
 	*nb_of_words = ft_countwords(cmd[0]);
-	split = malloc(sizeof(char *) * (*nb_of_words + 1));
+	split = ft_calloc((*nb_of_words + 1), sizeof(char *));
 	if (!split)
 	{
 		print_error("malloc: ", NULL, NULL, ENOMEM);
-		free_tab(&cmd, 0);
 		return (NULL);
 	}
 	return (split);
