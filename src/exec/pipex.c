@@ -6,15 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2021/11/08 10:28:37 by mberne           ###   ########lyon.fr   */
-=======
-<<<<<<< HEAD
-/*   Updated: 2021/11/08 10:24:13 by pthomas          ###   ########lyon.fr   */
-=======
-/*   Updated: 2021/11/05 18:02:23 by mberne           ###   ########lyon.fr   */
->>>>>>> b677430a3a5eb999830a4fedffaec36064e17469
->>>>>>> 124d0245c75b1e24c0a10fdb9556f987d8bc790c
+/*   Updated: 2021/11/08 10:34:47 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +40,6 @@ static void	wait_child_process(t_structs *s)
 
 //~~ Lance la commande qu'elle reçoit
 
-<<<<<<< HEAD
 // static void	launch_command(t_structs *s, int in, int out, t_cmd *current)
 // {
 // 	pid_t	pid;
@@ -77,39 +68,6 @@ static void	wait_child_process(t_structs *s)
 // 	else if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))
 // 		print_error("close: ", NULL, NULL, errno);
 // }
-=======
-static void	launch_command(t_structs *s, int in, int out, t_cmd *current)
-{
-	pid_t	pid;
-	char	**envp;
-	// int		error;
-
-	// error = errno;
-	pid = fork();
-	if (pid == -1)
-		print_error("fork: ", NULL, NULL, errno);
-	else if (pid == 0)
-	{
-		// errno = error;
-		envp = list_to_char(s);
-		if ((in != 0 && dup2(in, STDIN_FILENO) == -1)
-			|| (out != 1 && dup2(out, STDOUT_FILENO) == -1))
-			print_error("dup2: ", NULL, NULL, errno);
-		else if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))
-			print_error("close: ", NULL, NULL, errno);
-		else if (!is_builtin(*current)
-			&& execve(current->path, current->cmd, envp) == -1)
-			print_error("execve: ", NULL, NULL, errno);
-		else if (is_builtin(*current))
-			builtins(s, *current);
-		free_tab(envp, 0);
-		free_all(s, 1);
-		exit(errno);
-	}
-	else if ((in != 0 && close(in) == -1) || (out != 1 && close(out) == -1))
-		print_error("close: ", NULL, NULL, errno);
-}
->>>>>>> 124d0245c75b1e24c0a10fdb9556f987d8bc790c
 
 // ~~ Recupere le chemin d'une commande
 
