@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 11:42:47 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 14:05:55 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int				get_infile(t_structs *s, char **line, int i);
 int				heredoc_handler(t_structs *s, t_cmd *current, char *stop);
 int				get_outfile(t_structs *s, char **line, int i);
 char			**split_cmd(char **cmd);
-// ~~ exec.c
+// ~~ exec
 void			exec(t_structs *s);
 int				is_builtin(t_cmd current);
 void			builtins(t_structs *s, t_cmd current);
