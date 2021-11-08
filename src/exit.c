@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:24:04 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 13:44:06 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/08 15:43:17 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-// //~~ Print les erreurs types du bash
+//~~ Print les erreurs types du bash
 
 void	print_error(char *cmd, char *value, char *error, int status)
 {
