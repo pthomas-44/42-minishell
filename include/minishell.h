@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/09 17:46:02 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 18:07:09 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void			exec(t_structs *s);
 int				is_builtin(t_cmd current);
 void			builtins(t_structs *s, t_cmd *current, int fd);
 void			pipex(t_structs *s);
+void			close_pipe(t_structs *s);
 char			**get_env_paths(t_structs *s);
 int				find_path_in_sys(t_cmd *current, char **paths);
 int				find_exe_path(t_structs *s, t_cmd *current);

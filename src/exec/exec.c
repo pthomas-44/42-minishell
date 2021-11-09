@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/09 17:50:23 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 18:07:12 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ int	is_builtin(t_cmd current)
 void	exec(t_structs *s)
 {
 	if (s->cmds_size == 1 && is_builtin(s->cmds[0]) == 1)
+	{
 		builtins(s, &s->cmds[0], s->cmds[0].fd_out);
+		close_pipe(s);
+	}
 	else
 	{
 		if (tcsetattr(STDIN_FILENO, TCSANOW, &s->term[OLD]) == -1)
