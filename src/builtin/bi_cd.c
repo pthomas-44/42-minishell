@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/09 17:56:18 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 18:20:32 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	bi_cd(t_structs *s, t_cmd *current)
 		current->path = ft_strdup(current->cmd[1]);
 	if (current->path && chdir(current->path) == -1)
 	{
-		print_error("cd: ", NULL, NULL, ENOENT);
+		print_error("cd: ", current->path, NULL, ENOENT);
 		g_numberr = EXIT_FAILURE;
 	}
 	else if (!current->path || set_pwd(s, cwd) == -1)
