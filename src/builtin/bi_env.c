@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 01:51:20 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/09 10:52:13 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 16:50:17 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //~~ Built-in env
 
-void	bi_env(t_structs *s)
+void	bi_env(t_structs *s, int fd)
 {
 	t_env	*elem;
 
@@ -22,11 +22,11 @@ void	bi_env(t_structs *s)
 	elem = *s->env;
 	while (elem)
 	{
-		if (ft_strlen(elem->value) > 0)
+		if (elem->value)
 		{
-			ft_putstr_fd(elem->name, STDOUT_FILENO);
-			ft_putstr_fd(elem->value, STDOUT_FILENO);
-			ft_putchar_fd('\n', STDOUT_FILENO);
+			ft_putstr_fd(elem->name, fd);
+			ft_putstr_fd(elem->value, fd);
+			ft_putchar_fd('\n', fd);
 		}
 		elem = elem->next;
 	}

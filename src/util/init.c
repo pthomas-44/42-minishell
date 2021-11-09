@@ -6,30 +6,66 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 04:34:49 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 19:38:38 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 17:16:49 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//~~ Initialisation du niveau de shell
+//~~ Verifie si les variables d'environnement sont manquantes
 
-static void	set_shlvl(t_structs *s)
+static void	check_if_exist(t_structs *s, bool *pwd, bool *oldpwd, bool *shlvl)
 {
 	t_env		*elem;
 	char		*tmp;
 
 	elem = *s->env;
-	while (elem && ft_strcmp(elem->name, "SHLVL"))
-		elem = elem->next;
-	if (elem && !ft_strcmp(elem->name, "SHLVL"))
+	while (elem)
 	{
-		tmp = ft_strjoin_f2("=",
-				ft_nbtobase(ft_atoi(elem->value + 1) + 1, "0123456789"));
-		free(elem->value);
-		elem->value = tmp;
+		if (!ft_strcmp(elem->name, "SHLVL"))
+		{
+			tmp = ft_strjoin_f2("=",
+					ft_nbtobase(ft_atoi(elem->value + 1) + 1, "0123456789"));
+			free(elem->value);
+			elem->value = tmp;
+			*shlvl = 1;
+		}
+		if (!ft_strcmp(elem->name, "PWD"))
+			*pwd = 1;
+		if (!ft_strcmp(elem->name, "OLDPWD"))
+		{
+			free(elem->value);
+			elem->value = NULL;
+			*oldpwd = 1;
+		}
+		elem = elem->next;
 	}
-	else
+}
+
+//~~ Cree les variables d'environnement manquantes
+
+static void	create_env_var_if_not_exist(t_structs *s)
+{
+	char		cwd[MAXPATHLEN];
+	char		*tmp;
+	bool		pwd;
+	bool		oldpwd;
+	bool		shlvl;
+
+	pwd = 0;
+	oldpwd = 0;
+	shlvl = 0;
+	check_if_exist(s, &pwd, &oldpwd, &shlvl);
+	if (!pwd)
+	{
+		getcwd(cwd, MAXPATHLEN);
+		tmp = ft_strjoin_f0("PWD=", cwd);
+		env_new(s, tmp);
+		free(tmp);
+	}
+	if (!oldpwd)
+		env_new(s, "OLDPWD");
+	if (!shlvl)
 		env_new(s, "SHLVL=1");
 }
 
@@ -44,22 +80,14 @@ static void	set_env_list(t_structs *s, char **env)
 	i = 0;
 	while (env[i])
 	{
-		if (!ft_strncmp(env[i], "OLDPWD=", 7))
-		{
-			if (env_new(s, "OLDPWD") == -1)
-			{
-				print_error("malloc: ", NULL, NULL, ENOMEM);
-				free_all(s, 0);
-			}
-			i++;
-		}
-		else if (env_new(s, env[i++]) == -1)
+		if (env_new(s, env[i]) == -1)
 		{
 			print_error("malloc: ", NULL, NULL, ENOMEM);
 			free_all(s, 0);
 		}
+		i++;
 	}
-	set_shlvl(s);
+	create_env_var_if_not_exist(s);
 }
 
 //~~ Initialisation des parametres du terminal
@@ -93,7 +121,6 @@ void	init_control_struct(t_structs *s, char **env)
 	{
 		print_error("malloc: ", NULL, NULL, ENOMEM);
 		free_all(s, 0);
-		g_numberr = 1;
 		exit(g_numberr);
 	}
 	set_env_list(s, env);

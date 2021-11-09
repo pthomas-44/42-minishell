@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:24:16 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 15:59:11 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 16:17:41 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,29 +17,30 @@
 static int	check_successive_operators(char **line, char *charset)
 {
 	char	*tmp;
+	char	*tmp2;
 
 	tmp = (*line) + 1;
 	skip_spaces(&tmp);
-	if (*tmp && *tmp == '|')
+	if (*tmp)
 	{
-		print_error(NULL, NULL, "syntax error near unexpected token `", 258);
+		tmp2 = tmp + 1;
+		skip_spaces(&tmp2);
+	}
+	else
+		tmp2 = NULL;
+	if (*tmp && *tmp == '|')
+		print_error(NULL, NULL, "syntax error near unexpected token `|'\n", 258);
+	else if (*tmp && ft_strchr(charset, *tmp) && *(*line) != '|'
+		&& (*tmp != *(*line) || (*tmp2 && ft_strchr(charset, *tmp2))))
+	{
+		print_error(NULL, NULL,
+			"syntax error near unexpected token `", 258);
 		write(STDERR_FILENO, tmp, 1);
 		write(STDERR_FILENO, "'\n", 2);
-		return (-1);
 	}
-	else if (*tmp && ft_strchr(charset, *tmp++) && *(*line) != '|')
-	{
-		skip_spaces(&tmp);
-		if (*tmp && ft_strchr(charset, *tmp))
-		{
-			print_error(NULL, NULL,
-				"syntax error near unexpected token `", 258);
-			write(STDERR_FILENO, tmp, 1);
-			write(STDERR_FILENO, "'\n", 2);
-			return (-1);
-		}
-	}
-	return (0);
+	else
+		return (0);
+	return (-1);
 }
 
 //~~ Verifie chaque caracteres

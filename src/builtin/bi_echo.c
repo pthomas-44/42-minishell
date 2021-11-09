@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 01:49:55 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/09 10:52:08 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 16:12:31 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	check_option_n(char *arg)
 
 //~~ Built-in echo
 
-void	bi_echo(t_cmd current)
+void	bi_echo(t_cmd current, int fd)
 {
 	size_t	i;
 	bool	option;
@@ -49,11 +49,11 @@ void	bi_echo(t_cmd current)
 		}
 		while (current.cmd[i])
 		{
-			ft_putstr_fd(current.cmd[i], STDOUT_FILENO);
+			ft_putstr_fd(current.cmd[i], fd);
 			if (current.cmd[++i])
-				ft_putchar_fd(' ', STDOUT_FILENO);
+				ft_putchar_fd(' ', fd);
 		}
 	}
 	if (!option)
-		ft_putchar_fd('\n', STDOUT_FILENO);
+		ft_putchar_fd('\n', fd);
 }

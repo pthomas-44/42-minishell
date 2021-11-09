@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 11:38:48 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 16:11:46 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 16:28:57 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ int	heredoc_handler(t_structs *s, t_cmd *current, char *stop)
 	signal(SIGINT, SIG_IGN);
 	heredoc_process_init(s, stop, pipe_fd);
 	signal(SIGINT, &sig_int);
+	if (g_numberr)
+		return (-1);
 	current->fd_in = pipe_fd[STDIN_FILENO];
 	if (close(pipe_fd[STDOUT_FILENO]) == -1)
 	{

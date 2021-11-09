@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/09 10:47:26 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 16:46:26 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	index_list(t_structs *s)
 
 //~~ Print les variables d'environnement triées selon l'ordre ascii
 
-static void	print_export(t_structs *s)
+static void	print_export(t_structs *s, int fd)
 {
 	size_t	i;
 	t_env	*export;
@@ -49,15 +49,15 @@ static void	print_export(t_structs *s)
 		{
 			if (i == export->index)
 			{
-				ft_putstr_fd("declare -x ", STDOUT_FILENO);
-				ft_putstr_fd(export->name, STDOUT_FILENO);
-				if (ft_strlen(export->value) > 0)
+				ft_putstr_fd("declare -x ", fd);
+				ft_putstr_fd(export->name, fd);
+				if (export->value)
 				{
-					ft_putstr_fd("=\"", STDOUT_FILENO);
-					ft_putstr_fd(export->value + 1, STDOUT_FILENO);
-					ft_putchar_fd('"', STDOUT_FILENO);
+					ft_putstr_fd("=\"", fd);
+					ft_putstr_fd(export->value + 1, fd);
+					ft_putchar_fd('"', fd);
 				}
-				ft_putchar_fd('\n', STDOUT_FILENO);
+				ft_putchar_fd('\n', fd);
 			}
 			export = export->next;
 		}
@@ -111,7 +111,7 @@ static void	create_env_variable(t_structs *s, t_cmd current)
 
 //~~ Built-in export
 
-void	bi_export(t_structs *s, t_cmd current)
+void	bi_export(t_structs *s, t_cmd current, int fd)
 {
 	g_numberr = EXIT_SUCCESS;
 	if (current.cmd[1])
@@ -119,6 +119,6 @@ void	bi_export(t_structs *s, t_cmd current)
 	else
 	{
 		index_list(s);
-		print_export(s);
+		print_export(s, fd);
 	}
 }

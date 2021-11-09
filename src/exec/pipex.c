@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/09 10:27:20 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 17:00:37 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ static void	child(t_structs *s, t_cmd *current, size_t i)
 		current->path = NULL;
 	}
 	else if (is_builtin(*current) == 1)
-		builtins(s, *current);
+		builtins(s, *current, 0);
 	else if (current->path && execve(current->path, current->cmd, envp) == -1)
 		print_error("execve: ", NULL, NULL, errno);
 	free_tab(&envp, 0);

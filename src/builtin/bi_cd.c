@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/09 11:06:04 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 16:41:11 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // ~~ Remplace le '~' par le HOME
 
-int	replace_by_home_path(t_structs *s, char *cmd, char **new)
+int	replace_by_home_path(t_structs *s, char *path, char **new)
 {
 	t_env	*elem;
 
@@ -25,13 +25,13 @@ int	replace_by_home_path(t_structs *s, char *cmd, char **new)
 			break ;
 		elem = elem->next;
 	}
-	if (!elem || (cmd && cmd[0] != '~'))
+	if (!elem || (path && path[0] != '~'))
 	{
-		*(new) = ft_strdup(cmd);
+		*(new) = ft_strdup(path);
 		return (-1);
 	}
-	if (cmd)
-		*(new) = ft_strjoin_f0(elem->value + 1, cmd + 1);
+	if (path)
+		*(new) = ft_strjoin_f0(elem->value + 1, path + 1);
 	else
 		*(new) = ft_strdup(elem->value + 1);
 	return (0);
