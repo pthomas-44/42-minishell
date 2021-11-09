@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/08 19:43:43 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 10:47:26 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,12 @@ static int	create_variable(t_structs *s, char *cmd, char *name)
 		export = export->next;
 	if (export)
 		env_del(s, export);
-	if (env_new(s, cmd) == -1)
-		return (-1);
-	return (0);
+	return (env_new(s, cmd));
 }
 
 //~~ Vérifie si la variable qu'on veut créer est valable
 
-static int	create_env_variable(t_structs *s, t_cmd current)
+static void	create_env_variable(t_structs *s, t_cmd current)
 {
 	size_t	i;
 	char	*name;
@@ -96,39 +94,31 @@ static int	create_env_variable(t_structs *s, t_cmd current)
 		else
 			name = ft_substr(current.cmd[i], 0,
 					ft_strchr(current.cmd[i], '=') - current.cmd[i]);
-		if (!name)
-			return (-1);
-		if (current.cmd[i][0] != '=' && is_word(name))
+		if (!name || (current.cmd[i][0] != '=' && is_word(name)
+			&& create_variable(s, current.cmd[i], name) == -1))
 		{
-			if (create_variable(s, current.cmd[i], name) == -1)
-				return (-1);
+			print_error("malloc: ", NULL, NULL, ENOMEM);
+			free(name);
+			return ;
 		}
-		else
+		else if (current.cmd[i][0] == '=' || !is_word(name))
 			print_error("export: ", current.cmd[i],
 				"not a valid identifier\n", EXIT_FAILURE);
 		free(name);
 		i++;
 	}
-	return (0);
 }
 
 //~~ Built-in export
 
 void	bi_export(t_structs *s, t_cmd current)
 {
+	g_numberr = EXIT_SUCCESS;
 	if (current.cmd[1])
-	{
-		if (create_env_variable(s, current) == -1)
-		{
-			print_error("malloc: ", NULL, NULL, ENOMEM);
-			g_numberr = EXIT_FAILURE;
-			return ;
-		}
-	}
+		create_env_variable(s, current);
 	else
 	{
 		index_list(s);
 		print_export(s);
 	}
-	g_numberr = EXIT_SUCCESS;
 }
