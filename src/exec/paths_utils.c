@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/08 15:59:11 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 18:19:32 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	find_exe_path(t_structs *s, t_cmd *current)
 		return (-1);
 	if (current->path[0] != '/')
 	{
-		current->path = ft_strjoin_f2(
+		current->path = ft_strjoin_f3(
 				ft_strjoin_f0(getcwd(cwd, MAXPATHLEN), "/"), current->path);
 		if (!current->path)
 			return (-1);
