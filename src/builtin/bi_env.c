@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 01:51:20 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 15:59:11 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 10:52:13 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	bi_env(t_structs *s)
 {
 	t_env	*elem;
 
+	g_numberr = EXIT_SUCCESS;
 	elem = *s->env;
 	while (elem)
 	{
@@ -29,5 +30,4 @@ void	bi_env(t_structs *s)
 		}
 		elem = elem->next;
 	}
-	g_numberr = EXIT_SUCCESS;
 }

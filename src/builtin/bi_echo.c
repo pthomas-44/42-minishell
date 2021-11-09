@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 01:49:55 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 15:59:11 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 10:52:08 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	bi_echo(t_cmd current)
 	size_t	i;
 	bool	option;
 
+	g_numberr = EXIT_SUCCESS;
 	i = 0;
 	option = 0;
 	if (current.cmd[1])
@@ -55,5 +56,4 @@ void	bi_echo(t_cmd current)
 	}
 	if (!option)
 		ft_putchar_fd('\n', STDOUT_FILENO);
-	g_numberr = EXIT_SUCCESS;
 }
