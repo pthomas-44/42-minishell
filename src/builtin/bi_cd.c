@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/09 17:50:28 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 17:56:18 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,14 @@ int	replace_by_home_path(t_structs *s, char *path, char **new)
 	return (0);
 }
 
-//~~ Set les variables d'environnement PWD et OLDPWD
+//~~ Trouve les variables d'environnement PWD et OLDPWD
 
-static int	set_pwd(t_structs *s, char *cwd)
+static void	find_pwd_env_var(t_structs *s,
+	t_env *pwd, t_env *old_pwd)
 {
 	t_env	*elem;
-	t_env	*pwd;
-	t_env	*old_pwd;
 
 	elem = *s->env;
-	pwd = NULL;
-	old_pwd = NULL;
 	while (elem)
 	{
 		if (!ft_strcmp(elem->name, "PWD"))
@@ -56,6 +53,18 @@ static int	set_pwd(t_structs *s, char *cwd)
 			old_pwd = elem;
 		elem = elem->next;
 	}
+}
+
+//~~ Set les variables d'environnement PWD et OLDPWD
+
+static int	set_pwd(t_structs *s, char *cwd)
+{
+	t_env	*pwd;
+	t_env	*old_pwd;
+
+	pwd = NULL;
+	old_pwd = NULL;
+	find_pwd_env_var(s, pwd, old_pwd);
 	if (old_pwd)
 	{
 		free(old_pwd->value);
