@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 19:31:48 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 12:01:28 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,9 @@ static t_env	*find_var(t_structs *s, char *line)
 		return (NULL);
 	}
 	current = *s->env;
-	while (current->next
+	while (current
 		&& ft_strncmp(current->name, name, ft_strlen(name) + 1))
 		current = current->next;
-	if (ft_strncmp(current->name, line, ft_strlen(name)))
-		current = NULL;
 	free(name);
 	return (current);
 }

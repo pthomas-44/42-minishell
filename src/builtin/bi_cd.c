@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/08 19:42:51 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 11:06:04 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	set_pwd(t_structs *s, char *cwd)
 	getcwd(cwd, MAXPATHLEN);
 	if (pwd)
 		pwd->value = ft_strjoin_f2("=", ft_strdup(cwd));
-	if (!pwd->value || !old_pwd->value)
+	if ((pwd && !pwd->value) || (old_pwd && !old_pwd->value))
 		print_error("malloc: ", NULL, NULL, ENOMEM);
 	return (0);
 }
