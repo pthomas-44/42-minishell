@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/09 16:41:11 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 17:50:28 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	replace_by_home_path(t_structs *s, char *path, char **new)
 		*(new) = ft_strdup(path);
 		return (-1);
 	}
-	if (path)
+	else if (path)
 		*(new) = ft_strjoin_f0(elem->value + 1, path + 1);
 	else
 		*(new) = ft_strdup(elem->value + 1);
@@ -57,10 +57,16 @@ static int	set_pwd(t_structs *s, char *cwd)
 		elem = elem->next;
 	}
 	if (old_pwd)
+	{
+		free(old_pwd->value);
 		old_pwd->value = ft_strjoin_f2("=", ft_strdup(cwd));
+	}
 	getcwd(cwd, MAXPATHLEN);
 	if (pwd)
+	{
+		free(pwd->value);
 		pwd->value = ft_strjoin_f2("=", ft_strdup(cwd));
+	}
 	if ((pwd && !pwd->value) || (old_pwd && !old_pwd->value))
 		print_error("malloc: ", NULL, NULL, ENOMEM);
 	return (0);
@@ -68,28 +74,28 @@ static int	set_pwd(t_structs *s, char *cwd)
 
 //~~ Built-in cd
 
-void	bi_cd(t_structs *s, t_cmd current)
+void	bi_cd(t_structs *s, t_cmd *current)
 {
 	char	cwd[MAXPATHLEN];
 
 	g_numberr = EXIT_SUCCESS;
 	getcwd(cwd, MAXPATHLEN);
-	if (!current.cmd[1] || current.cmd[1][0] == '~')
+	if (!current->cmd[1] || current->cmd[1][0] == '~')
 	{
-		if (replace_by_home_path(s, current.cmd[1], &current.path) == -1)
+		if (replace_by_home_path(s, current->cmd[1], &current->path) == -1)
 		{
 			print_error("cd: ", NULL, "HOME not set\n", EXIT_FAILURE);
 			return ;
 		}
 	}
 	else
-		current.path = ft_strdup(current.cmd[1]);
-	if (current.path && chdir(current.path) == -1)
+		current->path = ft_strdup(current->cmd[1]);
+	if (current->path && chdir(current->path) == -1)
 	{
 		print_error("cd: ", NULL, NULL, ENOENT);
 		g_numberr = EXIT_FAILURE;
 	}
-	else if (!current.path || set_pwd(s, cwd) == -1)
+	else if (!current->path || set_pwd(s, cwd) == -1)
 	{
 		print_error("malloc: ", NULL, NULL, ENOMEM);
 		g_numberr = EXIT_FAILURE;

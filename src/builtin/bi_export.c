@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/09 16:46:26 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 17:45:23 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,28 +81,28 @@ static int	create_variable(t_structs *s, char *cmd, char *name)
 
 //~~ Vérifie si la variable qu'on veut créer est valable
 
-static void	create_env_variable(t_structs *s, t_cmd current)
+static void	create_env_variable(t_structs *s, t_cmd *current)
 {
 	size_t	i;
 	char	*name;
 
 	i = 1;
-	while (current.cmd[i])
+	while (current->cmd[i])
 	{
-		if (!ft_strchr(current.cmd[i], '='))
-			name = ft_strdup(current.cmd[i]);
+		if (!ft_strchr(current->cmd[i], '='))
+			name = ft_strdup(current->cmd[i]);
 		else
-			name = ft_substr(current.cmd[i], 0,
-					ft_strchr(current.cmd[i], '=') - current.cmd[i]);
-		if (!name || (current.cmd[i][0] != '=' && is_word(name)
-			&& create_variable(s, current.cmd[i], name) == -1))
+			name = ft_substr(current->cmd[i], 0,
+					ft_strchr(current->cmd[i], '=') - current->cmd[i]);
+		if (!name || (current->cmd[i][0] != '=' && is_word(name)
+			&& create_variable(s, current->cmd[i], name) == -1))
 		{
 			print_error("malloc: ", NULL, NULL, ENOMEM);
 			free(name);
 			return ;
 		}
-		else if (current.cmd[i][0] == '=' || !is_word(name))
-			print_error("export: ", current.cmd[i],
+		else if (current->cmd[i][0] == '=' || !is_word(name))
+			print_error("export: ", current->cmd[i],
 				"not a valid identifier\n", EXIT_FAILURE);
 		free(name);
 		i++;
@@ -111,10 +111,10 @@ static void	create_env_variable(t_structs *s, t_cmd current)
 
 //~~ Built-in export
 
-void	bi_export(t_structs *s, t_cmd current, int fd)
+void	bi_export(t_structs *s, t_cmd *current, int fd)
 {
 	g_numberr = EXIT_SUCCESS;
-	if (current.cmd[1])
+	if (current->cmd[1])
 		create_env_variable(s, current);
 	else
 	{

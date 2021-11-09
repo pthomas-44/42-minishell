@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/09 17:16:49 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 17:50:23 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 //~~ Lance le built-in qui correspond à la commande
 
-void	builtins(t_structs *s, t_cmd current, int fd)
+void	builtins(t_structs *s, t_cmd *current, int fd)
 {
-	if (!ft_strcmp(current.cmd[0], "echo"))
+	if (!ft_strcmp(current->cmd[0], "echo"))
 		bi_echo(current, fd);
-	else if (!ft_strcmp(current.cmd[0], "cd"))
+	else if (!ft_strcmp(current->cmd[0], "cd"))
 		bi_cd(s, current);
-	else if (!ft_strcmp(current.cmd[0], "pwd"))
+	else if (!ft_strcmp(current->cmd[0], "pwd"))
 		bi_pwd(fd);
-	else if (!ft_strcmp(current.cmd[0], "export"))
+	else if (!ft_strcmp(current->cmd[0], "export"))
 		bi_export(s, current, fd);
-	else if (!ft_strcmp(current.cmd[0], "unset"))
+	else if (!ft_strcmp(current->cmd[0], "unset"))
 		bi_unset(s, current);
-	else if (!ft_strcmp(current.cmd[0], "env"))
+	else if (!ft_strcmp(current->cmd[0], "env"))
 		bi_env(s, fd);
-	else if (!ft_strcmp(current.cmd[0], "exit"))
+	else if (!ft_strcmp(current->cmd[0], "exit"))
 		bi_exit(s, current);
 }
 
@@ -60,7 +60,7 @@ int	is_builtin(t_cmd current)
 void	exec(t_structs *s)
 {
 	if (s->cmds_size == 1 && is_builtin(s->cmds[0]) == 1)
-		builtins(s, s->cmds[0], s->cmds[0].fd_out);
+		builtins(s, &s->cmds[0], s->cmds[0].fd_out);
 	else
 	{
 		if (tcsetattr(STDIN_FILENO, TCSANOW, &s->term[OLD]) == -1)
