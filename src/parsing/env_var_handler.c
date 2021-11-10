@@ -6,63 +6,46 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/10 17:29:11 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/10 20:55:17 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static size_t	get_new_size(char *value, char *charset)
+//~~ Inhibe les operateurs et les quotes simples dans les noms de variables
+
+static char	*tokenize(char *value)
 {
-	size_t	i;
-	size_t	size;
-
-	i = 0;
-	size = 0;
-	while (value[i])
-	{
-		if (ft_strchr(charset, value[i]))
-			size++;
-		size++;
-		i++;
-	}
-	return (size);
-}
-
-//~~ Inhibe les operateurs dans les noms de variables
-
-static char	*handle_operands(char *value, char *charset)
-{
-	size_t	i;
-	size_t	j;
+	char	**tmp;
 	char	*new;
+	size_t	i;
 
-	i = 0;
-	j = 0;
-	new = ft_calloc(get_new_size(value, charset), sizeof(char));
-	if (!new)
+	tmp = ft_split(value, ' ');
+	if (!tmp)
 	{
 		print_error("malloc: ", NULL, NULL, ENOMEM);
 		return (NULL);
 	}
-	while (value[i])
+	new = NULL;
+	i = 0;
+	while (tmp[i])
 	{
-		if (ft_strchr(charset, value[i]))
+		new = ft_strjoin_f1(new,
+				ft_strjoin_f0("\"", ft_strjoin_f0(tmp[i++], "\" "))); // free(value);
+		if (!new)
 		{
-			new[j] = '\\';
-			j++;
+			print_error("malloc: ", NULL, NULL, ENOMEM);
+			free_tab(&tmp, 0);
+			return (NULL);
 		}
-		new[j] = value[i];
-		j++;
-		i++;
 	}
-	new[j] = 0;
+	free_tab(&tmp, 0);
 	return (new);
 }
 
 //~~ Remplace la variable d'environnement par sa valeur
 
-static char	*replace_var(char *line, size_t i, t_env *var)
+static char	*replace_var(char *line, size_t i, t_env *var, char quote)
 {
 	char	*new;
 
@@ -74,8 +57,10 @@ static char	*replace_var(char *line, size_t i, t_env *var)
 	}
 	else if (var)
 	{
-		new = ft_strjoin_f3(new,
-				handle_operands(ft_strdup(var->value + 1), "\"\'\\<>|"));
+		if (!quote)
+			new = ft_strjoin_f3(new, tokenize(ft_strdup(var->value + 1)));
+		else
+			new = ft_strjoin_f3(new, ft_strdup(var->value + 1));
 		new = ft_strjoin_f1(new, &line[i] + ft_strlen(var->name) + 1);
 	}
 	else
@@ -83,8 +68,7 @@ static char	*replace_var(char *line, size_t i, t_env *var)
 		i++;
 		while (line[i] && (ft_isalnum(line[i]) || line[i] == '_'))
 			i++;
-		if (line[i])
-			new = ft_strjoin_f1(new, &line[i]);
+		new = ft_strjoin_f1(new, &line[i]);
 	}
 	free(line);
 	return (new);
@@ -126,13 +110,14 @@ char	*replace_env_variables(t_structs *s, char *line)
 	quote = 0;
 	while (line && line[i])
 	{
-		if (i == 0 || line[i - 1] != '\\')
-			quote = check_quotes(line[i], quote);
+		quote = check_quotes(line[i], quote);
+		// if (line[i] == '<' && line[i] == '<<')
+		// 	skip_heredoc();
 		if (line[i] == '$' && (ft_isalpha(line[i + 1])
-				|| line[i + 1] == '_' || line[i + 1] == '?') && quote != '\'') // rajouter le truc heredoc
+				|| line[i + 1] == '_' || line[i + 1] == '?') && quote != '\'')
 		{
 			var = find_var(s, &line[i + 1]);
-			line = replace_var(line, i, var);
+			line = replace_var(line, i, var, quote);
 			if (!line)
 				return (NULL);
 		}

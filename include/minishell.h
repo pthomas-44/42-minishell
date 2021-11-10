@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/10 17:43:26 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/10 18:47:21 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void			parsing(t_structs *s, char *line);
 int				check_syntax_errors(char *line, char *charset);
 char			*replace_env_variables(t_structs *s, char *line);
 char			check_quotes(char c, char quote);
-void			remove_quotes_and_backslash(char **cmd);
+void			remove_quotes(char **cmd);
 void			skip_spaces(char **line);
 char			*get_args(char *line, char *charset);
 char			*remove_char(char *str, size_t i);
