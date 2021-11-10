@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:23:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 11:45:52 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/10 14:58:48 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ int	main(int ac, char **av, char **env)
 	t_structs	s;
 
 	(void)av;
+	if (!isatty(0) || !isatty(1) || !isatty(2))
+	{
+		print_error(NULL, NULL, "not in a terminal\n", EXIT_FAILURE);
+		exit(g_numberr);
+	}
 	if (ac != 1)
 	{
 		print_error(NULL, NULL, NULL, E2BIG);

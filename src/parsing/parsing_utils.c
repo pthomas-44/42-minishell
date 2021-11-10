@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:54:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 15:59:11 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/10 16:45:00 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ char	*get_args(char *line, bool is_file)
 	start = line;
 	quote = 0;
 	while (*line && (((!is_file || *line != ' ' )
-				&& *line != '<' && *line != '>' && *line != '|') || quote))
+				&& *line != '<' && *line != '>' && *line != '|')
+			|| quote || (start != line && *(line - 1) == '\\')))
 	{
 		if ((*line == '"' || *line == '\'') && quote == 0)
 			quote = *line;

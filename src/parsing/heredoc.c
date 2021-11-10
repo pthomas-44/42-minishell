@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 11:38:48 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/09 16:28:57 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/10 15:08:37 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //~~ La boucle de lecture du heredoc
 
-static char	*heredoc_loop(char *stop)
+static char	*heredoc_loop(t_structs *s, char *stop)
 {
 	char	*line;
 	char	*content;
@@ -26,7 +26,10 @@ static char	*heredoc_loop(char *stop)
 		line = readline("> ");
 		if (content)
 			content = ft_strjoin_f1(content, "\n");
-		if (!line || !ft_strcmp(line, stop))
+		if (!line)
+			break ;
+		line = replace_env_variables(s, line);
+		if (!ft_strcmp(line, stop))
 			break ;
 		content = ft_strjoin_f3(content, line);
 		if (!content)
@@ -40,11 +43,11 @@ static char	*heredoc_loop(char *stop)
 
 //~~ Ecrit le contenu du heredoc dans le pipe
 
-static void	heredoc(char *stop, int pipe_fd[2])
+static void	heredoc(t_structs *s, char *stop, int pipe_fd[2])
 {
 	char	*content;
 
-	content = heredoc_loop(stop);
+	content = heredoc_loop(s, stop);
 	if (content)
 		ft_putstr_fd(content, pipe_fd[STDOUT_FILENO]);
 	free(content);
@@ -71,7 +74,7 @@ static void	heredoc_process_init(t_structs *s, char *stop, int pipe_fd[2])
 	else if (pid == 0)
 	{
 		signal(SIGINT, &heredoc_sig_int);
-		heredoc(stop, pipe_fd);
+		heredoc(s, stop, pipe_fd);
 		free_all(s, 1);
 		exit(g_numberr);
 	}

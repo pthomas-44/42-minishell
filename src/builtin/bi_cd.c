@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/09 18:20:32 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/10 14:41:14 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	replace_by_home_path(t_structs *s, char *path, char **new)
 //~~ Trouve les variables d'environnement PWD et OLDPWD
 
 static void	find_pwd_env_var(t_structs *s,
-	t_env *pwd, t_env *old_pwd)
+	t_env **pwd, t_env **old_pwd)
 {
 	t_env	*elem;
 
@@ -48,9 +48,9 @@ static void	find_pwd_env_var(t_structs *s,
 	while (elem)
 	{
 		if (!ft_strcmp(elem->name, "PWD"))
-			pwd = elem;
+		*pwd = elem;
 		else if (!ft_strcmp(elem->name, "OLDPWD"))
-			old_pwd = elem;
+			*old_pwd = elem;
 		elem = elem->next;
 	}
 }
@@ -64,7 +64,7 @@ static int	set_pwd(t_structs *s, char *cwd)
 
 	pwd = NULL;
 	old_pwd = NULL;
-	find_pwd_env_var(s, pwd, old_pwd);
+	find_pwd_env_var(s, &pwd, &old_pwd);
 	if (old_pwd)
 	{
 		free(old_pwd->value);
