@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/10 16:45:22 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/10 17:42:48 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	get_command(t_structs *s, char **line, int i)
 {
 	char	*tmp;
 
-	tmp = get_args(*line, 0);
+	tmp = get_args(*line, "<>|");
 	if (tmp && !s->cmds[i].cmd)
 	{
 		s->cmds[i].cmd = ft_split(tmp, 0);
@@ -61,7 +61,7 @@ static int	fill_cmd_struct(t_structs *s, char *line)
 		else if (*line == '|' || !*line)
 		{
 			s->cmds[i].cmd = split_cmd(s->cmds[i].cmd);
-			remove_quotes(s->cmds[i].cmd);
+			remove_quotes_and_backslash(s->cmds[i].cmd);
 			if (*line)
 				line++;
 			i++;

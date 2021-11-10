@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:54:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/10 17:23:23 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/10 17:50:42 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*remove_char(char *str, size_t i)
 
 //~~ Enleve les quotes delimitatives dans les arguments
 
-void	remove_quotes(char **cmd)
+void	remove_quotes_and_backslash(char **cmd)
 {
 	size_t	i;
 	size_t	j;
@@ -63,7 +63,7 @@ void	remove_quotes(char **cmd)
 		j = -1;
 		while (cmd[i][++j])
 		{
-			if (!quote && cmd[i][j] == '\\' && cmd[i][j + 1])
+			if (cmd[i][j] == '\\' && cmd[i][j + 1])
 				cmd[i] = remove_char(cmd[i], j);
 			else if (!quote && (cmd[i][j] == '"' || cmd[i][j] == '\''))
 			{
@@ -89,21 +89,23 @@ void	skip_spaces(char **line)
 
 //~~ Recupere des arguments dans la ligne de commandes
 
-char	*get_args(char *line, bool is_file)
+char	*get_args(char *line, char *charset)
 {
 	char	*start;
 	char	quote;
 
 	start = line;
 	quote = 0;
-	while (*line && (((!is_file || *line != ' ' )
-				&& *line != '<' && *line != '>' && *line != '|')
-			|| quote || (start != line && *(line - 1) == '\\')))
+	while (*line && ((!ft_strchr(charset, *line)
+				|| (start != line && *(line - 1) == '\\')) || quote))
 	{
-		if ((*line == '"' || *line == '\'') && quote == 0)
-			quote = *line;
-		else if (*line == quote)
-			quote = 0;
+		if (start == line || *(line - 1) != '\\')
+		{
+			if ((*line == '"' || *line == '\'') && quote == 0)
+				quote = *line;
+			else if (*line == quote)
+				quote = 0;
+		}
 		line++;
 	}
 	start = ft_substr(start, 0, line - start);

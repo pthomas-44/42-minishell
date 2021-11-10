@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/10 16:27:23 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/10 17:29:11 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ char	*replace_env_variables(t_structs *s, char *line)
 		if (i == 0 || line[i - 1] != '\\')
 			quote = check_quotes(line[i], quote);
 		if (line[i] == '$' && (ft_isalpha(line[i + 1])
-				|| line[i + 1] == '_' || line[i + 1] == '?') && quote != '\'')
+				|| line[i + 1] == '_' || line[i + 1] == '?') && quote != '\'') // rajouter le truc heredoc
 		{
 			var = find_var(s, &line[i + 1]);
 			line = replace_var(line, i, var);

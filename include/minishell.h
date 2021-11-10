@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/09 18:07:09 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/10 17:43:26 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ void			parsing(t_structs *s, char *line);
 int				check_syntax_errors(char *line, char *charset);
 char			*replace_env_variables(t_structs *s, char *line);
 char			check_quotes(char c, char quote);
-void			remove_quotes(char **cmd);
+void			remove_quotes_and_backslash(char **cmd);
 void			skip_spaces(char **line);
-char			*get_args(char *line, bool is_file);
+char			*get_args(char *line, char *charset);
 char			*remove_char(char *str, size_t i);
 int				get_infile(t_structs *s, char **line, int i);
 int				heredoc_handler(t_structs *s, t_cmd *current, char *stop);

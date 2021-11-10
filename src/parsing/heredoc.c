@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 11:38:48 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/10 15:08:37 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/10 17:25:50 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,9 @@ static char	*heredoc_loop(t_structs *s, char *stop)
 		line = readline("> ");
 		if (content)
 			content = ft_strjoin_f1(content, "\n");
-		if (!line)
+		if (!line && !ft_strcmp(line, stop))
 			break ;
 		line = replace_env_variables(s, line);
-		if (!ft_strcmp(line, stop))
-			break ;
 		content = ft_strjoin_f3(content, line);
 		if (!content)
 		{
