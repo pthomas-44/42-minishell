@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 04:34:49 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/10 14:57:07 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/11 11:41:02 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,27 @@
 
 static void	check_if_exist(t_structs *s, bool *pwd, bool *oldpwd, bool *shlvl)
 {
-	t_env		*elem;
-	char		*tmp;
+	t_env	*elem;
+	char	*tmp;
 
-	elem = *s->env;
-	while (elem)
+	elem = find_env_var(s, "SHLVL");
+	if (elem)
 	{
-		if (!ft_strcmp(elem->name, "SHLVL"))
-		{
-			tmp = ft_strjoin_f2("=",
-					ft_nbtobase(ft_atoi(elem->value + 1) + 1, "0123456789"));
-			free(elem->value);
-			elem->value = tmp;
-			*shlvl = 1;
-		}
-		if (!ft_strcmp(elem->name, "PWD"))
-			*pwd = 1;
-		if (!ft_strcmp(elem->name, "OLDPWD"))
-		{
-			free(elem->value);
-			elem->value = NULL;
-			*oldpwd = 1;
-		}
-		elem = elem->next;
+		tmp = ft_strjoin_f2("=",
+				ft_nbtobase(ft_atoi(elem->value + 1) + 1, "0123456789"));
+		free(elem->value);
+		elem->value = tmp;
+		*shlvl = 1;
+	}
+	elem = find_env_var(s, "PWD");
+	if (elem)
+		*pwd = 1;
+	elem = find_env_var(s, "OLDPWD");
+	if (elem)
+	{
+		free(elem->value);
+		elem->value = NULL;
+		*oldpwd = 1;
 	}
 }
 

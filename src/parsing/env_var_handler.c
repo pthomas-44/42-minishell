@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/11 11:23:04 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/11 11:43:27 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static char	*replace_var(char *line, size_t i, t_env *var, char quote)
 
 static t_env	*find_var(t_structs *s, char *line)
 {
-	t_env	*current;
+	t_env	*elem;
 	char	*name;
 
 	name = line;
@@ -90,12 +90,9 @@ static t_env	*find_var(t_structs *s, char *line)
 		print_error("malloc: ", NULL, NULL, ENOMEM);
 		return (NULL);
 	}
-	current = *s->env;
-	while (current
-		&& ft_strncmp(current->name, name, ft_strlen(name) + 1))
-		current = current->next;
+	elem = find_env_var(s, name);
 	free(name);
-	return (current);
+	return (elem);
 }
 
 //~~ Passe le heredoc
