@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/11 11:33:13 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/11 14:12:17 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,37 +33,34 @@ int	replace_by_home_path(t_structs *s, char *path, char **new)
 
 //~~ Set les variables d'environnement PWD et OLDPWD
 
-static int	set_pwd(t_structs *s, char *cwd)
+static void	set_pwd(t_structs *s, char *name)
 {
-	t_env	*pwd;
-	t_env	*old_pwd;
+	t_env	*current;
+	char	cwd[MAXPATHLEN];
 
-	pwd = find_env_var(s, "PWD");
-	old_pwd = find_env_var(s, "OLDPWD");
-	if (old_pwd)
+	if (!getcwd(cwd, MAXPATHLEN))
 	{
-		free(old_pwd->value);
-		old_pwd->value = ft_strjoin_f2("=", ft_strdup(cwd));
+		print_error("getcwd: ", NULL, NULL, errno);
+		g_numberr = EXIT_FAILURE;
 	}
-	getcwd(cwd, MAXPATHLEN);
-	if (pwd)
+	current = find_env_var(s, name);
+	if (current)
 	{
-		free(pwd->value);
-		pwd->value = ft_strjoin_f2("=", ft_strdup(cwd));
+		free(current->value);
+		current->value = ft_strjoin_f2("=", ft_strdup(cwd));
 	}
-	if ((pwd && !pwd->value) || (old_pwd && !old_pwd->value))
+	if (current && !current->value)
+	{
 		print_error("malloc: ", NULL, NULL, ENOMEM);
-	return (0);
+		g_numberr = EXIT_FAILURE;
+	}
 }
 
 //~~ Built-in cd
 
 void	bi_cd(t_structs *s, t_cmd *current)
 {
-	char	cwd[MAXPATHLEN];
-
 	g_numberr = EXIT_SUCCESS;
-	getcwd(cwd, MAXPATHLEN);
 	if (!current->cmd[1] || current->cmd[1][0] == '~')
 	{
 		if (replace_by_home_path(s, current->cmd[1], &current->path) == -1)
@@ -74,14 +71,16 @@ void	bi_cd(t_structs *s, t_cmd *current)
 	}
 	else
 		current->path = ft_strdup(current->cmd[1]);
+	set_pwd(s, "OLDPWD");
 	if (current->path && chdir(current->path) == -1)
 	{
 		print_error("cd: ", current->path, NULL, errno);
 		g_numberr = EXIT_FAILURE;
 	}
-	else if (!current->path || set_pwd(s, cwd) == -1)
+	else if (!current->path)
 	{
 		print_error("malloc: ", NULL, NULL, ENOMEM);
 		g_numberr = EXIT_FAILURE;
 	}
+	set_pwd(s, "PWD");
 }
