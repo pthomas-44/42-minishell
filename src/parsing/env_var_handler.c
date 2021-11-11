@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/10 20:55:17 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/11 11:23:04 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,17 @@ static t_env	*find_var(t_structs *s, char *line)
 	return (current);
 }
 
+//~~ Passe le heredoc
+
+static void	skip_heredoc(char *line, size_t *i)
+{
+	(*i) += 2;
+	while (line[*i] == ' ')
+		(*i)++;
+	while (line[*i] && !ft_strchr("<>| ", line[*i]))
+		(*i)++;
+}
+
 //~~ Remplace les variables d'environnement pas leurs valeurs
 
 char	*replace_env_variables(t_structs *s, char *line)
@@ -111,8 +122,8 @@ char	*replace_env_variables(t_structs *s, char *line)
 	while (line && line[i])
 	{
 		quote = check_quotes(line[i], quote);
-		// if (line[i] == '<' && line[i] == '<<')
-		// 	skip_heredoc();
+		if (line[i] == '<' && line[i + 1] == '<')
+			skip_heredoc(line, &i);
 		if (line[i] == '$' && (ft_isalpha(line[i + 1])
 				|| line[i + 1] == '_' || line[i + 1] == '?') && quote != '\'')
 		{
