@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/10 17:43:26 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/11 10:42:00 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void			print_error(char *cmd, char *value, char *error, int status);
 int				env_new(t_structs *s, char *var);
 void			env_del(t_structs *s, t_env *elem);
 void			env_clear(t_structs *s);
+t_env			*find_env_var(t_structs *s, char *name);
 char			**list_to_char(t_structs *s);
 void			init_control_struct(t_structs *s, char **env);
 // ~~ signal

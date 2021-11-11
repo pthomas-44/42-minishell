@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:42:08 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/09 15:38:26 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/11 10:41:47 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,22 @@ void	env_clear(t_structs *s)
 	}
 	s->env_size = 0;
 	free(s->env);
+}
+
+//~~ Trouve un élément dans la liste
+
+t_env	*find_env_var(t_structs *s, char *name)
+{
+	t_env	*elem;
+
+	elem = *s->env;
+	while (elem)
+	{
+		if (!ft_strcmp(elem->name, name))
+			break ;
+		elem = elem->next;
+	}
+	return (elem);
 }
 
 //~~ Converti la liste env en tableau de chaines de caracteres
