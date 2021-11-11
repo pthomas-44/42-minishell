@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/11 11:00:09 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/11 11:33:13 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	bi_cd(t_structs *s, t_cmd *current)
 		current->path = ft_strdup(current->cmd[1]);
 	if (current->path && chdir(current->path) == -1)
 	{
-		print_error("cd: ", current->path, NULL, ENOENT);
+		print_error("cd: ", current->path, NULL, errno);
 		g_numberr = EXIT_FAILURE;
 	}
 	else if (!current->path || set_pwd(s, cwd) == -1)
