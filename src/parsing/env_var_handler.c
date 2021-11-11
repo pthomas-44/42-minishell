@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/11 13:28:55 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/11 16:26:11 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static char	*tokenize(char *value)
 	i = 0;
 	while (tmp && tmp[i])
 	{
-		new = ft_strjoin_f1(new,
-				ft_strjoin_f0("\"", ft_strjoin_f0(tmp[i++], "\" ")));
+		new = ft_strjoin_f3(new,
+				ft_strjoin_f2("\"", ft_strjoin_f0(tmp[i++], "\" ")));
 		if (!new)
 		{
 			print_error("malloc: ", NULL, NULL, ENOMEM);
