@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/11 11:36:44 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/11 13:47:52 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,6 @@ void	pipex(t_structs *s)
 			free_all(s, 1);
 			exit(g_numberr);
 		}
-		else
 		i++;
 	}
 	close_pipe(s);

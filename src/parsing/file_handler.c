@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:26:00 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/11 11:41:05 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/11 13:39:16 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,26 +43,13 @@ int	get_outfile(t_structs *s, char **line, int i)
 	return (0);
 }
 
-//~~ Suite de la fonction get_infile() (norme)
-
-static int	get_infile_sequel(t_structs *s, int i, char **tmp)
-{
-	s->cmds[i].fd_in = open(tmp[1], O_RDONLY);
-	if (s->cmds[i].fd_in == -1)
-	{
-		print_error("open: ", tmp[1], NULL, errno);
-		s->cmds[i].fd_in = -1;
-	}
-	return (0);
-}
-
 //~~ Recuparation du fichier de redirection de l'entree
 
 int	get_infile(t_structs *s, char **line, int i)
 {
 	char	*tmp[2];
 
-	if (s->cmds[i].fd_in != 0 && close(s->cmds[i].fd_in) == -1)
+	if (s->cmds[i].fd_in > 0 && close(s->cmds[i].fd_in) == -1)
 	{
 		print_error("close: ", NULL, NULL, errno);
 		return (-1);
@@ -73,15 +60,11 @@ int	get_infile(t_structs *s, char **line, int i)
 	skip_spaces(line);
 	tmp[1] = get_args(*line, "<>| ");
 	if (*(tmp[0] + 1) == '<')
-	{
 		if (heredoc_handler(s, &s->cmds[i], tmp[1]) == -1)
-		{
-			free(tmp[1]);
 			return (-1);
-		}
-	}
-	else if (get_infile_sequel(s, i, tmp) == -1)
-		return (-1);
+	s->cmds[i].fd_in = open(tmp[1], O_RDONLY);
+	if (s->cmds[i].fd_in == -1)
+		print_error("open: ", tmp[1], NULL, errno);
 	(*line) += ft_strlen(tmp[1]);
 	free(tmp[1]);
 	return (0);

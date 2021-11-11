@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/11 11:43:27 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/11 13:28:55 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,15 @@ static char	*tokenize(char *value)
 	size_t	i;
 
 	tmp = ft_split(value, ' ');
+	free(value);
 	if (!tmp)
-	{
 		print_error("malloc: ", NULL, NULL, ENOMEM);
-		return (NULL);
-	}
 	new = NULL;
 	i = 0;
-	while (tmp[i])
+	while (tmp && tmp[i])
 	{
 		new = ft_strjoin_f1(new,
-				ft_strjoin_f0("\"", ft_strjoin_f0(tmp[i++], "\" "))); // free(value);
+				ft_strjoin_f0("\"", ft_strjoin_f0(tmp[i++], "\" ")));
 		if (!new)
 		{
 			print_error("malloc: ", NULL, NULL, ENOMEM);
@@ -55,7 +53,8 @@ static char	*replace_var(char *line, size_t i, t_env *var, char quote)
 		new = ft_strjoin_f3(new, ft_nbtobase(g_numberr, "0123456789"));
 		new = ft_strjoin_f1(new, &line[i + 2]);
 	}
-	else if (var)
+	else if (var && (!ft_strchr(var->value, '\"')
+			|| !ft_strchrstr(var->value, "<>|")))
 	{
 		if (!quote)
 			new = ft_strjoin_f3(new, tokenize(ft_strdup(var->value + 1)));
@@ -63,9 +62,8 @@ static char	*replace_var(char *line, size_t i, t_env *var, char quote)
 			new = ft_strjoin_f3(new, ft_strdup(var->value + 1));
 		new = ft_strjoin_f1(new, &line[i] + ft_strlen(var->name) + 1);
 	}
-	else
+	else if (line[++i])
 	{
-		i++;
 		while (line[i] && (ft_isalnum(line[i]) || line[i] == '_'))
 			i++;
 		new = ft_strjoin_f1(new, &line[i]);
@@ -76,7 +74,7 @@ static char	*replace_var(char *line, size_t i, t_env *var, char quote)
 
 //~~ Trouve la variable correspondante dans t_env
 
-static t_env	*find_var(t_structs *s, char *line)
+static t_env	*get_var_node(t_structs *s, char *line)
 {
 	t_env	*elem;
 	char	*name;
@@ -124,7 +122,7 @@ char	*replace_env_variables(t_structs *s, char *line)
 		if (line[i] == '$' && (ft_isalpha(line[i + 1])
 				|| line[i + 1] == '_' || line[i + 1] == '?') && quote != '\'')
 		{
-			var = find_var(s, &line[i + 1]);
+			var = get_var_node(s, &line[i + 1]);
 			line = replace_var(line, i, var, quote);
 			if (!line)
 				return (NULL);
