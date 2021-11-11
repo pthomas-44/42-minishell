@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/10 16:09:10 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/11 11:36:44 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	close_pipe(t_structs *s)
 	while (i < s->cmds_size)
 	{
 		if (s->cmds[i].fd_in != STDIN_FILENO
+			&& s->cmds[i].fd_in != -1
 			&& close(s->cmds[i].fd_in) == -1)
 			print_error("close: ", NULL, NULL, errno);
 		if (s->cmds[i].fd_out != STDOUT_FILENO
@@ -109,8 +110,6 @@ static void	child(t_structs *s, t_cmd *current, size_t i)
 	else if (current->path && execve(current->path, current->cmd, envp) == -1)
 		print_error("execve: ", NULL, NULL, errno);
 	free_tab(&envp, 0);
-	free_all(s, 1);
-	exit(g_numberr);
 }
 
 //~~ Création d'un process par commande
@@ -132,10 +131,12 @@ void	pipex(t_structs *s)
 		{
 			signal(SIGINT, NULL);
 			signal(SIGQUIT, NULL);
-			child(s, &s->cmds[i], i);
+			if (s->cmds[i].fd_in != -1)
+				child(s, &s->cmds[i], i);
+			free_all(s, 1);
+			exit(g_numberr);
 		}
 		else
-			signal(SIGINT, SIG_IGN);
 		i++;
 	}
 	close_pipe(s);

@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/10 14:57:17 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/11 11:36:42 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	exec(t_structs *s)
 	{
 		if (tcsetattr(STDIN_FILENO, TCSANOW, &s->term[OLD]) == -1)
 			print_error("termios: ", NULL, NULL, errno);
+		signal(SIGINT, SIG_IGN);
 		pipex(s);
 		if (tcsetattr(STDIN_FILENO, TCSANOW, &s->term[NEW]) == -1)
 			print_error("termios: ", NULL, NULL, errno);

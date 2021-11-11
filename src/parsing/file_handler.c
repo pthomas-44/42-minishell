@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:26:00 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/10 17:43:10 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/11 11:31:20 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ static int	get_infile_sequel(t_structs *s, int i, char **tmp)
 	if (s->cmds[i].fd_in == -1)
 	{
 		print_error("open: ", tmp[1], NULL, errno);
-		free(tmp[1]);
-		return (-1);
+		s->cmds[i].fd_in = -1;
 	}
 	return (0);
 }
