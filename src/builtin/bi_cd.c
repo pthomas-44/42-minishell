@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/11 10:36:53 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/11 11:33:13 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,7 @@ int	replace_by_home_path(t_structs *s, char *path, char **new)
 {
 	t_env	*elem;
 
-	elem = *s->env;
-	while (elem)
-	{
-		if (!ft_strcmp(elem->name, "HOME"))
-			break ;
-		elem = elem->next;
-	}
+	elem = find_env_var(s, "HOME");
 	if (!elem || (path && path[0] != '~'))
 	{
 		*(new) = ft_strdup(path);
@@ -37,24 +31,6 @@ int	replace_by_home_path(t_structs *s, char *path, char **new)
 	return (0);
 }
 
-//~~ Trouve les variables d'environnement PWD et OLDPWD
-
-static void	find_pwd_env_var(t_structs *s,
-	t_env **pwd, t_env **old_pwd)
-{
-	t_env	*elem;
-
-	elem = *s->env;
-	while (elem)
-	{
-		if (!ft_strcmp(elem->name, "PWD"))
-		*pwd = elem;
-		else if (!ft_strcmp(elem->name, "OLDPWD"))
-			*old_pwd = elem;
-		elem = elem->next;
-	}
-}
-
 //~~ Set les variables d'environnement PWD et OLDPWD
 
 static int	set_pwd(t_structs *s, char *cwd)
@@ -62,9 +38,8 @@ static int	set_pwd(t_structs *s, char *cwd)
 	t_env	*pwd;
 	t_env	*old_pwd;
 
-	pwd = NULL;
-	old_pwd = NULL;
-	find_pwd_env_var(s, &pwd, &old_pwd);
+	pwd = find_env_var(s, "PWD");
+	old_pwd = find_env_var(s, "OLDPWD");
 	if (old_pwd)
 	{
 		free(old_pwd->value);

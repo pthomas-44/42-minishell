@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/09 18:19:32 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/11 11:14:31 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,18 +137,13 @@ char	**get_env_paths(t_structs *s)
 	char	**paths;
 	t_env	*elem;
 
-	elem = *s->env;
 	paths = NULL;
-	while (elem)
+	elem = find_env_var(s, "PATH");
+	if (elem)
 	{
-		if (!ft_strcmp(elem->name, "PATH"))
-		{
-			paths = ft_split(elem->value + 1, ':');
-			if (!paths)
-				print_error("malloc: ", NULL, NULL, ENOMEM);
-			break ;
-		}
-		elem = elem->next;
+		paths = ft_split(elem->value + 1, ':');
+		if (!paths)
+			print_error("malloc: ", NULL, NULL, ENOMEM);
 	}
 	return (add_backslash(paths));
 }

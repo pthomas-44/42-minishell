@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 01:51:34 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/09 17:45:34 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/11 11:06:10 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,9 @@ void	bi_unset(t_structs *s, t_cmd *current)
 				"not a valid identifier\n", EXIT_FAILURE);
 		else
 		{
-			unset = *s->env;
-			while (unset)
-			{
-				if (!ft_strcmp(unset->name, current->cmd[i]))
-				{
-					env_del(s, unset);
-					break ;
-				}
-				unset = unset->next;
-			}
+			unset = find_env_var(s, current->cmd[i]);
+			if (unset)
+				env_del(s, unset);
 		}
 		i++;
 	}
