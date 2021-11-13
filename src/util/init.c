@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 04:34:49 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/11 14:20:14 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 11:46:35 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,12 @@ static void	set_env_list(t_structs *s, char **env)
 
 static void	set_new_terminal(t_structs *s)
 {
-	if (tcgetattr(STDIN_FILENO, &s->term[OLD]) == -1)
+	if (tcgetattr(STDIN_FILENO, &s->old_term) == -1)
 		print_error("termios: ", NULL, NULL, errno);
-	s->term[NEW] = s->term[OLD];
-	s->term[NEW].c_cc[VQUIT] = 0;
-	s->term[NEW].c_lflag &= ~ECHOCTL;
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &s->term[NEW]) == -1)
+	s->new_term = s->old_term;
+	s->new_term.c_cc[VQUIT] = 0;
+	s->new_term.c_lflag &= ~ECHOCTL;
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &s->new_term) == -1)
 		print_error("termios: ", NULL, NULL, errno);
 	signal(SIGINT, &sig_int);
 	signal(SIGQUIT, SIG_IGN);

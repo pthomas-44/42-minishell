@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+         #
+#    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/11/11 11:33:18 by mberne           ###   ########lyon.fr    #
+#    Updated: 2021/11/13 11:40:19 by pthomas          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ PATH_OBJ	=	obj/
 PATH_LIBFT	=	libft/
 PATH_INC	=	include/
 
-#~~~~ Sources ~~~~#
+#~~~~ Files ~~~~#
  
 SRCS		=	main.c				\
 				exit.c				\
@@ -50,17 +50,13 @@ SRCS		=	main.c				\
 				bi_env.c			\
 				bi_exit.c
 
-#~~~~ Objects ~~~~#
-
 OBJS		=	$(addprefix $(PATH_OBJ), $(SRCS:.c=.o))
-
-#~~~~ Includes ~~~~#
 
 INCS		=	$(addprefix $(PATH_INC), minishell.h)
 
 #~~~~ Macros ~~~~#
 
-CC			=	gcc
+CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror
 LIBS		=	$(PATH_LIBFT)libft.a
 RM			=	rm -rf
@@ -134,4 +130,4 @@ eugene :
 			@ echo "                7____,,..--'      /          |"
 			@ echo "                                  \`---.__,--.'"
 
-.PHONY:		all libs norminette clean fclean re eugene
+.PHONY:		all libs clean fclean re eugene

@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:24:04 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/10 14:57:12 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 11:46:07 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	free_cmds_struct(t_structs *s)
 void	free_all(t_structs *s, bool is_child)
 {
 	if (!is_child)
-		if (tcsetattr(STDIN_FILENO, TCSANOW, &s->term[OLD]) == -1)
+		if (tcsetattr(STDIN_FILENO, TCSANOW, &s->old_term) == -1)
 			print_error("termios: ", NULL, NULL, errno);
 	free(s->parse_line[0]);
 	s->parse_line[0] = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/11 11:33:22 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 11:57:28 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,8 @@
 
 /*** ~~ MACROS ~~ ***/
 
-# define PROMPT "potatoshell >$ "
-# define OLD 0
-# define NEW 1
+# define PROMPT "\033[0;33mpotatoshell \033[0;32m>$ \033[0m"
+# define ERR_PROMPT "\033[0;33mpotatoshell \033[1;31m>$ \033[0m"
 
 /*** ~~ GLOBALS ~~ ***/
 
@@ -68,12 +67,14 @@ typedef struct s_env
 
 typedef struct s_structs
 {
+	char				*prompt;
 	char				*parse_line[2];
 	t_cmd				*cmds;
 	size_t				cmds_size;
 	t_env				**env;
 	size_t				env_size;
-	struct termios		term[2];
+	struct termios		old_term;
+	struct termios		new_term;
 }						t_structs;
 
 /*** ~~ PROTOTYPES ~~ ***/

@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:23:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/10 14:58:48 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 11:58:32 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ static void	prompt_loop(t_structs *s)
 {
 	while (1)
 	{
-		s->parse_line[0] = readline(PROMPT);
+		if (g_numberr)
+			s->parse_line[0] = readline(ERR_PROMPT);
+		else
+			s->parse_line[0] = readline(PROMPT);
 		if (!s->parse_line[0])
 			break ;
 		if (s->parse_line[0][0])
@@ -34,21 +37,27 @@ static void	prompt_loop(t_structs *s)
 	exit(g_numberr);
 }
 
-int	main(int ac, char **av, char **env)
+static void	args_checker(int argc, char **argv)
 {
-	t_structs	s;
-
-	(void)av;
-	if (!isatty(0) || !isatty(1) || !isatty(2))
+	(void)argv;
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO)
+		|| !isatty(STDERR_FILENO))
 	{
 		print_error(NULL, NULL, "not in a terminal\n", EXIT_FAILURE);
 		exit(g_numberr);
 	}
-	if (ac != 1)
+	if (argc != 1)
 	{
 		print_error(NULL, NULL, NULL, E2BIG);
 		exit(g_numberr);
 	}
+}
+
+int	main(int argc, char **argv, char **env)
+{
+	t_structs	s;
+
+	args_checker(argc, argv);
 	init_control_struct(&s, env);
 	prompt_loop(&s);
 	return (0);
