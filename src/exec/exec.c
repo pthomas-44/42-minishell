@@ -6,11 +6,42 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 10:58:08 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/13 11:46:35 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 19:32:43 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// ~~ Gestion d'erreur de la recuperation du chemin
+
+int	path_error_check(t_cmd *current)
+{
+	DIR	*dir;
+	int	fd;
+
+	if (!current->path && !current->cmd)
+		return (-1);
+	dir = opendir(current->path);
+	fd = open(current->path, O_RDONLY);
+	if (!current->path)
+	{
+		print_error(NULL, current->cmd[0], "command not found\n", 127);
+		if (dir)
+			closedir(dir);
+	}
+	else if (dir)
+	{
+		print_error(NULL, current->path, NULL, EISDIR);
+		closedir(dir);
+	}
+	else if (fd == -1 || close(fd) == -1)
+		print_error(NULL, current->cmd[0], NULL, ENOENT);
+	else if (access(current->path, X_OK) == -1)
+		print_error(NULL, current->cmd[0], NULL, EACCES);
+	else
+		return (0);
+	return (-1);
+}
 
 //~~ Lance le built-in qui correspond à la commande
 
@@ -60,10 +91,7 @@ int	is_builtin(t_cmd current)
 void	exec(t_structs *s)
 {
 	if (s->cmds_size == 1 && is_builtin(s->cmds[0]) == 1)
-	{
 		builtins(s, &s->cmds[0], s->cmds[0].fd_out);
-		close_pipe(s);
-	}
 	else
 	{
 		if (tcsetattr(STDIN_FILENO, TCSANOW, &s->old_term) == -1)

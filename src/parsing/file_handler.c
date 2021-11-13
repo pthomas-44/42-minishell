@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:26:00 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/11 13:39:16 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 15:48:35 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,12 @@ int	get_infile(t_structs *s, char **line, int i)
 	skip_spaces(line);
 	tmp[1] = get_args(*line, "<>| ");
 	if (*(tmp[0] + 1) == '<')
+	{
 		if (heredoc_handler(s, &s->cmds[i], tmp[1]) == -1)
 			return (-1);
-	s->cmds[i].fd_in = open(tmp[1], O_RDONLY);
+	}
+	else
+		s->cmds[i].fd_in = open(tmp[1], O_RDONLY);
 	if (s->cmds[i].fd_in == -1)
 		print_error("open: ", tmp[1], NULL, errno);
 	(*line) += ft_strlen(tmp[1]);

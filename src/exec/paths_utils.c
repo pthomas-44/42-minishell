@@ -3,49 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   paths_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/11 14:20:07 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 19:31:43 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// ~~ Gestion d'erreur de la recuperation du chemin
-
-int	path_error_check(t_cmd *current)
-{
-	DIR	*dir;
-	int	fd;
-
-	if (!current->path && !current->cmd)
-		return (-1);
-	dir = opendir(current->path);
-	fd = open(current->path, O_RDONLY);
-	if (!current->path)
-	{
-		print_error(NULL, current->cmd[0], "command not found\n", 127);
-		if (dir)
-			closedir(dir);
-	}
-	else if (dir)
-	{
-		print_error(NULL, current->path, NULL, EISDIR);
-		closedir(dir);
-	}
-	else if (fd == -1 || close(fd) == -1)
-		print_error(NULL, current->cmd[0], NULL, ENOENT);
-	else if (access(current->path, X_OK) == -1)
-		print_error(NULL, current->cmd[0], NULL, EACCES);
-	else
-		return (0);
-	return (-1);
-}
-
 // ~~ Trouve le chemin de la commande dans l'ordinateur
 
-int	find_exe_path(t_structs *s, t_cmd *current)
+static int	find_exe_path(t_structs *s, t_cmd *current)
 {
 	char	cwd[MAXPATHLEN];
 	int		nb_args;
@@ -76,7 +45,7 @@ int	find_exe_path(t_structs *s, t_cmd *current)
 
 // ~~ Trouve le chemin de la commande dans PATH
 
-int	find_path_in_sys(t_cmd *current, char **paths)
+static int	find_path_in_sys(t_cmd *current, char **paths)
 {
 	size_t	i;
 	int		fd;
@@ -133,7 +102,7 @@ static char	**add_backslash(char **paths)
 
 // ~~ Recupere les chemins de la variable PATH
 
-char	**get_env_paths(t_structs *s)
+static char	**get_env_paths(t_structs *s)
 {
 	char	**paths;
 	t_env	*elem;
@@ -147,4 +116,22 @@ char	**get_env_paths(t_structs *s)
 			print_error("malloc: ", NULL, NULL, ENOMEM);
 	}
 	return (add_backslash(paths));
+}
+
+// ~~ Recupere le chemin d'une commande
+
+void	get_path(t_structs *s, t_cmd *current)
+{
+	char	**paths;
+
+	if (!current->cmd)
+		return ;
+	paths = get_env_paths(s);
+	if (paths && !ft_strchr(current->cmd[0], '/')
+		&& find_path_in_sys(current, paths) == -1)
+		print_error("malloc: ", NULL, NULL, ENOMEM);
+	else if ((!paths || ft_strchr(current->cmd[0], '/'))
+		&& !current->path && find_exe_path(s, current) == -1)
+		print_error("malloc: ", NULL, NULL, ENOMEM);
+	free_tab(&paths, 0);
 }

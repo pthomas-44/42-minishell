@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/13 15:35:37 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 19:34:04 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,7 @@ void			exec(t_structs *s);
 int				is_builtin(t_cmd current);
 void			builtins(t_structs *s, t_cmd *current, int fd);
 void			pipex(t_structs *s);
-void			close_pipe(t_structs *s);
-char			**get_env_paths(t_structs *s);
-int				find_path_in_sys(t_cmd *current, char **paths);
-int				find_exe_path(t_structs *s, t_cmd *current);
+void			get_path(t_structs *s, t_cmd *current);
 int				path_error_check(t_cmd *current);
 // ~~ builtins
 void			bi_echo(t_cmd *current, int fd);

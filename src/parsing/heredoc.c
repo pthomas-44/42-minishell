@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 11:38:48 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/13 15:35:37 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 15:50:02 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ static void	heredoc(t_structs *s, char *stop, int pipe_fd[2])
 	if (content)
 		ft_putstr_fd(content, pipe_fd[STDOUT_FILENO]);
 	free(content);
-	if (close(pipe_fd[STDOUT_FILENO]) == -1)
+	if (close(pipe_fd[STDOUT_FILENO]) == -1
+		|| close(pipe_fd[STDIN_FILENO]) == -1)
 	{
 		print_error("close: ", NULL, NULL, errno);
 		return ;

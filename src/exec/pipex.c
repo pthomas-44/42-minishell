@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/13 15:35:37 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 19:33:43 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,45 +43,44 @@ static void	wait_child_process(t_structs *s)
 	}
 }
 
-// ~~ Recupere le chemin d'une commande
+//~~ Ferme tous les fd de la commande
 
-static void	get_path(t_structs *s, t_cmd *current)
+static void	close_fds(t_structs *s, size_t i)
 {
-	char	**paths;
-
-	if (!current->cmd)
-		return ;
-	paths = get_env_paths(s);
-	if (paths && !ft_strchr(current->cmd[0], '/')
-		&& find_path_in_sys(current, paths) == -1)
-		print_error("malloc: ", NULL, NULL, ENOMEM);
-	else if ((!paths || ft_strchr(current->cmd[0], '/'))
-		&& !current->path && find_exe_path(s, current) == -1)
-		print_error("malloc: ", NULL, NULL, ENOMEM);
-	free_tab(&paths, 0);
+	if (s->cmds[i].fd_in != STDIN_FILENO && s->cmds[i].fd_in != -1
+		&& close(s->cmds[i].fd_in) == -1)
+		print_error("close: ", NULL, NULL, errno);
+	if (s->cmds[i].fd_out != STDOUT_FILENO
+		&& close(s->cmds[i].fd_out) == -1)
+		print_error("close: ", NULL, NULL, errno);
+	if ((i && close(s->cmds[i - 1].pipefd[STDIN_FILENO]) == -1)
+		|| close(s->cmds[i].pipefd[STDOUT_FILENO]) == -1)
+		print_error("close: ", NULL, NULL, errno);
+	if ((i == s->cmds_size - 1 && close(s->cmds[i].pipefd[STDIN_FILENO]) == -1))
+		print_error("close: ", NULL, NULL, errno);
 }
 
-//~~ Ferme tous les fd du programme
+//~~ Duplique les fd de la commande des les fd du terminal
 
-void	close_pipe(t_structs *s)
+static void	duplicate_fds(t_structs *s, size_t i)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < s->cmds_size)
-	{
-		if (s->cmds[i].fd_in != STDIN_FILENO
-			&& s->cmds[i].fd_in != -1
-			&& close(s->cmds[i].fd_in) == -1)
-			print_error("close: ", NULL, NULL, errno);
-		if (s->cmds[i].fd_out != STDOUT_FILENO
-			&& close(s->cmds[i].fd_out) == -1)
-			print_error("close: ", NULL, NULL, errno);
-		if (close(s->cmds[i].pipefd[STDIN_FILENO]) == -1
-			|| close(s->cmds[i].pipefd[STDOUT_FILENO]) == -1)
-			print_error("close: ", NULL, NULL, errno);
-		i++;
-	}
+	if (s->cmds[i].fd_in != 0 && dup2(s->cmds[i].fd_in, STDIN_FILENO) == -1)
+		print_error("dup2: ", NULL, NULL, errno);
+	if (s->cmds[i].fd_out != 1 && dup2(s->cmds[i].fd_out, STDOUT_FILENO) == -1)
+		print_error("dup2: ", NULL, NULL, errno);
+	if (s->cmds[i].fd_in == 0 && i != 0
+		&& dup2(s->cmds[i - 1].pipefd[STDIN_FILENO], STDIN_FILENO) == -1)
+		print_error("dup2: ", NULL, NULL, errno);
+	if (s->cmds[i].fd_out == 1 && i != s->cmds_size - 1
+		&& dup2(s->cmds[i].pipefd[STDOUT_FILENO], STDOUT_FILENO) == -1)
+		print_error("dup2: ", NULL, NULL, errno);
+	if (s->cmds[i].fd_in != 0 && close(s->cmds[i].fd_in) == -1)
+		print_error("close: ", NULL, NULL, errno);
+	if (s->cmds[i].fd_out != 1 && close(s->cmds[i].fd_out) == -1)
+		print_error("close: ", NULL, NULL, errno);
+	if (close(s->cmds[i].pipefd[STDIN_FILENO]) != 0
+		&& close(s->cmds[i].pipefd[STDOUT_FILENO]) == -1)
+		print_error("close: ", NULL, NULL, errno);
 }
 
 //~~ Exécution de la commande
@@ -90,16 +89,15 @@ static void	child(t_structs *s, t_cmd *current, size_t i)
 {
 	char	**envp;
 
+	if (s->cmds[i].fd_in == -1)
+	{
+		free_all(s, 1);
+		exit(g_error_number);
+	}
+	signal(SIGINT, NULL);
+	signal(SIGQUIT, NULL);
 	envp = list_to_char(s);
-	if ((current->fd_in != 0 && dup2(current->fd_in, STDIN_FILENO) == -1)
-		|| (current->fd_out != 1 && dup2(current->fd_out, STDOUT_FILENO) == -1))
-		print_error("dup2: ", NULL, NULL, errno);
-	else if ((current->fd_in == 0 && i != 0
-			&& dup2(s->cmds[i - 1].pipefd[STDIN_FILENO], STDIN_FILENO) == -1)
-		|| (current->fd_out == 1 && i != s->cmds_size - 1
-			&& dup2(current->pipefd[STDOUT_FILENO], STDOUT_FILENO) == -1))
-		print_error("dup2: ", NULL, NULL, errno);
-	close_pipe(s);
+	duplicate_fds(s, i);
 	if (is_builtin(*current) != 1 && path_error_check(current) == -1)
 	{
 		free(current->path);
@@ -110,6 +108,8 @@ static void	child(t_structs *s, t_cmd *current, size_t i)
 	else if (current->path && execve(current->path, current->cmd, envp) == -1)
 		print_error("execve: ", NULL, NULL, errno);
 	free_tab(&envp, 0);
+	free_all(s, 1);
+	exit(g_error_number);
 }
 
 //~~ Création d'un process par commande
@@ -122,22 +122,22 @@ void	pipex(t_structs *s)
 	i = 0;
 	while (i < s->cmds_size)
 	{
+		if (pipe(s->cmds[i].pipefd) == -1)
+			print_error("pipe: ", NULL, NULL, errno);
 		if (!is_builtin(s->cmds[i]))
 			get_path(s, &s->cmds[i]);
 		pid = fork();
 		if (pid == -1)
-			print_error("fork: ", NULL, NULL, errno);
-		else if (pid == 0)
 		{
-			signal(SIGINT, NULL);
-			signal(SIGQUIT, NULL);
-			if (s->cmds[i].fd_in != -1)
-				child(s, &s->cmds[i], i);
-			free_all(s, 1);
-			exit(g_error_number);
+			print_error("fork: ", NULL, NULL, errno);
+			close_fds(s, i);
+			break ;
 		}
+		else if (pid == 0)
+			child(s, &s->cmds[i], i);
+		else
+			close_fds(s, i);
 		i++;
 	}
-	close_pipe(s);
 	wait_child_process(s);
 }

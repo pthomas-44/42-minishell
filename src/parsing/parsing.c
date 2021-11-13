@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/11 13:46:25 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 15:51:20 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,6 @@ static int	init_cmds_struct(t_structs *s, char *line)
 		s->cmds[i].cmd = NULL;
 		s->cmds[i].path = NULL;
 		s->cmds[i].fd_out = 1;
-		if (pipe(s->cmds[i].pipefd) == -1)
-			print_error("pipe: ", NULL, NULL, errno);
 		i++;
 	}
 	return (0);
