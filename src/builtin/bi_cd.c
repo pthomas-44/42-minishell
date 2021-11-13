@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/11 14:12:17 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 15:35:37 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	set_pwd(t_structs *s, char *name)
 	if (!getcwd(cwd, MAXPATHLEN))
 	{
 		print_error("getcwd: ", NULL, NULL, errno);
-		g_numberr = EXIT_FAILURE;
+		g_error_number = EXIT_FAILURE;
 	}
 	current = find_env_var(s, name);
 	if (current)
@@ -52,7 +52,7 @@ static void	set_pwd(t_structs *s, char *name)
 	if (current && !current->value)
 	{
 		print_error("malloc: ", NULL, NULL, ENOMEM);
-		g_numberr = EXIT_FAILURE;
+		g_error_number = EXIT_FAILURE;
 	}
 }
 
@@ -60,7 +60,7 @@ static void	set_pwd(t_structs *s, char *name)
 
 void	bi_cd(t_structs *s, t_cmd *current)
 {
-	g_numberr = EXIT_SUCCESS;
+	g_error_number = EXIT_SUCCESS;
 	if (!current->cmd[1] || current->cmd[1][0] == '~')
 	{
 		if (replace_by_home_path(s, current->cmd[1], &current->path) == -1)
@@ -75,12 +75,12 @@ void	bi_cd(t_structs *s, t_cmd *current)
 	if (current->path && chdir(current->path) == -1)
 	{
 		print_error("cd: ", current->path, NULL, errno);
-		g_numberr = EXIT_FAILURE;
+		g_error_number = EXIT_FAILURE;
 	}
 	else if (!current->path)
 	{
 		print_error("malloc: ", NULL, NULL, ENOMEM);
-		g_numberr = EXIT_FAILURE;
+		g_error_number = EXIT_FAILURE;
 	}
 	set_pwd(s, "PWD");
 }

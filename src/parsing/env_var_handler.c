@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/11 16:26:11 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 15:35:37 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	*replace_var(char *line, size_t i, t_env *var, char quote)
 	new = ft_substr(line, 0, i);
 	if (line[i + 1] == '?')
 	{
-		new = ft_strjoin_f3(new, ft_nbtobase(g_numberr, "0123456789"));
+		new = ft_strjoin_f3(new, ft_nbtobase(g_error_number, "0123456789"));
 		new = ft_strjoin_f1(new, &line[i + 2]);
 	}
 	else if (var && (!ft_strchr(var->value, '\"')

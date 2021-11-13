@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/11 13:47:52 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 15:35:37 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,16 @@ static void	wait_child_process(t_structs *s)
 			return ;
 		}
 		if (WIFEXITED(status))
-			g_numberr = WEXITSTATUS(status);
+			g_error_number = WEXITSTATUS(status);
 		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 		{
 			ft_putchar_fd('\n', STDERR_FILENO);
-			g_numberr = 130;
+			g_error_number = 130;
 		}
 		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
 		{
 			ft_putstr_fd("Quit: 3\n", STDERR_FILENO);
-			g_numberr = 131;
+			g_error_number = 131;
 		}
 		i++;
 	}
@@ -134,7 +134,7 @@ void	pipex(t_structs *s)
 			if (s->cmds[i].fd_in != -1)
 				child(s, &s->cmds[i], i);
 			free_all(s, 1);
-			exit(g_numberr);
+			exit(g_error_number);
 		}
 		i++;
 	}

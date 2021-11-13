@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:48 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/13 11:59:07 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 15:35:37 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	sig_int(int sig)
 	ft_putchar_fd('\n', STDERR_FILENO);
 	rl_on_new_line();
 	rl_redisplay();
-	g_numberr = 1;
+	g_error_number = 1;
 }
 
 //~~ La fonction qui s'occupe de gérer les 'CTRL'+'C' dans le heredoc
@@ -30,6 +30,6 @@ void	heredoc_sig_int(int sig)
 {
 	(void)sig;
 	ft_putchar_fd('\n', STDERR_FILENO);
-	g_numberr = 1;
-	exit(g_numberr);
+	g_error_number = 1;
+	exit(g_error_number);
 }

@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 04:34:49 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/13 11:46:35 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 15:35:37 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static void	set_new_terminal(t_structs *s)
 
 void	init_control_struct(t_structs *s, char **env)
 {
-	g_numberr = 0;
+	g_error_number = 0;
 	ft_bzero(s, sizeof(t_structs));
 	set_new_terminal(s);
 	s->parse_line[0] = NULL;
@@ -119,7 +119,7 @@ void	init_control_struct(t_structs *s, char **env)
 	{
 		print_error("malloc: ", NULL, NULL, ENOMEM);
 		free_all(s, 0);
-		exit(g_numberr);
+		exit(g_error_number);
 	}
 	set_env_list(s, env);
 }

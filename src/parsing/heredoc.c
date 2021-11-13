@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 11:38:48 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/11 13:39:06 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 15:35:37 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	heredoc_process_init(t_structs *s, char *stop, int pipe_fd[2])
 		signal(SIGINT, &heredoc_sig_int);
 		heredoc(s, stop, pipe_fd);
 		free_all(s, 1);
-		exit(g_numberr);
+		exit(g_error_number);
 	}
 	else if (waitpid(-1, &status, WUNTRACED) == -1)
 	{
@@ -82,7 +82,7 @@ static void	heredoc_process_init(t_structs *s, char *stop, int pipe_fd[2])
 		return ;
 	}
 	if (WIFEXITED(status))
-		g_numberr = WEXITSTATUS(status);
+		g_error_number = WEXITSTATUS(status);
 }
 
 //~~ La gestion du heredoc
@@ -100,7 +100,7 @@ int	heredoc_handler(t_structs *s, t_cmd *current, char *stop)
 	signal(SIGINT, SIG_IGN);
 	heredoc_process_init(s, stop, pipe_fd);
 	signal(SIGINT, &sig_int);
-	if (g_numberr)
+	if (g_error_number)
 	{
 		free(stop);
 		return (-1);

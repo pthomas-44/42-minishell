@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 01:49:55 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/10 16:09:05 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 15:35:37 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	bi_echo(t_cmd *current, int fd)
 	size_t	i;
 	bool	option;
 
-	g_numberr = EXIT_SUCCESS;
+	g_error_number = EXIT_SUCCESS;
 	i = 0;
 	option = 0;
 	if (current->cmd[1])

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 01:51:34 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/11 11:06:10 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 15:35:37 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	bi_unset(t_structs *s, t_cmd *current)
 	size_t	i;
 
 	i = 1;
-	g_numberr = EXIT_SUCCESS;
+	g_error_number = EXIT_SUCCESS;
 	while (current->cmd[i])
 	{
 		if (!is_word(current->cmd[i]))

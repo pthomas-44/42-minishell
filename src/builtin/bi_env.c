@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 01:51:20 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/09 16:50:17 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 15:35:37 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	bi_env(t_structs *s, int fd)
 {
 	t_env	*elem;
 
-	g_numberr = EXIT_SUCCESS;
+	g_error_number = EXIT_SUCCESS;
 	elem = *s->env;
 	while (elem)
 	{

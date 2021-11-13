@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 01:51:53 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/09 17:45:04 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 15:35:37 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	bi_exit(t_structs *s, t_cmd *current)
 		return ;
 	}
 	else if (current->cmd[1])
-		g_numberr = ft_atoi(ft_strchrstr(current->cmd[1], "-0123456789"));
+		g_error_number = ft_atoi(ft_strchrstr(current->cmd[1], "-0123456789"));
 	free_all(s, s->cmds_size - 1);
-	exit(g_numberr);
+	exit(g_error_number);
 }

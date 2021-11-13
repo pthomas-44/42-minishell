@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:24:04 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/13 11:46:07 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 15:35:37 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 void	print_error(char *cmd, char *value, char *error, int status)
 {
 	errno = status;
-	g_numberr = status;
+	g_error_number = status;
 	ft_putstr_fd("potatoshell: ", STDERR_FILENO);
 	if (cmd)
 		ft_putstr_fd(cmd, STDERR_FILENO);

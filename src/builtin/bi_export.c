@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/09 17:45:23 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 15:35:37 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ static void	create_env_variable(t_structs *s, t_cmd *current)
 
 void	bi_export(t_structs *s, t_cmd *current, int fd)
 {
-	g_numberr = EXIT_SUCCESS;
+	g_error_number = EXIT_SUCCESS;
 	if (current->cmd[1])
 		create_env_variable(s, current);
 	else

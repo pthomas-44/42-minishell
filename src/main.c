@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/04 17:23:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/13 11:58:32 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 15:35:37 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	prompt_loop(t_structs *s)
 {
 	while (1)
 	{
-		if (g_numberr)
+		if (g_error_number)
 			s->parse_line[0] = readline(ERR_PROMPT);
 		else
 			s->parse_line[0] = readline(PROMPT);
@@ -34,7 +34,7 @@ static void	prompt_loop(t_structs *s)
 	}
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	free_all(s, 0);
-	exit(g_numberr);
+	exit(g_error_number);
 }
 
 static void	args_checker(int argc, char **argv)
@@ -44,12 +44,12 @@ static void	args_checker(int argc, char **argv)
 		|| !isatty(STDERR_FILENO))
 	{
 		print_error(NULL, NULL, "not in a terminal\n", EXIT_FAILURE);
-		exit(g_numberr);
+		exit(g_error_number);
 	}
 	if (argc != 1)
 	{
 		print_error(NULL, NULL, NULL, E2BIG);
-		exit(g_numberr);
+		exit(g_error_number);
 	}
 }
 
