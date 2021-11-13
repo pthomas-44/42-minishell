@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 15:18:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/02 23:49:38 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 20:48:00 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,18 @@ float	ft_framingf(float min, float nb, float max)
 		return (1);
 	else
 		return (0);
+}
+
+size_t	ft_count_occurences(char *str, char *charset)
+{
+	size_t	nb_of_occ;
+
+	nb_of_occ = 0;
+	while (*str)
+	{
+		if (ft_strchr(charset, *str))
+			nb_of_occ++;
+		str++;
+	}
+	return (nb_of_occ);
 }

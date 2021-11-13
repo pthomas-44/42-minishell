@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/13 15:51:20 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 20:43:51 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,8 @@ void	parsing(t_structs *s, char *line)
 
 	if (check_syntax_errors(line, "<>|") || init_cmds_struct(s, line) == -1)
 		return ;
-	tmp = replace_env_variables(s, ft_strdup(line));
+	tmp = handle_operands(line, "\\");
+	tmp = replace_env_variables(s, tmp);
 	if (!tmp)
 	{
 		print_error("malloc: ", NULL, NULL, ENOMEM);

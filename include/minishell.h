@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/13 19:34:04 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 20:48:40 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void			heredoc_sig_int(int sig);
 void			parsing(t_structs *s, char *line);
 int				check_syntax_errors(char *line, char *charset);
 char			*replace_env_variables(t_structs *s, char *line);
+char			*handle_operands(char *line, char *charset);
 char			check_quotes(char c, char quote);
 void			remove_quotes(char **cmd);
 void			skip_spaces(char **line);
@@ -123,5 +124,6 @@ void			bi_cd(t_structs *s, t_cmd *current);
 void			bi_export(t_structs *s, t_cmd *current, int fd);
 int				is_word(char *str);
 int				replace_by_home_path(t_structs *s, char *path, char **new);
+
 
 #endif

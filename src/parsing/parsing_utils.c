@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:54:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/10 18:49:54 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 20:49:49 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ void	remove_quotes(char **cmd)
 		j = -1;
 		while (cmd[i][++j])
 		{
-			if (!quote && (cmd[i][j] == '"' || cmd[i][j] == '\''))
+			if (cmd[i][j] == '\\')
+				cmd[i] = remove_char(cmd[i], j);
+			else if (!quote && (cmd[i][j] == '"' || cmd[i][j] == '\''))
 			{
 				quote = cmd[i][j];
 				cmd[i] = remove_char(cmd[i], j--);
@@ -94,9 +96,11 @@ char	*get_args(char *line, char *charset)
 
 	start = line;
 	quote = 0;
-	while (*line && (!ft_strchr(charset, *line) || quote))
+	while (*line && (*(line - 1) == '\\'
+			|| (!ft_strchr(charset, *line) || quote)))
 	{
-		if ((*line == '"' || *line == '\'') && quote == 0)
+		if ((line == start || *(line - 1) != '\\')
+			&& (*line == '"' || *line == '\'') && quote == 0)
 			quote = *line;
 		else if (*line == quote)
 			quote = 0;

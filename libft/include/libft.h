@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 16:00:37 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/08 13:31:06 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 20:48:18 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ char		*ft_convert_base(char *nbr, char *base_from, char *base_to);
 // ~~ ft_misc.c
 int			ft_framing(int min, int nb, int max);
 float		ft_framingf(float min, float nb, float max);
+size_t		ft_count_occurences(char *str, char *charset);
 // ~~ ft_strmodif.c
 size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t		ft_strlcat(char *dst, const char *src, size_t dstsize);

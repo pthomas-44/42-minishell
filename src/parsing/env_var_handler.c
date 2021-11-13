@@ -6,44 +6,41 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/13 15:35:37 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 20:47:01 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//~~ Inhibe les operateurs et les quotes simples dans les noms de variables
-
-static char	*tokenize(char *value)
+char	*handle_operands(char *line, char *charset)
 {
-	char	**tmp;
-	char	*new;
+	size_t	size;
 	size_t	i;
+	char	*new;
 
-	tmp = ft_split(value, ' ');
-	free(value);
-	if (!tmp)
-		print_error("malloc: ", NULL, NULL, ENOMEM);
-	new = NULL;
+	size = ft_strlen(line) + ft_count_occurences(line, charset);
+	new = ft_calloc(size + 1, sizeof(char));
+	if (!new)
+		return (NULL);
 	i = 0;
-	while (tmp && tmp[i])
+	while (*line)
 	{
-		new = ft_strjoin_f3(new,
-				ft_strjoin_f2("\"", ft_strjoin_f0(tmp[i++], "\" ")));
-		if (!new)
+		if (ft_strchr(charset, *line))
 		{
-			print_error("malloc: ", NULL, NULL, ENOMEM);
-			free_tab(&tmp, 0);
-			return (NULL);
+			new[i] = '\\';
+			i++;
 		}
+		new[i] = *line;
+		line++;
+		i++;
 	}
-	free_tab(&tmp, 0);
+	new[i] = '\0';
 	return (new);
 }
 
 //~~ Remplace la variable d'environnement par sa valeur
 
-static char	*replace_var(char *line, size_t i, t_env *var, char quote)
+static char	*replace_var(char *line, size_t i, t_env *var)
 {
 	char	*new;
 
@@ -53,13 +50,9 @@ static char	*replace_var(char *line, size_t i, t_env *var, char quote)
 		new = ft_strjoin_f3(new, ft_nbtobase(g_error_number, "0123456789"));
 		new = ft_strjoin_f1(new, &line[i + 2]);
 	}
-	else if (var && (!ft_strchr(var->value, '\"')
-			|| !ft_strchrstr(var->value, "<>|")))
+	else if (var)
 	{
-		if (!quote)
-			new = ft_strjoin_f3(new, tokenize(ft_strdup(var->value + 1)));
-		else
-			new = ft_strjoin_f3(new, ft_strdup(var->value + 1));
+		new = ft_strjoin_f3(new, handle_operands(var->value + 1, "\\\'\"<>|"));
 		new = ft_strjoin_f1(new, &line[i] + ft_strlen(var->name) + 1);
 	}
 	else if (line[++i])
@@ -123,7 +116,7 @@ char	*replace_env_variables(t_structs *s, char *line)
 				|| line[i + 1] == '_' || line[i + 1] == '?') && quote != '\'')
 		{
 			var = get_var_node(s, &line[i + 1]);
-			line = replace_var(line, i, var, quote);
+			line = replace_var(line, i, var);
 			if (!line)
 				return (NULL);
 		}
