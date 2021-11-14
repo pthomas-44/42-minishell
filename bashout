@@ -1,0 +1,62 @@
+echo $s | cat -e >> out$
+$
+$
+$
+ceciestuntest$
+ceci est un test$
+"$
+""$
+"$
+" "$
+ceci "est" un "" test$
+"ceci est un test"$
+'$
+''$
+'$
+' '$
+ceci 'est' un '' test$
+'ceci est un test'$
+\$
+\$
+\ \$
+\\\ceci\est\un\test\\\$
+ceci \\est\\ un \\ test$
+|$
+<$
+< |$
+<>|ceci||est>>un<<test>>|$
+SG< DS>G|DS G \'L}L "S}|<<DF"}|\'">>DS }|F"D<S |G|\'\':DS G:DS"" GDS"G DS}| | DGS> GDS<L$
+echo$
+echo <>|ceci||est>>un<<test>>| | grep test   ceci   'est'   un ''   test$
+<>|ceci||est>>un<<test>>| | grep test ceci 'est' un '' test
+$
+$
+$
+   $
+ceciestuntest$
+   ceci    est   un    test   $
+"$
+""$
+  "  $
+  "  "  $
+  ceci   "est"   un ""   test$
+"ceci    est   un   test"$
+'$
+''$
+  '  $
+  '  '  $
+  ceci   'est'   un ''   test$
+'ceci    est   un   test'$
+\$
+  \  $
+  \  \  $
+\\\ceci\est\un\test\\\$
+  ceci   \\est\\   un \\   test$
+|$
+  <  $
+  <  |  $
+<>|ceci||est>>un<<test>>|$
+SG< DS>G|DS G \'L}L    "S}|<<DF"}|\'">>DS    }|F"D<S |G|\'\':DS     G:DS"" GDS"G DS}|   | DGS> GDS<L $
+echo$
+echo <>|ceci||est>>un<<test>>| | grep test   ceci   'est'   un ''   test$
+<>|ceci||est>>un<<test>>| | grep test ceci 'est' un '' test

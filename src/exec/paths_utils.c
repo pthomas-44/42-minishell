@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/13 20:32:59 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/14 15:45:53 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ static char	**get_env_paths(t_structs *s)
 
 	paths = NULL;
 	elem = find_env_var(s, "PATH");
-	if (elem)
+	if (elem && elem->value)
 	{
 		paths = ft_split(elem->value + 1, ':');
 		if (!paths)

@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 04:34:49 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/13 15:35:37 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/14 18:58:18 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,11 @@ static void	check_if_exist(t_structs *s, bool *pwd, bool *oldpwd, bool *shlvl)
 	elem = find_env_var(s, "SHLVL");
 	if (elem)
 	{
-		tmp = ft_strjoin_f2("=",
-				ft_nbtobase(ft_atoi(elem->value + 1) + 1, "0123456789"));
+		if (elem->value)
+			tmp = ft_strjoin_f2("=",
+					ft_nbtobase(ft_atoi(elem->value + 1) + 1, "0123456789"));
+		else
+			tmp = ft_strdup("=1");
 		free(elem->value);
 		elem->value = tmp;
 		*shlvl = 1;

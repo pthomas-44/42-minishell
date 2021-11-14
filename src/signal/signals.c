@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:48 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/13 15:35:37 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/14 15:24:52 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,20 @@ void	heredoc_sig_int(int sig)
 	ft_putchar_fd('\n', STDERR_FILENO);
 	g_error_number = 1;
 	exit(g_error_number);
+}
+
+//~~ Gere les signaux des process enfants
+
+void	sig_child(int sig)
+{
+	if (sig == SIGINT)
+	{
+		ft_putchar_fd('\n', STDERR_FILENO);
+		g_error_number = 130;
+	}
+	else if (sig == SIGQUIT)
+	{
+		ft_putstr_fd("Quit: 3\n", STDERR_FILENO);
+		g_error_number = 131;
+	}
 }

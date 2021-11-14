@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:51:28 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/14 11:29:52 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/14 18:24:02 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static size_t	ft_countwords(const char *s)
 	quote = 0;
 	while (s[i])
 	{
-		if (!i || s[i - 1] != '\\')
+		while (s[i] == '\\')
+			i += 2;
 			quote = check_quotes(s[i], quote);
 		if (s[i] && s[i] != ' ' && (s[i + 1] == ' '
 				|| s[i + 1] == 0) && !quote)
@@ -47,15 +48,17 @@ static char	*get_next_word(char **str)
 	quote = 0;
 	while ((*str)[i] && (*str)[i] == ' ' && !quote)
 	{
-		if (!i || (*str)[i - 1] != '\\')
-			quote = check_quotes((*str)[i], quote);
+		while ((*str)[i] == '\\')
+			i += 2;
+		quote = check_quotes((*str)[i], quote);
 		i++;
 	}
 	start = (*str) + i;
 	while ((*str)[i] && ((*str)[i] != ' ' || quote))
 	{
-		if (!i || (*str)[i - 1] != '\\')
-			quote = check_quotes((*str)[i], quote);
+		while ((*str)[i] == '\\')
+			i += 2;
+		quote = check_quotes((*str)[i], quote);
 		i++;
 	}
 	(*str) += i;

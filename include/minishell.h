@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/14 14:27:06 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/14 15:25:00 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void			init_control_struct(t_structs *s, char **env);
 // ~~ signal
 void			sig_int(int sig);
 void			heredoc_sig_int(int sig);
+void			sig_child(int sig);
 // ~~ parsing
 void			parsing(t_structs *s, char *line);
 int				check_syntax_errors(char *line, char *charset);

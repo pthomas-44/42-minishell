@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:54:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/14 14:27:21 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/14 16:30:32 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ char	*get_args(char *line, char *charset)
 		if ((line == start || *(line - 1) != '\\')
 			&& (*line == '"' || *line == '\'') && quote == 0)
 			quote = *line;
-		else if (*line == quote)
+		else if (*line == quote && *(line - 1) != '\\')
 			quote = 0;
 		line++;
 	}

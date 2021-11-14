@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:24:16 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/14 11:50:08 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/14 18:20:33 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ static int	check_successive_operators(char **line, char *charset)
 	if (*tmp && *tmp == '|')
 		print_error(NULL, NULL, "syntax error near unexpected token `|'\n", 258);
 	else if (*tmp && ft_strchr(charset, *tmp) && *(*line) != '|'
-		&& (*tmp != *(*line) || (*tmp2 && ft_strchr(charset, *tmp2))))
+		&& (*tmp != *(*line) || tmp - 1 != (*line)
+			|| (*tmp2 && ft_strchr(charset, *tmp2))))
 	{
-		print_error(NULL, NULL,
-			"syntax error near unexpected token `", 258);
+		print_error(0, 0, "syntax error near unexpected token `", 258);
 		write(STDERR_FILENO, tmp, 1);
 		write(STDERR_FILENO, "'\n", 2);
 	}

@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/13 19:33:43 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/14 15:28:20 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ static void	wait_child_process(t_structs *s)
 {
 	size_t		i;
 	int			status;
+	bool		got_sig;
 
 	i = 0;
+	got_sig = 0;
 	while (i < s->cmds_size)
 	{
 		if (waitpid(-1, &status, WUNTRACED) == -1)
@@ -29,15 +31,10 @@ static void	wait_child_process(t_structs *s)
 		}
 		if (WIFEXITED(status))
 			g_error_number = WEXITSTATUS(status);
-		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		if (WIFSIGNALED(status) && !got_sig)
 		{
-			ft_putchar_fd('\n', STDERR_FILENO);
-			g_error_number = 130;
-		}
-		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
-		{
-			ft_putstr_fd("Quit: 3\n", STDERR_FILENO);
-			g_error_number = 131;
+			sig_child(WTERMSIG(status));
+			got_sig = 1;
 		}
 		i++;
 	}
