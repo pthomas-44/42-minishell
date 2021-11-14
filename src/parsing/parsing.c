@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/14 13:45:33 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/14 13:56:56 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	parsing(t_structs *s, char *line)
 	if (check_syntax_errors(line, "<>|") || init_cmds_struct(s, line) == -1)
 		return ;
 	tmp = handle_operands(line, "\\");
-	tmp = replace_env_variables(s, tmp);
+	tmp = replace_env_variables(s, tmp, 0);
 	if (!tmp)
 	{
 		print_error("malloc: ", NULL, NULL, ENOMEM);
@@ -133,17 +133,17 @@ void	parsing(t_structs *s, char *line)
 		free_cmds_struct(s);
 		return ;
 	}
-	// size_t i = 0;
-	// size_t j = 0;
-	// while (i < s->cmds_size)
-	// {
-	// 	while (s->cmds[i].cmd && s->cmds[i].cmd[j])
-	// 	{
-	// 		dprintf(2, "%zu-%zu|%s|\n", i, j, s->cmds[i].cmd[j]);
-	// 		j++;
-	// 	}
-	// 	i++;
-	// }
+	size_t i = 0;
+	size_t j = 0;
+	while (i < s->cmds_size)
+	{
+		while (s->cmds[i].cmd && s->cmds[i].cmd[j])
+		{
+			dprintf(2, "arg %zu-%zu|%s|\n", i, j, s->cmds[i].cmd[j]);
+			j++;
+		}
+		i++;
+	}
 	free(tmp);
 	exec(s);
 	free_cmds_struct(s);

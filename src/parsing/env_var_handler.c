@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/14 13:01:59 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/14 13:58:17 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static void	skip_heredoc(char *line, size_t *i)
 
 //~~ Remplace les variables d'environnement pas leurs valeurs
 
-char	*replace_env_variables(t_structs *s, char *line)
+char	*replace_env_variables(t_structs *s, char *line, bool is_heredoc)
 {
 	t_env	*var;
 	size_t	i;
@@ -110,7 +110,7 @@ char	*replace_env_variables(t_structs *s, char *line)
 	while (line && line[i])
 	{
 		quote = check_quotes(line[i], quote);
-		if (line[i] == '<' && line[i + 1] == '<')
+		if (!is_heredoc && line[i] == '<' && line[i + 1] == '<')
 			skip_heredoc(line, &i);
 		if (line[i] == '$' && (ft_isalpha(line[i + 1])
 				|| line[i + 1] == '_' || line[i + 1] == '?') && quote != '\'')
