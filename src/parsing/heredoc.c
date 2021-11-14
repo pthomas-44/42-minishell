@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 11:38:48 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/13 15:50:02 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/14 12:04:35 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static char	*heredoc_loop(t_structs *s, char *stop)
 			break ;
 		line = replace_env_variables(s, line);
 		content = ft_strjoin_f3(content, line);
+		free(line);
 		if (!content)
 		{
 			print_error("malloc: ", NULL, NULL, ENOMEM);
