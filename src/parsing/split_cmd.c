@@ -6,7 +6,7 @@
 /*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:51:28 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/14 10:54:43 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/14 12:05:29 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static size_t	ft_countwords(const char *s)
 	quote = 0;
 	while (s[i])
 	{
-		quote = check_quotes(s[i], quote);
+		if (!i || s[i - 1] != '\\')
+			quote = check_quotes(s[i], quote);
 		if (s[i] && s[i] != ' ' && (s[i + 1] == ' '
 				|| s[i + 1] == 0) && !quote)
 			nb++;
@@ -46,13 +47,15 @@ static char	*get_next_word(char **str)
 	quote = 0;
 	while ((*str)[i] && (*str)[i] == ' ' && !quote)
 	{
-		quote = check_quotes((*str)[i], quote);
+		if (!i || (*str)[i - 1] != '\\')
+			quote = check_quotes((*str)[i], quote);
 		i++;
 	}
 	start = (*str) + i;
 	while ((*str)[i] && ((*str)[i] != ' ' || quote))
 	{
-		quote = check_quotes((*str)[i], quote);
+		if (!i || (*str)[i - 1] != '\\')
+			quote = check_quotes((*str)[i], quote);
 		i++;
 	}
 	(*str) += i;
