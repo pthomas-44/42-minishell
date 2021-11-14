@@ -6,11 +6,19 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:24:16 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/09 16:17:41 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/14 11:50:08 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//~~ Passe des espaces successifs dans une chaine de caracteres
+
+void	skip_spaces(char **line)
+{
+	while (**line == ' ')
+		(*line)++;
+}
 
 //~~ Verifie si les operateurs se suivent
 

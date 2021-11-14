@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/14 11:07:49 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/14 13:45:33 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	fill_cmd_struct(t_structs *s, char *line)
 		else if (*line == '|' || !*line)
 		{
 			s->cmds[i].cmd = split_cmd(s->cmds[i].cmd);
-			remove_quotes_and_backslash(s->cmds[i].cmd);
+			format_cmd_array(s->cmds[i].cmd);
 			if (*line)
 				line++;
 			i++;
@@ -133,17 +133,17 @@ void	parsing(t_structs *s, char *line)
 		free_cmds_struct(s);
 		return ;
 	}
-	size_t i = 0;
-	size_t j = 0;
-	while (i < s->cmds_size)
-	{
-		while (s->cmds[i].cmd[j])
-		{
-			dprintf(2, "%zu-%zu|%s|\n", i, j, s->cmds[i].cmd[j]);
-			j++;
-		}
-		i++;
-	}
+	// size_t i = 0;
+	// size_t j = 0;
+	// while (i < s->cmds_size)
+	// {
+	// 	while (s->cmds[i].cmd && s->cmds[i].cmd[j])
+	// 	{
+	// 		dprintf(2, "%zu-%zu|%s|\n", i, j, s->cmds[i].cmd[j]);
+	// 		j++;
+	// 	}
+	// 	i++;
+	// }
 	free(tmp);
 	exec(s);
 	free_cmds_struct(s);

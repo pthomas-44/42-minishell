@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:54:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/14 10:59:53 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/14 13:45:21 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,43 +48,43 @@ char	*remove_char(char *str, size_t i)
 	return (new);
 }
 
-//~~ Enleve les quotes delimitatives dans les arguments
-
-void	remove_quotes_and_backslash(char **cmd)
+void	remove_quotes_and_backslash(char **str)
 {
 	size_t	i;
-	size_t	j;
 	char	quote;
 
-	i = -1;
+	i = 0;
 	quote = 0;
-	while (cmd && cmd[++i])
+	while ((*str)[i])
 	{
-		j = -1;
-		while (cmd[i][++j])
+		if ((*str)[i] == '\\')
+			(*str) = remove_char((*str), i);
+		else if (!quote && ((*str)[i] == '"' || (*str)[i] == '\''))
 		{
-			if (cmd[i][j] == '\\')
-				cmd[i] = remove_char(cmd[i], j);
-			else if (!quote && (cmd[i][j] == '"' || cmd[i][j] == '\''))
-			{
-				quote = cmd[i][j];
-				cmd[i] = remove_char(cmd[i], j--);
-			}
-			else if (cmd[i][j] == quote)
-			{
-				quote = 0;
-				cmd[i] = remove_char(cmd[i], j--);
-			}
+			quote = (*str)[i];
+			(*str) = remove_char((*str), i--);
 		}
+		else if ((*str)[i] == quote)
+		{
+			quote = 0;
+			(*str) = remove_char((*str), i--);
+		}
+		i++;
 	}
 }
 
-//~~ Passe des espaces successifs dans une chaine de caracteres
+//~~ Enleve les quotes delimitatives dans les arguments
 
-void	skip_spaces(char **line)
+void	format_cmd_array(char **cmd)
 {
-	while (**line == ' ')
-		(*line)++;
+	size_t	i;
+
+	i = 0;
+	while (cmd && cmd[i])
+	{
+		remove_quotes_and_backslash(&cmd[i]);
+		i++;
+	}
 }
 
 //~~ Recupere des arguments dans la ligne de commandes
@@ -96,8 +96,8 @@ char	*get_args(char *line, char *charset)
 
 	start = line;
 	quote = 0;
-	while (*line && (*(line - 1) == '\\'
-			|| (!ft_strchr(charset, *line) || quote)))
+	while (*line && ((!ft_strchr(charset, *line)
+				|| (line == start || *(line - 1) == '\\')) || quote))
 	{
 		if ((line == start || *(line - 1) != '\\')
 			&& (*line == '"' || *line == '\'') && quote == 0)
