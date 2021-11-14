@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/14 11:51:06 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/14 14:27:06 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ void			heredoc_sig_int(int sig);
 // ~~ parsing
 void			parsing(t_structs *s, char *line);
 int				check_syntax_errors(char *line, char *charset);
-char			*replace_env_variables(t_structs *s, char *line);
+char			*replace_env_variables(
+					t_structs *s, char *line, bool is_heredoc);
 char			*handle_operands(char *line, char *charset);
 char			check_quotes(char c, char quote);
 void			format_cmd_array(char **cmd);
@@ -104,8 +105,9 @@ void			skip_spaces(char **line);
 char			*get_args(char *line, char *charset);
 char			*remove_char(char *str, size_t i);
 int				get_infile(t_structs *s, char **line, int i);
-int				heredoc_handler(t_structs *s, t_cmd *current, char *stop);
 int				get_outfile(t_structs *s, char **line, int i);
+int				heredoc_handler(t_structs *s, t_cmd *current, char *stop);
+void			remove_quotes_and_backslash(char **str);
 char			**split_cmd(char **cmd);
 // ~~ exec
 void			exec(t_structs *s);
@@ -124,6 +126,5 @@ void			bi_cd(t_structs *s, t_cmd *current);
 void			bi_export(t_structs *s, t_cmd *current, int fd);
 int				is_word(char *str);
 int				replace_by_home_path(t_structs *s, char *path, char **new);
-
 
 #endif
