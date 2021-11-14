@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:54:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/13 20:49:49 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/14 10:59:53 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*remove_char(char *str, size_t i)
 
 //~~ Enleve les quotes delimitatives dans les arguments
 
-void	remove_quotes(char **cmd)
+void	remove_quotes_and_backslash(char **cmd)
 {
 	size_t	i;
 	size_t	j;
