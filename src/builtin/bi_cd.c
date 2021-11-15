@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/15 12:28:17 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/15 12:38:16 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,15 @@
 
 // ~~ Remplace le '~' par le HOME
 
-int	replace_by_home_path(t_structs *s, char *path, char **new)
+static int	replace_by_home_path(t_structs *s, char **path)
 {
 	t_env	*elem;
 
 	elem = find_env_var(s, "HOME");
-	if (!elem || !elem->value || (path && path[0] != '~'))
-	{
-		*(new) = ft_strdup(path);
+	if (!elem || !elem->value)
 		return (-1);
-	}
-	else if (path)
-		*(new) = ft_strjoin_f0(elem->value + 1, path + 1);
 	else
-		*(new) = ft_strdup(elem->value + 1);
+		*(path) = ft_strdup(elem->value + 1);
 	return (0);
 }
 
@@ -61,9 +56,9 @@ static void	set_pwd(t_structs *s, char *name)
 void	bi_cd(t_structs *s, t_cmd *current)
 {
 	g_error_number = EXIT_SUCCESS;
-	if (!current->cmd[1] || current->cmd[1][0] == '~')
+	if (!current->cmd[1])
 	{
-		if (replace_by_home_path(s, current->cmd[1], &current->path) == -1)
+		if (replace_by_home_path(s, &current->path) == -1)
 		{
 			print_error("cd: ", NULL, "HOME not set\n", EXIT_FAILURE);
 			return ;

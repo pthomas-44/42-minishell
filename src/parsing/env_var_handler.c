@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/15 12:18:20 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/15 12:31:39 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,10 +119,10 @@ char	*replace_env_variables(t_structs *s, char *line, bool is_heredoc)
 		if (!is_heredoc && line[i] == '<' && line[i + 1] == '<')
 			skip_heredoc(line, &i);
 		if ((line[i] == '~' || (line[i] == '$' && (ft_isalpha(line[i + 1])
-					|| line[i + 1] == '_' || line[i + 1] == '?')))
-			&& quote != '\'')
+						|| line[i + 1] == '_'
+						|| line[i + 1] == '?'))) && quote != '\'')
 		{
-			var = get_var_node(s, &line[i + 1]);
+			var = get_var_node(s, &line[i]);
 			line = replace_var(line, i, var);
 			if (!line)
 				return (NULL);

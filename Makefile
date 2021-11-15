@@ -6,7 +6,7 @@
 #    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/11/14 13:00:27 by pthomas          ###   ########lyon.fr    #
+#    Updated: 2021/11/15 12:32:39 by pthomas          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ SRCS		=	main.c				\
 				split_cmd.c			\
 				exec.c				\
 				pipex.c				\
-				paths_utils.c		\
+				get_path.c			\
 				bi_echo.c			\
 				bi_cd.c				\
 				bi_pwd.c			\

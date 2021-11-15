@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   paths_utils.c                                      :+:      :+:    :+:   */
+/*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:21:18 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/15 12:28:27 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/15 12:37:50 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 
 // ~~ Trouve le chemin de la commande dans l'ordinateur
 
-static int	find_exe_path(t_structs *s, t_cmd *current)
+static int	find_exe_path(t_cmd *current)
 {
 	char	cwd[MAXPATHLEN];
 	int		nb_args;
 
-	replace_by_home_path(s, current->cmd[0], &current->path);
 	if (!current->path)
 		return (-1);
 	if (current->path[0] != '/')
@@ -131,7 +130,7 @@ void	get_path(t_structs *s, t_cmd *current)
 		&& find_path_in_sys(current, paths) == -1)
 		print_error("malloc: ", NULL, NULL, ENOMEM);
 	else if ((!paths || ft_strchr(current->cmd[0], '/'))
-		&& !current->path && find_exe_path(s, current) == -1)
+		&& !current->path && find_exe_path(current) == -1)
 		print_error("malloc: ", NULL, NULL, ENOMEM);
 	free_tab(&paths, 0);
 }
