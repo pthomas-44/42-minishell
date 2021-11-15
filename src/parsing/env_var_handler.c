@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: dev <dev@student.42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/15 13:19:24 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/15 21:40:08 by dev              ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*handle_operands(char *line, char *charset)
 	size_t	i;
 	char	*new;
 
-	size = ft_strlen(line) + ft_count_occurences(line, charset);
+	size = ft_strlen(line) + ft_strchrstr_count(line, charset);
 	new = ft_calloc(size + 1, sizeof(char));
 	if (!new)
 		return (NULL);
@@ -47,22 +47,22 @@ static char	*replace_var(char *line, size_t i, t_env *var)
 	new = ft_substr(line, 0, i);
 	if (line[i + 1] == '?')
 	{
-		new = ft_strjoin_f3(new, ft_nbtobase(g_error_number, "0123456789"));
-		new = ft_strjoin_f1(new, &line[i + 2]);
+		new = ft_strjoin(new, ft_nbtobase(g_error_number, "0123456789"), 3);
+		new = ft_strjoin(new, &line[i + 2], 1);
 	}
 	else if (var && var->value)
 	{
-		new = ft_strjoin_f3(new, handle_operands(var->value + 1, "\\\'\"<>|"));
+		new = ft_strjoin(new, handle_operands(var->value + 1, "\\\'\"<>|"), 3);
 		if (line[i] == '~')
-			new = ft_strjoin_f1(new, &line[i] + 1);
+			new = ft_strjoin(new, &line[i] + 1, 1);
 		else
-			new = ft_strjoin_f1(new, &line[i] + ft_strlen(var->name) + 1);
+			new = ft_strjoin(new, &line[i] + ft_strlen(var->name) + 1, 1);
 	}
 	else if (line[++i])
 	{
 		while (line[i] && (ft_isalnum(line[i]) || line[i] == '_'))
 			i++;
-		new = ft_strjoin_f1(new, &line[i]);
+		new = ft_strjoin(new, &line[i], 1);
 	}
 	free(line);
 	return (new);

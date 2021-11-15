@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: dev <dev@student.42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 12:24:04 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/14 18:58:22 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/15 21:24:00 by dev              ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	free_cmds_struct(t_structs *s)
 	i = 0;
 	while (s->cmds && i < s->cmds_size)
 	{
-		free_tab(&s->cmds[i].cmd, 0);
+		free_array(&s->cmds[i].cmd, 0);
 		free(s->cmds[i].path);
 		s->cmds[i].path = NULL;
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: dev <dev@student.42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/27 18:04:15 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/14 19:11:21 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/15 21:24:00 by dev              ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static void	child(t_structs *s, t_cmd *current, size_t i)
 		builtins(s, current, STDOUT_FILENO);
 	else if (current->path && execve(current->path, current->cmd, envp) == -1)
 		print_error("execve: ", NULL, NULL, errno);
-	free_tab(&envp, 0);
+	free_array(&envp, 0);
 	free_all(s, 1);
 	exit(g_error_number);
 }

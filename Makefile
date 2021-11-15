@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+         #
+#    By: dev <dev@student.42lyon.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/11/15 12:32:39 by pthomas          ###   ########lyon.fr    #
+#    Updated: 2021/11/15 22:15:26 by dev              ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ RM			=	rm -rf
 all :			libs $(NAME)
 
 $(NAME) :		$(OBJS) $(LIBS)
-				$(CC) $(CFLAGS) -lreadline $(OBJS) $(LIBS) -o $(NAME) -I $(PATH_INC)
+				$(CC) $(CFLAGS) $(OBJS) -lreadline $(LIBS) -o $(NAME) -I $(PATH_INC)
 
 libs :		
 				$(MAKE) -C $(PATH_LIBFT)

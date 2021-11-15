@@ -3,62 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: dev <dev@student.42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 08:51:39 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/02 23:49:38 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 23:10:44 by dev              ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-size_t	linelen(t_buffer *act)
+t_gnl_fds	*gnl_lstadd_front(t_gnl_fds **start, int fd)
 {
-	size_t	i;
-
-	i = act->i;
-	while (act->buf[i] && act->buf[i] != '\n')
-		i++;
-	return (i - act->i);
-}
-
-void	lstdelone(t_buffer **start, t_buffer *act)
-{
-	t_buffer	*tmp;
-
-	tmp = *start;
-	if (*start == act)
-	{
-		*start = act->next;
-		free(act);
-	}
-	else
-	{
-		while (tmp->next != act)
-			tmp = tmp->next;
-		tmp->next = act->next;
-		free(act);
-	}
-}
-
-t_buffer	*lstadd_front(t_buffer **start, int fd)
-{
-	t_buffer	*new;
+	t_gnl_fds	*new;
 	int			ret;
 
-	new = malloc(sizeof(t_buffer));
+	new = ft_calloc(1, sizeof(t_gnl_fds));
 	if (!new)
-		return (0);
-	(ret = read(fd, new->buf, BUFFER_SIZE));
+		return (NULL);
+	ret = read(fd, new->buf, BUFFER_SIZE);
 	if (ret == -1)
 	{
 		free(new);
-		return (0);
+		return (NULL);
 	}
-	new->buf[ret] = 0;
+	new->buf[ret] = '\0';
 	new->i = 0;
 	new->fd = fd;
 	new->next = *start;
 	*start = new;
 	return (new);
+}
+
+void	gnl_lstdelone(t_gnl_fds **start, t_gnl_fds *elem)
+{
+	t_gnl_fds	*current;
+
+	if (elem == *start)
+	{
+		*start = elem->next;
+		free(elem);
+	}
+	else
+	{
+		current = *start;
+		while (current->next != elem)
+			current = current->next;
+		current->next = elem->next;
+		free(elem);
+	}
 }

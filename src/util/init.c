@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: dev <dev@student.42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 04:34:49 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/14 18:58:18 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/15 21:26:54 by dev              ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static void	check_if_exist(t_structs *s, bool *pwd, bool *oldpwd, bool *shlvl)
 	if (elem)
 	{
 		if (elem->value)
-			tmp = ft_strjoin_f2("=",
-					ft_nbtobase(ft_atoi(elem->value + 1) + 1, "0123456789"));
+			tmp = ft_strjoin("=",
+					ft_nbtobase(ft_atoi(elem->value + 1) + 1, "0123456789"), 2);
 		else
 			tmp = ft_strdup("=1");
 		free(elem->value);
@@ -61,7 +61,7 @@ static void	create_env_var_if_not_exist(t_structs *s)
 	{
 		if (!getcwd(cwd, MAXPATHLEN))
 			print_error("getcwd: ", NULL, NULL, errno);
-		tmp = ft_strjoin_f0("PWD=", cwd);
+		tmp = ft_strjoin("PWD=", cwd, 0);
 		env_new(s, tmp);
 		free(tmp);
 	}

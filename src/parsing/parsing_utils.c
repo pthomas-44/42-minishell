@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: dev <dev@student.42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:54:51 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/14 16:30:32 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/15 21:26:40 by dev              ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*remove_char(char *str, size_t i)
 		print_error("malloc: ", NULL, NULL, ENOMEM);
 		return (str);
 	}
-	new = ft_strjoin_f1(new, str + i + 1);
+	new = ft_strjoin(new, str + i + 1, 1);
 	if (!new)
 	{
 		print_error("malloc: ", NULL, NULL, ENOMEM);

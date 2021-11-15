@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: dev <dev@student.42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:42:47 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/15 12:59:23 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/15 21:26:46 by dev              ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	get_command(t_structs *s, char **line, int i)
 	if (tmp && !s->cmds[i].cmd)
 		s->cmds[i].cmd = ft_split(tmp, 0);
 	else if (tmp)
-		s->cmds[i].cmd[0] = ft_strjoin_f1(s->cmds[i].cmd[0], tmp);
+		s->cmds[i].cmd[0] = ft_strjoin(s->cmds[i].cmd[0], tmp, 1);
 	if (!s->cmds[i].cmd || !s->cmds[i].cmd[0])
 	{
 		free(tmp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: dev <dev@student.42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:42:08 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/11 10:41:47 by mberne           ###   ########lyon.fr   */
+/*   Updated: 2021/11/15 21:24:41 by dev              ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,11 @@ char	**list_to_char(t_structs *s)
 	}
 	while (current)
 	{
-		envp[i] = ft_strjoin_f0(current->name, current->value);
+		envp[i] = ft_strjoin(current->name, current->value, 0);
 		if (!envp[i++])
 		{
 			print_error("malloc: ", NULL, NULL, ENOMEM);
-			free_tab(&envp, 0);
+			free_array(&envp, 0);
 			return (NULL);
 		}
 		current = current->next;

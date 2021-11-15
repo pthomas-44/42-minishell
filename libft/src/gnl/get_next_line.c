@@ -3,30 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: dev <dev@student.42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 08:51:40 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/02 23:49:38 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 23:36:34 by dev              ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/libft.h"
+#include "libft.h"
 
-t_buffer	*get_actual(t_buffer **start, int fd)
+static size_t	gnl_linelen(t_gnl_fds *actual)
 {
-	t_buffer	*tmp;
+	size_t	i;
 
-	tmp = *start;
-	while (tmp)
-	{
-		if ((tmp)->fd == fd)
-			return (tmp);
-		tmp = (tmp)->next;
-	}
-	return (lstadd_front(start, fd));
+	i = actual->i;
+	while (actual->buf[i] && actual->buf[i] != '\n')
+		i++;
+	return (i - actual->i);
 }
 
-int	fill_buffer(t_buffer *act)
+static t_gnl_fds	*gnl_get_actual(t_gnl_fds **start, int fd)
+{
+	t_gnl_fds	*current;
+
+	current = *start;
+	while (current)
+	{
+		if (current->fd == fd)
+			return (current);
+		current = current->next;
+	}
+	return (gnl_lstadd_front(start, fd));
+}
+
+static int	gnl_fill_buffer(t_gnl_fds *act)
 {
 	int	ret;
 
@@ -34,33 +44,34 @@ int	fill_buffer(t_buffer *act)
 	ret = (read(act->fd, act->buf, BUFFER_SIZE));
 	if (ret == -1)
 		return (-1);
-	act->buf[ret] = 0;
+	act->buf[ret] = '\0';
 	act->i = 0;
 	return (ret);
 }
 
-char	**get_line(t_buffer *act, char **line, int i)
+static char	**gnl_get_line(t_gnl_fds *act, char **line)
 {
 	char	*linetmp;
+	int		i;
 
-	(*line) = malloc(sizeof(char) * (linelen(act) + 1));
+	(*line) = ft_calloc(gnl_linelen(act) + 1, sizeof(char));
 	if (!*line)
-		return (0);
-	while (act->i <= BUFFER_SIZE && act->buf[act->i] != '\n'
-		&& act->buf[act->i])
+		return (NULL);
+	i = 0;
+	while (act->buf[act->i] && act->buf[act->i] != '\n')
 	{
 		(*line)[i] = act->buf[act->i];
 		i++;
 		(act->i)++;
 	}
-	(*line)[i] = 0;
-	if (act->buf[act->i] == 0 && act->i < BUFFER_SIZE)
+	(*line)[i] = '\0';
+	if (act->buf[act->i] == '\0' && act->i < BUFFER_SIZE)
 		return (line);
-	if (act->buf[act->i] != '\n')
+	else if (act->buf[act->i] != '\n')
 	{
-		if (fill_buffer(act) == -1)
+		if (gnl_fill_buffer(act) == -1)
 			return (0);
-		*line = ft_strjoin_f3(*line, *(get_line(act, &linetmp, 0)));
+		*line = ft_strjoin(*line, *(gnl_get_line(act, &linetmp)), 3);
 		if (!*line)
 			return (NULL);
 	}
@@ -69,28 +80,26 @@ char	**get_line(t_buffer *act, char **line, int i)
 
 int	get_next_line(int fd, char **line)
 {
-	static t_buffer	*start;
-	t_buffer		*act;
-	int				tmp;
+	static t_gnl_fds	*start;
+	t_gnl_fds			*act;
 
-	tmp = 0;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)
 		return (-1);
-	act = get_actual(&start, fd);
+	act = gnl_get_actual(&start, fd);
 	if (!act)
 		return (-1);
 	if (act->buf[act->i] == 0 && fd == 0)
-		if (fill_buffer(act) == -1)
+		if (gnl_fill_buffer(act) == -1)
 			return (-1);
-	line = get_line(act, line, 0);
+	line = gnl_get_line(act, line);
 	if (!line)
 		return (-1);
 	if (act->i == BUFFER_SIZE)
-		if (fill_buffer(act) == -1)
+		if (gnl_fill_buffer(act) == -1)
 			return (-1);
-	if (act->buf[act->i++] == 0)
+	if (act->buf[act->i++] == '\0')
 	{
-		lstdelone(&start, act);
+		gnl_lstdelone(&start, act);
 		return (0);
 	}
 	return (1);

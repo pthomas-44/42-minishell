@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: dev <dev@student.42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:43:33 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/15 12:38:16 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/15 21:25:00 by dev              ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	set_pwd(t_structs *s, char *name)
 	if (current)
 	{
 		free(current->value);
-		current->value = ft_strjoin_f2("=", ft_strdup(cwd));
+		current->value = ft_strjoin("=", ft_strdup(cwd), 2);
 	}
 	if (current && !current->value)
 	{

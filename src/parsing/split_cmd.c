@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: dev <dev@student.42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 13:51:28 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/14 19:11:25 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/15 21:40:40 by dev              ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static size_t	ft_countwords(const char *s)
 	{
 		while (s[i] == '\\')
 			i += 2;
-			quote = check_quotes(s[i], quote);
+		quote = check_quotes(s[i], quote);
 		if (s[i] && s[i] != ' ' && (s[i + 1] == ' '
 				|| s[i + 1] == 0) && !quote)
 			nb++;
@@ -73,7 +73,7 @@ static char	**init(char **cmd, size_t *nb_of_words)
 
 	if (!cmd || !cmd[0])
 	{
-		free_tab(&cmd, 0);
+		free_array(&cmd, 0);
 		return (NULL);
 	}
 	*nb_of_words = ft_countwords(cmd[0]);
@@ -98,7 +98,7 @@ char	**split_cmd(char **cmd)
 	split = init(cmd, &nb_of_words);
 	if (!split)
 	{
-		free_tab(&cmd, 0);
+		free_array(&cmd, 0);
 		return (NULL);
 	}
 	str = cmd[0];
@@ -110,6 +110,6 @@ char	**split_cmd(char **cmd)
 		i++;
 	}
 	split[i] = NULL;
-	free_tab(&cmd, 0);
+	free_array(&cmd, 0);
 	return (split);
 }
