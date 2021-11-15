@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/15 13:03:07 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/15 13:19:24 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ char	*replace_env_variables(t_structs *s, char *line, bool is_heredoc)
 			if (var)
 				i += ft_strlen(var->value + 1);
 		}
-		i += (line[i]);
+		i += !(line[i] == '\0');
 	}
 	return (line);
 }
