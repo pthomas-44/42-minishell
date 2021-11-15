@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bi_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 10:55:39 by mberne            #+#    #+#             */
-/*   Updated: 2021/11/13 15:35:37 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/15 12:26:44 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,16 @@ static void	create_env_variable(t_structs *s, t_cmd *current)
 		else
 			name = ft_substr(current->cmd[i], 0,
 					ft_strchr(current->cmd[i], '=') - current->cmd[i]);
-		if (!name || (current->cmd[i][0] != '=' && is_word(name)
-			&& create_variable(s, current->cmd[i], name) == -1))
+		if (current->cmd[i][0] && (!name || (current->cmd[i][0] != '='
+			&& is_word(name)
+				&& create_variable(s, current->cmd[i], name) == -1)))
 		{
 			print_error("malloc: ", NULL, NULL, ENOMEM);
 			free(name);
 			return ;
 		}
-		else if (current->cmd[i][0] == '=' || !is_word(name))
+		else if (!current->cmd[i][0] || current->cmd[i][0] == '='
+			|| !is_word(name))
 			print_error("export: ", current->cmd[i],
 				"not a valid identifier\n", EXIT_FAILURE);
 		free(name);

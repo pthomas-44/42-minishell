@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/14 15:45:21 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/15 12:18:20 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ static char	*replace_var(char *line, size_t i, t_env *var)
 	else if (var && var->value)
 	{
 		new = ft_strjoin_f3(new, handle_operands(var->value + 1, "\\\'\"<>|"));
-		new = ft_strjoin_f1(new, &line[i] + ft_strlen(var->name) + 1);
+		if (line[i] == '~')
+			new = ft_strjoin_f1(new, &line[i] + 1);
+		else
+			new = ft_strjoin_f1(new, &line[i] + ft_strlen(var->name) + 1);
 	}
 	else if (line[++i])
 	{
@@ -81,7 +84,10 @@ static t_env	*get_var_node(t_structs *s, char *line)
 		print_error("malloc: ", NULL, NULL, ENOMEM);
 		return (NULL);
 	}
-	elem = find_env_var(s, name);
+	if (*line == '~')
+		elem = find_env_var(s, "HOME");
+	else
+		elem = find_env_var(s, name);
 	free(name);
 	return (elem);
 }
@@ -112,8 +118,9 @@ char	*replace_env_variables(t_structs *s, char *line, bool is_heredoc)
 		quote = check_quotes(line[i], quote);
 		if (!is_heredoc && line[i] == '<' && line[i + 1] == '<')
 			skip_heredoc(line, &i);
-		if (line[i] == '$' && (ft_isalpha(line[i + 1])
-				|| line[i + 1] == '_' || line[i + 1] == '?') && quote != '\'')
+		if ((line[i] == '~' || (line[i] == '$' && (ft_isalpha(line[i + 1])
+					|| line[i + 1] == '_' || line[i + 1] == '?')))
+			&& quote != '\'')
 		{
 			var = get_var_node(s, &line[i + 1]);
 			line = replace_var(line, i, var);

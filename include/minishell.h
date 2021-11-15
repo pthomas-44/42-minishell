@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mberne <mberne@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/14 15:25:00 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/15 12:27:20 by mberne           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,6 @@ void			bi_exit(t_structs *s, t_cmd *current);
 void			bi_cd(t_structs *s, t_cmd *current);
 void			bi_export(t_structs *s, t_cmd *current, int fd);
 int				is_word(char *str);
-int				replace_by_home_path(t_structs *s, char *path, char **new);
+// int				replace_by_home_path(t_structs *s, char *path, char **new);
 
 #endif
