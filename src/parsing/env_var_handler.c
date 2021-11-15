@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:25:14 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/15 12:31:39 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2021/11/15 13:03:07 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,10 @@ static t_env	*get_var_node(t_structs *s, char *line)
 	t_env	*elem;
 	char	*name;
 
-	name = line;
+	name = line + 1;
 	while (ft_isalnum(*name) || *name == '_')
 		name++;
-	name = ft_substr(line, 0, name - line);
+	name = ft_substr(line + 1, 0, name - (line + 1));
 	if (!name)
 	{
 		print_error("malloc: ", NULL, NULL, ENOMEM);
@@ -126,9 +126,10 @@ char	*replace_env_variables(t_structs *s, char *line, bool is_heredoc)
 			line = replace_var(line, i, var);
 			if (!line)
 				return (NULL);
+			if (var)
+				i += ft_strlen(var->value + 1);
 		}
-		else if (line[i])
-			i++;
+		i += (line[i]);
 	}
 	return (line);
 }
