@@ -6,7 +6,7 @@
 #    By: dev <dev@student.42lyon.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/11/16 13:44:32 by dev              ###   ########lyon.fr    #
+#    Updated: 2021/11/16 13:50:18 by dev              ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,9 +21,9 @@ NAME		=	minishell
 #~~~~ Paths ~~~~#
 
 VPATH		=	src/:src/util/:src/signal/:src/parsing/:src/exec/:src/builtin/
-PATH_OBJ	=	obj/
-PATH_LIBFT	=	libft/
 PATH_INC	=	include/
+PATH_LIBFT	=	libft/
+PATH_OBJ	=	obj/
 
 #~~~~ Files ~~~~#
  
