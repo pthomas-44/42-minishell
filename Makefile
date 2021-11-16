@@ -6,7 +6,7 @@
 #    By: dev <dev@student.42lyon.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/11/15 22:15:26 by dev              ###   ########lyon.fr    #
+#    Updated: 2021/11/16 13:44:32 by dev              ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ PATH_INC	=	include/
 
 #~~~~ Files ~~~~#
  
-SRCS		=	main.c				\
+SRC			=	main.c				\
 				exit.c				\
 				init.c				\
 				env_list.c			\
@@ -50,15 +50,15 @@ SRCS		=	main.c				\
 				bi_env.c			\
 				bi_exit.c
 
-OBJS		=	$(addprefix $(PATH_OBJ), $(SRCS:.c=.o))
+OBJ			=	$(addprefix $(PATH_OBJ), $(SRC:.c=.o))
 
-INCS		=	$(addprefix $(PATH_INC), minishell.h)
+INC			=	$(addprefix $(PATH_INC), minishell.h)
 
 #~~~~ Macros ~~~~#
 
 CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror
-LIBS		=	$(PATH_LIBFT)libft.a
+LIB		=	$(PATH_LIBFT)libft.a
 RM			=	rm -rf
 
 #========================================#
@@ -67,19 +67,19 @@ RM			=	rm -rf
 
 #~~~~ Main Rules ~~~~#
 
-all :			libs $(NAME)
+all :			lib $(NAME)
 
-$(NAME) :		$(OBJS) $(LIBS)
-				$(CC) $(CFLAGS) $(OBJS) -lreadline $(LIBS) -o $(NAME) -I $(PATH_INC)
+$(NAME) :		$(OBJ) $(LIB)
+				$(CC) $(CFLAGS) $(OBJ) -lreadline $(LIB) -o $(NAME) -I $(PATH_INC)
 
-libs :		
+lib :		
 				$(MAKE) -C $(PATH_LIBFT)
 
 re :			fclean all
 
 #~~~~ Compilation Rules ~~~~#
 
-$(PATH_OBJ)%.o :	%.c $(INCS) $(LIBS)
+$(PATH_OBJ)%.o :	%.c $(INC) $(LIB)
 					@mkdir -p $(dir $@);
 					$(CC) $(CFLAGS) -c $< -o $@ -I $(PATH_INC)
 
@@ -130,4 +130,4 @@ eugene :
 			@ echo "                7____,,..--'      /          |"
 			@ echo "                                  \`---.__,--.'"
 
-.PHONY:		all libs clean fclean re eugene
+.PHONY:		all lib clean fclean re eugene
