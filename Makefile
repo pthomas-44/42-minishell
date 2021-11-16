@@ -6,7 +6,7 @@
 #    By: dev <dev@student.42lyon.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/11/16 13:50:18 by dev              ###   ########lyon.fr    #
+#    Updated: 2021/11/16 13:51:56 by dev              ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,7 @@ INC			=	$(addprefix $(PATH_INC), minishell.h)
 
 CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror
-LIB		=	$(PATH_LIBFT)libft.a
+LIB			=	$(PATH_LIBFT)libft.a
 RM			=	rm -rf
 
 #========================================#
