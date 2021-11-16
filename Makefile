@@ -6,7 +6,7 @@
 #    By: dev <dev@student.42lyon.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/11/16 13:51:56 by dev              ###   ########lyon.fr    #
+#    Updated: 2021/11/16 13:58:12 by dev              ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,11 +54,12 @@ OBJ			=	$(addprefix $(PATH_OBJ), $(SRC:.c=.o))
 
 INC			=	$(addprefix $(PATH_INC), minishell.h)
 
+LIB			=	$(PATH_LIBFT)libft.a
+
 #~~~~ Macros ~~~~#
 
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror
-LIB			=	$(PATH_LIBFT)libft.a
+CFLAG		=	-Wall -Wextra -Werror
 RM			=	rm -rf
 
 #========================================#
@@ -70,7 +71,7 @@ RM			=	rm -rf
 all :			lib $(NAME)
 
 $(NAME) :		$(OBJ) $(LIB)
-				$(CC) $(CFLAGS) $(OBJ) -lreadline $(LIB) -o $(NAME) -I $(PATH_INC)
+				$(CC) $(CFLAG) $(OBJ) -lreadline $(LIB) -o $(NAME) -I $(PATH_INC)
 
 lib :		
 				$(MAKE) -C $(PATH_LIBFT)
@@ -81,13 +82,13 @@ re :			fclean all
 
 $(PATH_OBJ)%.o :	%.c $(INC) $(LIB)
 					@mkdir -p $(dir $@);
-					$(CC) $(CFLAGS) -c $< -o $@ -I $(PATH_INC)
+					$(CC) $(CFLAG) -c $< -o $@ -I $(PATH_INC)
 
 #~~~~ Cleaning Rules ~~~~#
 
 clean :
-				$(RM) $(PATH_OBJ)
 				$(MAKE) clean -C $(PATH_LIBFT)
+				$(RM) $(PATH_OBJ)
 
 fclean :		
 				$(MAKE) fclean -C $(PATH_LIBFT)
