@@ -6,7 +6,7 @@
 /*   By: dev <dev@student.42lyon.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 13:30:45 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/15 21:38:48 by dev              ###   ########lyon.fr   */
+/*   Updated: 2021/11/16 14:11:50 by dev              ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <dirent.h>
 # include <termios.h>
 # include <errno.h>
-# include "../libft/include/libft.h"
+# include "libft.h"
 
 /*** ~~ MACROS ~~ ***/
 

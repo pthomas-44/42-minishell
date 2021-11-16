@@ -6,7 +6,7 @@
 #    By: dev <dev@student.42lyon.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/04 14:35:00 by pthomas           #+#    #+#              #
-#    Updated: 2021/11/16 13:58:12 by dev              ###   ########lyon.fr    #
+#    Updated: 2021/11/16 14:12:04 by dev              ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,7 @@ LIB			=	$(PATH_LIBFT)libft.a
 
 CC			=	cc
 CFLAG		=	-Wall -Wextra -Werror
+INCLUDES	=	-I $(PATH_INC) -I $(PATH_LIBFT)$(PATH_INC)
 RM			=	rm -rf
 
 #========================================#
@@ -71,7 +72,7 @@ RM			=	rm -rf
 all :			lib $(NAME)
 
 $(NAME) :		$(OBJ) $(LIB)
-				$(CC) $(CFLAG) $(OBJ) -lreadline $(LIB) -o $(NAME) -I $(PATH_INC)
+				$(CC) $(CFLAG) $(OBJ) -lreadline $(LIB) -o $(NAME) $(INCLUDES)
 
 lib :		
 				$(MAKE) -C $(PATH_LIBFT)
@@ -82,7 +83,7 @@ re :			fclean all
 
 $(PATH_OBJ)%.o :	%.c $(INC) $(LIB)
 					@mkdir -p $(dir $@);
-					$(CC) $(CFLAG) -c $< -o $@ -I $(PATH_INC)
+					$(CC) $(CFLAG) -c $< -o $@ $(INCLUDES)
 
 #~~~~ Cleaning Rules ~~~~#
 
