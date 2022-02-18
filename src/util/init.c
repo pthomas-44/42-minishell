@@ -6,7 +6,7 @@
 /*   By: pthomas <pthomas@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 04:34:49 by pthomas           #+#    #+#             */
-/*   Updated: 2021/11/16 15:03:53 by pthomas          ###   ########lyon.fr   */
+/*   Updated: 2022/02/18 10:21:35 by pthomas          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static void	set_new_terminal(t_structs *s)
 void	init_control_struct(t_structs *s, char **env)
 {
 	g_error_number = 0;
-	ft_bzero(s, sizeof(t_structs));
+	ft_memset(s, 0, sizeof(t_structs));
 	set_new_terminal(s);
 	s->parse_line[0] = NULL;
 	s->parse_line[1] = NULL;
